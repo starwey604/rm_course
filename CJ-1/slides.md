@@ -1,6 +1,6 @@
 ---
 theme: default
-title: CJ-1 · 循环、数组与字符串
+title: C语言培训-1 · 循环、数组与字符串
 author: CONE
 info: CONE / RoboMaster 电控新生培训，120 分钟（含休息）
 colorSchema: dark
@@ -20,7 +20,7 @@ defaults:
 ---
 
 <div class="cover-copy">
-<div class="eyebrow">CONE 电控新生培训 · CJ-1</div>
+<div class="eyebrow">CONE 电控新生培训 · C语言培训-1</div>
 <h1>循环、数组<br><span>与字符串</span></h1>
 <p class="cover-sub">让程序重复执行，让数据有序存放。</p>
 <div class="cover-topics">先预测 <span>／</span> 再运行 <span>／</span> 解释每一步</div>
@@ -37,6 +37,10 @@ src: ./chapters/00-opening.md
 
 ---
 src: ./chapters/01-io.md
+---
+
+---
+src: ./chapters/01b-loop-bridge.md
 ---
 
 ---

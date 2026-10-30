@@ -27,6 +27,11 @@ p5015:[['a B2\n','3'],['     \n','0'],['A1\r\n','2']],
 p1055:[['0-670-82162-4\n','Right'],['0-670-82162-0\n','0-670-82162-4'],['0-000-00006-0\n','0-000-00006-X']],
 output_c:[['','sum=6, avg=2.00']],output_cout:[['','sum=6, avg=2.00']],output_println:[['','sum=6, avg=2.00']]
 }
+const problems=JSON.parse(await fs.readFile(path.join(root,'CJ-1/data/problems.json'),'utf8'))
+for(const [pid,problem] of Object.entries(problems)){
+ const name=pid.toLowerCase()
+ if(cases[name])for(const [input,expected] of problem.samples)cases[name].push([input+'\n',expected.trim()])
+}
 let count=0
 const env={...process.env,PATH:path.dirname(gcc)+path.delimiter+process.env.PATH}
 for(const [name,tests] of Object.entries(cases)){

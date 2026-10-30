@@ -12,8 +12,7 @@ for (int i = 0; i < n; i++) {
     for (int j = 0; j < i; j++) {
         if (a[j] < a[i]) count++;
     }
-    printf("%d%c", count,
-           i + 1 == n ? '\n' : ' ');
+    printf("%d ", count);
 }
 ```
 
@@ -27,7 +26,7 @@ for (int i = 0; i < n; i++) {
 </div></div>
 
 <!--
-选讲。末尾条件表达式只用于输出空格/换行，可改写成if/else。完整源程序见p1428.c。所有值相等时输出全0。
+选讲。每个答案后输出一个空格，外层循环结束后可输出换行。完整源程序见p1428.c。所有值相等时输出全0。
 -->
 
 ---
@@ -36,20 +35,19 @@ for (int i = 0; i < n; i++) {
 
 # 重复标记，不会重复移除
 
-<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1047">P1047 校门外的树</a> · l ≤ 10000，m ≤ 100。</div>
+<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1047">P1047 校门外的树</a> · L ≤ 10000，m ≤ 100。</div>
 
 <div class="two-col code-small"><div>
 
 ```c
 int removed[10005] = {0};
+int u, v, answer = 0;
 for (int k = 0; k < m; k++) {
-    int u, v;
     scanf("%d %d", &u, &v);
     for (int i = u; i <= v; i++)
         removed[i] = 1;
 }
-int answer = 0;
-for (int i = 0; i <= l; i++)
+for (int i = 0; i <= L; i++)
     if (removed[i] == 0) answer++;
 printf("%d\n", answer);
 ```
@@ -59,7 +57,7 @@ printf("%d\n", answer);
 - `0`：这棵树仍在。
 - `1`：这棵树已经移走。
 - 区间两端都包含，所以用 `<=`。
-- 总共 l + 1 个位置，从 0 数到 l。
+- 总共 L + 1 个位置，从 0 数到 L。
 
 </div></div>
 
@@ -94,10 +92,20 @@ if (fgets(s, sizeof(s), stdin)) {
 
 </div></div>
 
-<div class="note">若前面用 scanf 读过数字，剩余换行可能被 fgets 读到。不要直接混用而忽略输入位置。</div>
+<div class="hint">刚用 <code>scanf("%d", &amp;n)</code> 读完数字？回车可能还留着。<br>紧接着的 <code>fgets</code> 会先读走这个换行，得到的这一行就只有 <code>\n</code>。</div>
 
 <!--
 选讲，不占主讲必需时间。可以从新程序直接读一行。若必须衔接scanf，用循环读取到换行或EOF来消费当前行，而不是盲目只getchar一次。不使用fflush(stdin)。
+-->
+
+---
+
+<ProblemStatement pid="P5015" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P5015
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---
@@ -131,6 +139,26 @@ printf("%d\n", count);
 
 <!--
 选讲。题目可见标题长度<=5，因此数组100足够。按题目字符范围排除空格和行末符即可。\\r用于兼容不同换行表示。
+-->
+
+---
+
+<ProblemStatement pid="P1085" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1085
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<ProblemStatement pid="B2111" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/B2111
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---
@@ -169,6 +197,16 @@ printf("%d\n", count);
 
 ---
 
+<ProblemStatement pid="P1055" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1055
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
 <div class="eyebrow">附录 F · ISBN 综合选做</div>
 
 # 读取之后，再做逐字符校验
@@ -185,7 +223,7 @@ printf("%d\n", count);
 
 </v-clicks>
 
-<div class="note">这是循环、字符数组和分支的综合选做，先完成本节基础练习。</div>
+<!-- 讲师补充：这是循环、字符数组和分支的综合选做，先完成本节基础练习。 -->
 
 <!--
 选讲。仅按题目保证的格式处理。0-670-82162-4正确；末位换成0时应改回4。完整实现配套提供p1055.c。
@@ -208,6 +246,66 @@ printf("%d\n", count);
 
 <!--
 不要求全部完成。P1567数据量大，若保存所有数据应注意数组容量和存储位置；也可以边读边处理。P5727要保留初始值和最终1。
+-->
+
+---
+
+<ProblemStatement pid="P5722" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P5722
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<ProblemStatement pid="P1035" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1035
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<ProblemStatement pid="P1980" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1980
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<ProblemStatement pid="P5727" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P5727
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<ProblemStatement pid="P1567" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1567
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<ProblemStatement pid="P1914" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1914
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---

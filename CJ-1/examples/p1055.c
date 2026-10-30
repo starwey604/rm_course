@@ -9,7 +9,12 @@ int main(void) {
         weight++;
     }
     int remainder = sum % 11;
-    char check = remainder == 10 ? 'X' : (char)('0' + remainder);
+    char check;
+    if (remainder == 10) {
+        check = 'X';
+    } else {
+        check = '0' + remainder;
+    }
     if (s[12] == check) puts("Right");
     else { s[12] = check; puts(s); }
     return 0;

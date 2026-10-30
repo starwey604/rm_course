@@ -1,63 +1,52 @@
 <div class="eyebrow">03 · 一维数组 · 60–85 分钟</div>
 
-# 要倒着输出，得先记住输入
+# 最后一个先输出，可它还没读进来
 
 <div class="two-col"><div>
-
-<div class="label">先读到的数</div>
-<div class="large mono">3　1　4</div>
-<div class="label spaced">期望输出</div>
-<div class="large mono">4　1　3</div>
-
+<div class="label">输入顺序</div>
+<div class="large mono">3 → 1 → 4</div>
+<div class="label spaced">希望输出</div>
+<div class="large mono">4 → 1 → 3</div>
+<div class="question">只用一个变量 x，<br>读到 4 时，3 还在哪儿？</div>
 </div><div>
 
-<v-clicks>
+```c
+scanf("%d", &x);  // x 是 3
+scanf("%d", &x);  // x 被改成 1
+scanf("%d", &x);  // x 又被改成 4
+```
 
-- 只保存当前一个数，后面会覆盖前面的数。
-- 数组让一组同类型数据放在一起。
-- 通过下标，访问其中任意一个有效元素。
-
-</v-clicks>
-
+<div v-click class="answer">给每个数留一个位置。<br>存好之后，再决定先看哪个。</div>
 </div></div>
 
-<div class="note">先存下来，之后才能按不同顺序再次使用。</div>
-
 <!--
-约2分钟。数组的动机使用P1427，避免一上来背定义。问只用一个变量还记得第一个数吗。
+约2分钟。先让学生说出“覆盖”，再引出数组。数组把同类型数据连续存放，可以用下标取出任何一个有效元素。
 -->
 
 ---
+clicks: 3
+---
 
-<div class="eyebrow">03 · 定义、初始化与下标</div>
+<div class="eyebrow">03 · 接上上节课的内存地址</div>
 
-# 5 个元素，下标是 0 到 4
+# 第一个元素，为什么叫 a[0]？
 
 ```c
 int a[5] = {34, 12, 56, 9, 45};
-a[1] = 20;             // 修改第二个元素
-printf("%d\n", a[0]);   // 读取第一个元素
 ```
 
-<v-clicks>
-
-- `a[5]` 是第六个位置，已经超出这个数组。
-- `int b[5] = {0};` 把五个元素都初始化为 0。
-- 局部数组 `int b[5];` 里的元素没有可靠初值。
-
-</v-clicks>
-
-<div class="note">数组声明里的 5 是容量；访问时的方括号里放下标。</div>
+<ArrayOffset :step="$clicks" />
 
 <!--
-约2分钟。不要把未初始化局部数组说成默认全0。声明容量和访问下标用法不同。不给学生演示越界后的所谓固定结果。
+约2分钟。下标可理解为从首元素向后跨过多少个元素：不是字节数。这里每一步跨一个int，不需要先引入指针运算。
+声明中的5表示容量；访问a[5]已越界，不演示所谓固定越界结果。补充int b[5]={0}可全清零，int b[5]局部数组无可靠初值。
 -->
 
 ---
 
 <div class="eyebrow">03 · 遍历与有效长度</div>
 
-# 每次访问一个元素
+# 总共几格，和用了几格，是两回事
 
 <div class="two-col"><div>
 
@@ -65,28 +54,37 @@ printf("%d\n", a[0]);   // 读取第一个元素
 int a[] = {34, 12, 56, 9, 45};
 int length =
     sizeof(a) / sizeof(a[0]);
-
 for (int i = 0; i < length; i++) {
     printf("%d ", a[i]);
 }
 ```
 
+<div v-click class="answer">总字节数 ÷ 一格的字节数 = 5 格</div>
 </div><div>
 
-<v-clicks>
+```c
+int data[100] = {3, 1, 4};
+int n = 3;  // 只使用前 3 格
+```
 
-- 数组元素在内存中连续存放。
-- 此处 `sizeof(a)` 是整个数组的大小。
-- 对 `int data[100];`，容量是 100；实际读入几个数，要另记 `n`。
-
-</v-clicks>
-
+<p class="spaced">没列出的格子会补 0；<br><code>int zeros[100] = {0};</code> 则全清零。</p>
+<div class="question">开了 100 格，就输出 100 个数吗？</div>
+<p v-click class="spaced">只遍历用过的格子：<br><code>i = 0; i &lt; n; i++</code></p>
 </div></div>
 
-<div class="note">这里直接对当前数组对象使用 sizeof；传入函数后的情况留待后续学习。</div>
+<!--
+约2分钟。sizeof相除的写法直接作用于此处定义的数组，返回元素数量5；数组作为函数形参后不能这样算，留在讲师备注中。
+sizeof以字节计，不要求所有平台int都是4字节。初始化：int b[5]={0}五格全零；未初始化的局部数组没有可靠初值，可在此口头补充。
+-->
+
+---
+
+<ProblemStatement pid="P5724" />
 
 <!--
-约2分钟。sizeof返回字节数，这里相除才得到元素数量。不要泛化到指针或函数形参。此处length是5，常见PC上sizeof(a)为20，但不要求int在所有平台都为4字节。
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P5724
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---
@@ -101,7 +99,7 @@ clicks: 6
 
 <MemoryDemo kind="max" :step="$clicks" />
 
-<div class="note">P5724 求极差：同样维护最小值，最终输出 <strong>最大值 − 最小值</strong>。<a href="https://www.luogu.com.cn/problem/P5724">打开题目</a></div>
+<!-- 讲师补充：P5724 求极差：同样维护最小值，最终输出 最大值 − 最小值。打开题目 -->
 
 <!--
 约3分钟。示例最小值9、最大值56，极差47。题目1<=n<=100，0<=ai<=1000。讲义固定数组换成题目读入时同样可用首元素初始化。
@@ -132,9 +130,15 @@ for (int i = 1; i < n; i++) {
 
 <div v-click class="answer">7。若从 0 开始取最小值，<br>就会错误地一直保留 0。</div>
 
+<p class="spaced">P5724 要的极差 = 最大值 − 最小值：</p>
+
+```c
+printf("%d\n", max_val - min_val);
+```
+
 </div></div>
 
-<div class="note">当 n = 1 时，最大值和最小值相同，极差为 0。</div>
+<!-- 讲师补充：当 n = 1 时，最大值和最小值相同，极差为 0。 -->
 
 <!--
 约1分钟。用题目范围内的正数反例检查初始化。完整代码见examples/p5724.c。
@@ -142,44 +146,29 @@ for (int i = 1; i < n; i++) {
 
 ---
 
-<div class="eyebrow">03 · 随堂练习二 · P1427</div>
-
-# 小鱼的数字游戏：倒着念出来
-
-<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1427">打开 P1427 小鱼的数字游戏</a></div>
-
-输入一串整数，以 **0** 结束。把此前读到的数倒序输出，结束标记 0 不输出。
-
-<div class="io-pair"><div><div class="label">输入</div><pre>3 1 4 0</pre></div><div><div class="label">输出</div><pre>4 1 3</pre></div></div>
-
-<div class="question">数组开了 100 个位置，怎么知道最后一个有效数在哪里？</div>
-
-<div class="note">输入总数不超过 100，只有末尾的一个数是 0；数值不超过 2³¹ − 1。</div>
+<ProblemStatement pid="P1427" />
 
 <!--
-约1分钟。0是结束标记，不计入有效数据。数组可开105个int；既要检查scanf成功，也要检查非0。
-题目：https://www.luogu.com.cn/problem/P1427
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1427
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---
+clicks: 4
+---
 
-<div class="eyebrow">03 · 独立完成 · 6 分钟</div>
+<div class="eyebrow">03 · P1427 动手填空 · 6 分钟</div>
 
-# 先完成输入，再倒序输出
+# 0 不存，最后一格从哪里找？
 
-<v-clicks>
-
-1. 声明一个足够大的整数数组，令有效个数 `n = 0`。
-2. 每读到一个非 0 的数，存入 `a[n]`，然后 `n++`。
-3. 从 `n - 1` 遍历到 `0`，输出数组元素。
-
-</v-clicks>
-
-<div class="hint">自测：<code>7 0</code>、<code>2 2 0</code>。别让结束标记 0 混进答案。</div>
-<div class="exercise-time">06:00</div>
+<FillExercise kind="reverse" :step="$clicks" />
 
 <!--
-留完整6分钟，不提前展示讲评。输出分别为7与2 2。助教检查n含义、读取条件、倒序的有符号下标。
+填空前追问：保存什么（数组a与有效个数n）？判断什么（x是不是0、下标是否仍>=0）？更新什么（存入a[n]后n++、倒序时i--）？
+留完整6分钟，先让学生写，再按需揭示提示。①x == 0 ②n ③n - 1 ④i--。
+完整骨架先读再判断，结束标记不存入数组。scanf的失败检查留在完整示例；本页按题目保证的以0结尾输入练习。
+自测7 0输出7；2 2 0输出2 2。不要提前切到下一页。
 -->
 
 ---
@@ -192,10 +181,20 @@ clicks: 7
 
 <MemoryDemo kind="reverse" :step="$clicks" />
 
-<div class="note">最后一个有效元素是 <code>a[n - 1]</code>，不是 <code>a[n]</code>。</div>
+<!-- 讲师补充：最后一个有效元素是 a[n - 1]，不是 a[n]。 -->
 
 <!--
 约2分钟。前四步存储并遇0停止，后三步倒序读取。0没有存入数组。
+-->
+
+---
+
+<ProblemStatement pid="P1428" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1428
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---
@@ -218,11 +217,21 @@ clicks: 7
 
 </v-clicks>
 
-<div class="note">n ≤ 100，可以直接比较。每换一条鱼，都重新把本条鱼的计数置为 0。</div>
+<!-- 讲师补充：n ≤ 100，可以直接比较。每换一条鱼，都重新把本条鱼的计数置为 0。 -->
 
 <!--
 约1分钟导读，完整提示在附录。此组数据输出0 0 0 3 1。不要通过排序破坏位置关系。
 题目：https://www.luogu.com.cn/problem/P1428
+-->
+
+---
+
+<ProblemStatement pid="P1047" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1047
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
 -->
 
 ---
@@ -237,7 +246,7 @@ clicks: 3
 
 <MemoryDemo kind="trees" :step="$clicks" />
 
-<div class="note">为什么不能直接把每段树的数量依次减掉？想一想重叠的 4、5。</div>
+<!-- 讲师补充：为什么不能直接把每段树的数量依次减掉？想一想重叠的 4、5。 -->
 
 <!--
 约1分钟导读，完整实现放附录。课堂例l=10，两段[2,5]、[4,7]，剩5棵。原题l<=10000,m<=100，直接标记即可。

@@ -14,5 +14,4 @@ const at=[1,3,5,7]
 <div class="isbn-track"><div v-for="(t,i) in tokens" :key="i" class="isbn-token" :class="{sep:t==='-',active:n===i+1,done:n>i+1}">{{t}}<div class="isbn-format">{{instructions[i]}}</div></div></div>
 <div class="trace-vars"><div v-for="(name,i) in names" :key="name" class="trace-var"><div class="label">{{name}}</div><div class="trace-val">{{n>=at[i]?vals[i]:'—'}}</div></div></div>
 <div class="trace-desc">{{notes[n]}}</div>
-<div class="note">格式串从左向右匹配。三个 <strong>-</strong> 不计入 scanf 的成功赋值项数。</div>
 </template>
