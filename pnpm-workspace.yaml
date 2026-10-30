@@ -1,0 +1,4 @@
+overrides:
+  floating-vue: 5.2.2
+allowBuilds:
+  playwright-chromium: false

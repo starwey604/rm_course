@@ -1,0 +1,19 @@
+{
+  "name": "cone-training-slides",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev CJ-1/slides.md --port 3031",
+    "build": "node scripts/tasks.mjs build",
+    "export": "node scripts/tasks.mjs export",
+    "package": "node scripts/tasks.mjs package",
+    "check:examples": "node scripts/check-examples.mjs",
+    "check:slides": "node scripts/check-slides.mjs"
+  },
+  "devDependencies": {
+    "@slidev/cli": "53.0.0",
+    "@slidev/theme-default": "0.25.0",
+    "playwright-chromium": "1.64.1",
+    "vue": "3.5.44"
+  }
+}
