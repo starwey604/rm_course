@@ -1,6 +1,7 @@
 import { createHighlighterCoreSync } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import c from 'shiki/langs/c.mjs'
+import cpp from 'shiki/langs/cpp.mjs'
 import { codeTheme } from '../theme/code-theme.ts'
 
 export type CodeToken = { content: string, color?: string }
@@ -8,10 +9,20 @@ export type CodeToken = { content: string, color?: string }
 // Synchronous, local grammars: the first frame and PDF export have colors too.
 const highlighter = createHighlighterCoreSync({
   themes: [codeTheme],
-  langs: [c],
+  langs: [c, cpp],
   engine: createJavaScriptRegexEngine(),
 })
 const cache = new Map<string, ReturnType<typeof highlighter.codeToTokensBase>>()
+
+export function highlightCpp(code: string) {
+  const key = '\0cpp\0' + code
+  let tokens = cache.get(key)
+  if (!tokens) {
+    tokens = highlighter.codeToTokensBase('int main(void) {\n' + code + '\n}', {lang:'cpp',theme:codeTheme.name}).slice(1,-1)
+    cache.set(key,tokens)
+  }
+  return tokens
+}
 
 export function highlightC(code: string) {
   let tokens = cache.get(code)

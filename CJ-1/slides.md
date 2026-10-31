@@ -28,7 +28,7 @@ defaults:
 <p class="cover-sub">让程序重复执行，让数据有序存放。</p>
 <div class="cover-topics">先预测 <span>／</span> 再运行 <span>／</span> 解释每一步</div>
 </div>
-<div class="cover-bottom">120 分钟，含 10 分钟休息 · 点击或按 → 推进，按 ← 回退</div>
+<div class="cover-bottom">120 分钟，含 10 分钟休息</div>
 
 <!--
 本课时间：开场 5 分钟，输入输出 15 分钟，循环 30 分钟，休息 10 分钟，数组 25 分钟，字符串 25 分钟，收束 10 分钟。附录不计入必讲时间。先让学生预测，再揭示过程。

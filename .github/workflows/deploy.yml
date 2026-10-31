@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
           cache: pnpm
@@ -37,7 +37,7 @@ jobs:
       # 使用 Workers 静态资产部署（wrangler.toml 中的 [assets] 配置）。
       # 与 Pages 不同，Worker 首次 deploy 会自动创建，无需预先建项目。
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

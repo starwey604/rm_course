@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import {highlightC,highlightParts} from '../shared/utils/highlight.ts'
+import {highlightC,highlightCpp,highlightParts} from '../shared/utils/highlight.ts'
 
 const sample='#include <stdio.h>\nint main(void) {\n    int count[5] = {0};\n    printf("%02d\\n", count[0]);\n    /* A comment starts here\n       and continues here. */\n    return 0;\n}'
 const lines=highlightC(sample)
@@ -27,3 +27,9 @@ for(const ink of ['#18283B','#2455A4','#43546A','#28695B','#8A4B29','#72569D','#
  }
 }
 console.log('Syntax roles, full-block context, fragment boundaries, exact source text and contrast checks passed.')
+const cout='std::cout << "sum=" << sum << ", avg="\n          << std::fixed << std::setprecision(2) << avg << \'\\n\';'
+const cppLines=highlightCpp(cout)
+assert.ok(cppLines[0].some(t=>t.content.includes('"sum="')&&t.color==='#28695B'),'cout string must retain its syntax color')
+assert.equal(cppLines.map(line=>line.map(t=>t.content).join('')).join('\n'),cout,'The original source must be preserved')
+assert.equal(cppLines.length,2,'The original two lines must be preserved')
+console.log('C++ output fragment highlighting and displayed line count checks passed.')
