@@ -12,5 +12,11 @@ compatibility_date = "2026-10-23"
 [assets]
 # 站点构建产物，由 scripts/build-site.mjs 生成
 directory = "./output/site"
+
+# 显式声明为默认值，避免 CF 将来改动默认行为时静默影响线上路由。
+# 该模式下 /<dir>/ 服务 <dir>/index.html，而 /<dir>/index.html 会 307 到 /<dir>/，
+# 所以 _redirects 里的 200 重写目标必须是目录路径（见 scripts/build-site.mjs）。
+html_handling = "auto-trailing-slash"
+
 # 该目录下的 _redirects 与 _headers 会被 Workers 解析并生效。
 # 构建脚本当前生成约 250 条重写规则，未触及 2000 条静态规则上限。

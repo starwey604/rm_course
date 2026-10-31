@@ -58,13 +58,19 @@ for (const name of ['cone.png', 'rm.png']) await fs.copyFile(path.join(root, 'sh
 
 // Cloudflare 会优先执行命中的重写，因此不使用会覆盖 assets 的 /* 通配规则。
 // 只改写已知的播放路由；真实静态文件与带扩展名的请求不受影响。
+//
+// 重写目标必须写成目录路径 `/{slug}/`，不能写成 `/{slug}/index.html`：
+// Cloudflare 的 html_handling（默认 auto-trailing-slash）会把
+// `/<dir>/index.html` 307 规范化到 `/<dir>/`，这样重写结果会被二次跳转，
+// Slidev 的深层路由（如 /cj-1/37）就会被压回课件首页。
 const redirects = ['# RM course static site: canonical deck URLs and exact Slidev route rewrites']
 for (const deck of decks) {
-  redirects.push(`/${deck.slug} /${deck.slug}/ 301`)
-  for (const route of ['overview', 'presenter', 'print', 'notes', 'export']) redirects.push(`/${deck.slug}/${route} /${deck.slug}/index.html 200`)
+  const deckRoot = `/${deck.slug}/`
+  redirects.push(`/${deck.slug} ${deckRoot} 301`)
+  for (const route of ['overview', 'presenter', 'print', 'notes', 'export']) redirects.push(`/${deck.slug}/${route} ${deckRoot} 200`)
   for (let page = 1; page <= deck.total; page++) {
-    redirects.push(`/${deck.slug}/${page} /${deck.slug}/index.html 200`)
-    redirects.push(`/${deck.slug}/presenter/${page} /${deck.slug}/index.html 200`)
+    redirects.push(`/${deck.slug}/${page} ${deckRoot} 200`)
+    redirects.push(`/${deck.slug}/presenter/${page} ${deckRoot} 200`)
   }
 }
 await fs.writeFile(path.join(out, '_redirects'), redirects.join('\n') + '\n')
