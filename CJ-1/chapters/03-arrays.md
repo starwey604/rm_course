@@ -1,80 +1,46 @@
-<div class="eyebrow">03 · 一维数组 · 60–85 分钟</div>
+---
+clicks: 3
+---
 
-# 最后一个先输出，可它还没读进来
+<div class="eyebrow">03 · 一维数组 · 60–85 分钟 · 为什么要用数组</div>
 
-<div class="two-col"><div>
-<div class="label">输入顺序</div>
-<div class="large mono">3 → 1 → 4</div>
-<div class="label spaced">希望输出</div>
-<div class="large mono">4 → 1 → 3</div>
-<div class="question">只用一个变量 x，<br>读到 4 时，3 还在哪儿？</div>
-</div><div>
+# 倒序输出前，先用数组保存整组数据
 
-```c
-scanf("%d", &x);  // x 是 3
-scanf("%d", &x);  // x 被改成 1
-scanf("%d", &x);  // x 又被改成 4
-```
-
-<div v-click class="answer">给每个数留一个位置。<br>存好之后，再决定先看哪个。</div>
-</div></div>
+<ArrayStorage :step="$clicks" />
 
 <!--
-约2分钟。先让学生说出“覆盖”，再引出数组。数组把同类型数据连续存放，可以用下标取出任何一个有效元素。
+约2分钟。先明确任务：读完所有数据以后，再倒序输出。为后面P1427做铺垫，完整题面仍在原位置。
+并排比较同一输入写入一个变量与依次写入数组的结果，每次点击读入一个数。任务与结论始终可见，不依赖讲师口头补齐为什么需要数组。
 -->
 
 ---
 clicks: 3
 ---
 
-<div class="eyebrow">03 · 接上上节课的内存地址</div>
+<div class="eyebrow">03 · 数组的定义、下标与读写</div>
 
-# 第一个元素，为什么叫 a[0]？
-
-```c
-int a[5] = {34, 12, 56, 9, 45};
-```
+# 用下标访问元素：第 1 个元素是 a[0]
 
 <ArrayOffset :step="$clicks" />
 
 <!--
-约2分钟。下标可理解为从首元素向后跨过多少个元素：不是字节数。这里每一步跨一个int，不需要先引入指针运算。
-声明中的5表示容量；访问a[5]已越界，不演示所谓固定越界结果。补充int b[5]={0}可全清零，int b[5]局部数组无可靠初值。
+约2分钟。先读清元素类型、数组名、容量，再把“第几个”与下标对应起来。依次读取a[0]、读取a[2]、写入a[1]。
+跨过几个元素可帮助理解下标从0开始；步数以元素计，不是字节数，不引入指针运算。初始化未列出的元素补0，但未初始化的局部数组没有可靠初值。a[5]越界，不演示固定越界结果。
 -->
 
 ---
+clicks: 4
+---
 
-<div class="eyebrow">03 · 遍历与有效长度</div>
+<div class="eyebrow">03 · 数组容量、有效个数与遍历</div>
 
-# 总共几格，和用了几格，是两回事
+# 只处理前 n 个元素，循环条件写 i < n
 
-<div class="two-col"><div>
-
-```c
-int a[] = {34, 12, 56, 9, 45};
-int length =
-    sizeof(a) / sizeof(a[0]);
-for (int i = 0; i < length; i++) {
-    printf("%d ", a[i]);
-}
-```
-
-<div v-click class="answer">总字节数 ÷ 一格的字节数 = 5 格</div>
-</div><div>
-
-```c
-int data[100] = {3, 1, 4};
-int n = 3;  // 只使用前 3 格
-```
-
-<p class="spaced">没列出的格子会补 0；<br><code>int zeros[100] = {0};</code> 则全清零。</p>
-<div class="question">开了 100 格，就输出 100 个数吗？</div>
-<p v-click class="spaced">只遍历用过的格子：<br><code>i = 0; i &lt; n; i++</code></p>
-</div></div>
+<ArrayTraversal :step="$clicks" />
 
 <!--
-约2分钟。sizeof相除的写法直接作用于此处定义的数组，返回元素数量5；数组作为函数形参后不能这样算，留在讲师备注中。
-sizeof以字节计，不要求所有平台int都是4字节。初始化：int b[5]={0}五格全零；未初始化的局部数组没有可靠初值，可在此口头补充。
+约2分钟。n由程序记录，数组不会自动记录输入数量。本例明确约定前3格是本次数据；其余97格即使初始化为0，也不因此变成本次有效数据。
+依次核对i=0、1、2、3的判断、访问与停止，联系保存什么、判断什么、更新什么。sizeof容量计算移至附录。
 -->
 
 ---

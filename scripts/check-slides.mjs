@@ -58,7 +58,9 @@ try{
   ['数组也可以记录“还在不在”',3,'.memory-comment'],
   ['字符串，是带结束标记的字符数组',2,'.memory-comment'],
   ['从两端，向中间比较',4,'.memory-comment']
-  ,['第一个元素，为什么叫 a[0]？',3,'.offset-explain']
+  ,['用下标访问元素：第 1 个元素是 a[0]',3,'.offset-explain']
+  ,['倒序输出前，先用数组保存整组数据',3,'.storage-caption']
+  ,['只处理前 n 个元素，循环条件写 i < n',4,'.traversal-caption']
   ,['保存什么，判断什么，更新什么？',5,'.reasoning-caption']
   ,['这次不用先知道，要锯多少次',4,'.reasoning-caption']
  ]

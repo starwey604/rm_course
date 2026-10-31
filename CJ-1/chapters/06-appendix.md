@@ -310,6 +310,34 @@ printf("%d\n", count);
 
 ---
 
+<div class="eyebrow">附录 · sizeof 与数组容量</div>
+
+# 用 sizeof 计算数组的元素个数
+
+<div class="two-col"><div>
+
+```c
+int a[] = {34, 12, 56, 9, 45};
+int capacity =
+    sizeof(a) / sizeof(a[0]);
+```
+
+<div class="answer">capacity 的结果是 5。</div>
+
+</div><div>
+
+<div class="sizeof-guide"><strong>sizeof(a)</strong><br>整个数组占用的字节数<br><br><strong>sizeof(a[0])</strong><br>一个元素占用的字节数</div>
+
+</div></div>
+
+<div class="question">总字节数 ÷ 一个元素的字节数 = 数组的元素总数。<br>它算的是<strong>容量</strong>；只处理前 n 个数据时，循环仍然用 <code>i &lt; n</code>。</div>
+
+<!--
+选讲或课后阅读。此式直接作用于当前定义的数组，不推广到指针或数组形参。sizeof以字节计，不依赖int固定为4字节。
+-->
+
+---
+
 <div class="eyebrow">附录 H · 内容与素材来源</div>
 
 # 继续阅读
