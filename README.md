@@ -56,7 +56,25 @@ pnpm check:site
 
 ## Cloudflare Pages
 
-仓库已经包含 `wrangler.toml`、`.node-version`、pnpm lockfile 和静态输出脚本。推荐通过 Git 集成部署：
+仓库已经包含 `wrangler.toml`、`.node-version`、pnpm lockfile 和静态输出脚本。有两条部署路径，任选其一。
+
+### 方式一：GitHub Actions 推送自动部署（默认推荐）
+
+仓库自带 `.github/workflows/deploy.yml`：推送到 `main` 分支会自动安装依赖、构建站点，并用 Wrangler 把 `output/site` 直接上传到 Cloudflare Pages 项目 `rm-course`。
+
+一次性配置：
+
+1. **创建 Pages 项目**：在 Cloudflare Dashboard → Workers & Pages → Create → Pages → "Upload assets" 创建一个名为 `rm-course` 的项目（或本地运行 `pnpm exec wrangler pages project create rm-course --production-branch main`）。项目只需存在一次，之后的部署都由 CI 覆盖。
+2. **创建 API Token**：打开 <https://dash.cloudflare.com/profile/api-tokens> → Create Token → 使用模板 **"Edit Cloudflare Pages"**（自动授予 Account / Cloudflare Pages: Edit 与 Account Settings: Read）。也可以建 Custom Token，至少包含这两项权限。复制生成的 token。
+3. **获取 Account ID**：Dashboard 任意页面右侧栏（Workers & Pages → Overview 右下角）显示 32 位十六进制 Account ID；或从浏览器地址栏 `dash.cloudflare.com/<这段就是 Account ID>` 读取。
+4. **配置仓库 Secrets**：GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret，添加两个 secret：
+   - `CLOUDFLARE_API_TOKEN`：第 2 步的 token
+   - `CLOUDFLARE_ACCOUNT_ID`：第 3 步的 Account ID
+5. **绑定自定义域名**：Pages 项目 → Settings → Custom domains → 添加 `rm.course.silkenkite.ink`（域名已在 Cloudflare 托管时会自动验证）。
+
+配置完成后推送任意 commit 到 `main` 即可触发部署；也可以在 Actions 页面手动 Run workflow。注意：这种方式**不需要**在 Cloudflare 里连接 Git 仓库，Pages 项目的构建命令留空即可（构建在 GitHub 完成，Cloudflare 只接收产物）。
+
+### 方式二：Cloudflare Git 集成
 
 1. 在 Cloudflare 创建 Pages 项目并连接仓库。
 2. 构建命令填 `pnpm build`。
