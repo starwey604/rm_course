@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed} from 'vue'
+import CodeTokens from '../../shared/components/CodeTokens.vue'
 const props=defineProps<{step:number}>()
 const printMode=location.search.includes('print=true')
 const n=computed(()=>printMode?3:props.step)
@@ -13,8 +14,8 @@ const code=[
 ]
 </script>
 <template>
-  <div class="index-intro">数组里的每个值叫<strong>元素</strong>；访问写作<strong>数组名[下标]</strong>，下标从 <strong>0</strong> 开始。</div>
-  <div class="index-declaration"><code>int a[5] = {3, 1, 4};</code><span><strong>int</strong>：元素是整数；<strong>a</strong>：数组名；<strong>5</strong>：元素总数。<br>这行初始化把未列出的两个元素补为 0。</span></div>
+  <div class="index-intro">数组里的每个值叫<strong>元素</strong>；访问写作<strong class="key-point">数组名[下标]</strong>，下标从 <strong class="key-point">0</strong> 开始。</div>
+  <div class="index-declaration"><code><CodeTokens code="int a[5] = {3, 1, 4};" /></code><span><strong>int</strong>：元素是整数；<strong>a</strong>：数组名；<strong>5</strong>：元素总数。<br>这行初始化把未列出的两个元素补为 0。</span></div>
   <div class="index-track">
     <div v-for="(v,i) in values" :key="i" class="index-item" :class="{selected:selected===i}">
       <div class="index-ordinal">第 {{i+1}} 个元素</div>

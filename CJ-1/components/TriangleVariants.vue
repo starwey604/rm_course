@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {computed} from 'vue'
+import CodeTokens from '../../shared/components/CodeTokens.vue'
+import {highlightC} from '../../shared/utils/highlight'
 import {triangleVariants,triangleRows} from '../data/triangles'
 const props=defineProps<{step:number}>()
 const printMode=location.search.includes('print=true')
@@ -23,13 +25,15 @@ const commonLines=[
  '    printf("\\n");',
  '}'
 ]
+const codeLines=computed(()=>summary.value?summaryLines:[`for (${variant.value.iParams}) {`,`    for (${variant.value.jParams}) {`,...commonLines])
+const highlighted=computed(()=>highlightC(codeLines.value.join('\n')))
 </script>
 <template>
- <div v-if="!summary" class="triangle-lesson-intro">本页用 <strong>i 表示本行星号数</strong>：<code>j &lt;= i</code> 时打印 <strong>*</strong>，否则打印空格。</div>
+ <div v-if="!summary" class="triangle-lesson-intro">本页用 <strong class="key-point">i 表示本行星号数</strong>：<code>j &lt;= i</code> 时打印 <strong>*</strong>，否则打印空格。</div>
  <div class="triangle-lesson-grid" :data-phase="n">
   <div>
-   <div class="label">{{summary?'共同框架：用右侧各组参数，替换两处括号内容':'黄色标出这次改变的循环；循环体保持相同'}}</div>
-   <pre class="triangle-code"><code v-if="summary"><span v-for="(line,k) in summaryLines" :key="k" class="triangle-code-line" :class="{changed:k<2}">{{line}}</span></code><code v-else><span class="triangle-code-line" :class="{changed:variant.changed!=='inner'}">for (<b>{{variant.iParams}}</b>) {</span><span class="triangle-code-line" :class="{changed:variant.changed!=='outer'}">    for (<b>{{variant.jParams}}</b>) {</span><span v-for="(line,k) in commonLines" :key="k" class="triangle-code-line">{{line}}</span></code></pre>
+   <div class="label">{{summary?'共同框架：用右侧各组参数，替换两处括号内容':'浅蓝底标出这次改变的循环；循环体保持相同'}}</div>
+   <pre class="triangle-code"><code><span v-for="(line,k) in codeLines" :key="k" class="triangle-code-line" :class="{changed:summary?k<2:k===0?variant.changed!=='inner':k===1?variant.changed!=='outer':false}"><CodeTokens :tokens="highlighted[k]" /></span></code></pre>
    <div v-if="summary" class="triangle-shared-note">i 表示本行星号数，灰点表示空格。<br>只改两行 for 的参数，判断语句不变。</div>
    <div v-else class="triangle-sequences"><div><strong>外层 i：</strong>{{variant.iValues.join(' → ')}}</div><div><strong>内层 j：</strong>{{variant.jValues.join(' → ')}}，每行重新开始。</div></div>
   </div>

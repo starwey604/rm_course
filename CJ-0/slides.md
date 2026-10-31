@@ -3,7 +3,7 @@ theme: default
 title: C语言培训-0 · 从第一段程序到电控思维
 author: CONE
 info: CONE / RoboMaster 电控新生培训，60 分钟入门课
-colorSchema: dark
+colorSchema: light
 aspectRatio: 16/9
 canvasWidth: 1200
 fonts:

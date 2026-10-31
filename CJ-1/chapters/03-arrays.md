@@ -105,11 +105,11 @@ int capacity =
 
 </div><div>
 
-<div class="sizeof-guide"><strong>sizeof(a)</strong><br>整个数组占用的字节数<br><br><strong>sizeof(a[0])</strong><br>一个元素占用的字节数</div>
+<div class="sizeof-guide"><strong class="key-point">sizeof(a)</strong><br>整个数组占用的字节数<br><br><strong class="key-point">sizeof(a[0])</strong><br>一个元素占用的字节数</div>
 
 </div></div>
 
-<div class="question">总字节数 ÷ 一个元素的字节数 = 数组的元素总数。<br>它算的是<strong>容量</strong>；只处理前 n 个数据时，循环仍然用 <code>i &lt; n</code>。</div>
+<div class="question">总字节数 ÷ 一个元素的字节数 = 数组的元素总数。<br>它算的是<strong class="key-point">容量</strong>；只处理前 n 个数据时，循环仍然用 <code>i &lt; n</code>。</div>
 
 <!--
 正文约2分钟，先讲容量计算，为后面的sizeof(s)与strlen(s)作准备。此式直接作用于当前定义的数组，不推广到指针或数组形参。sizeof以字节计，不依赖int固定为4字节。

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {computed} from 'vue'
+import CodeTokens from '../../shared/components/CodeTokens.vue'
+import {highlightParts} from '../../shared/utils/highlight'
 import {reasoningExtras} from '../data/reasoning-extras'
 const props=defineProps<{kind:string,step:number}>()
 const printMode=location.search.includes('print=true')
@@ -53,6 +55,7 @@ const labels:Record<string,string>={
  uppercase:'main 中的框架；完整填空程序在下一页'
 }
 const n=computed(()=>printMode?d.value.max:Math.min(props.step,d.value.max))
+const codeParts=computed(()=>highlightParts(d.value.lines.map(line=>line.text.split(/(\[[①②③④]\])/g).map(text=>({text})))))
 </script>
 <template>
   <div class="reasoning-grid">
@@ -64,7 +67,7 @@ const n=computed(()=>printMode?d.value.max:Math.min(props.step,d.value.max))
     </div>
     <div class="reasoning-code-area">
       <div class="label">{{labels[kind]}}</div>
-      <pre class="reasoning-code"><code><span v-for="(line,i) in d.lines" :key="i" class="reasoning-line" :class="{revealed:n>=line.at,active:!printMode&&n===line.at}"><span v-for="(part,j) in line.text.split(/(\[[①②③④]\])/g)" :key="j" :class="{'fill-blank':/^\[[①②③④]\]$/.test(part)}">{{part}}</span></span></code></pre>
+      <pre class="reasoning-code"><code><span v-for="(line,i) in d.lines" :key="i" class="reasoning-line" :class="{revealed:n>=line.at,active:!printMode&&n===line.at}"><span v-for="(part,j) in codeParts[i]" :key="j" :class="{'fill-blank':/^\[[①②③④]\]$/.test(part.text)}"><CodeTokens :tokens="part.tokens" /></span></span></code></pre>
     </div>
   </div>
   <div class="reasoning-caption">{{d.captions[n]}}</div>

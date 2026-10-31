@@ -30,5 +30,5 @@ const captions=[
     </section>
   </div>
   <div class="storage-caption">{{printMode?'x 依次变成 3 → 1 → 4，最后只剩 4；数组的三个元素分别保留 3、1、4。':captions[n]}}</div>
-  <div class="storage-conclusion"><strong>先用数组存下整组数据，再从后往前取出</strong>，就能得到 4、1、3。</div>
+  <div class="storage-conclusion"><strong class="key-point">先用数组存下整组数据，再从后往前取出</strong>，就能得到 4、1、3。</div>
 </template>

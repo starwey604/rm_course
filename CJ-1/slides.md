@@ -3,7 +3,7 @@ theme: default
 title: C语言培训-1 · 循环、数组与字符串
 author: CONE
 info: CONE / RoboMaster 电控新生培训，120 分钟（含休息）
-colorSchema: dark
+colorSchema: light
 aspectRatio: 16/9
 canvasWidth: 1200
 fonts:

@@ -50,7 +50,7 @@ scanf("%19s", name);
 printf("%s\n", name);
 ```
 
-<div class="teaching-anchor spaced">这里传 <code>name</code>，不写 <code>&amp;name</code>。<br>在这次调用里，<code>name</code> 已经给出<br><strong>第 0 格 <code>name[0]</code> 的地址</strong>，<br>所以不用再取一次地址。</div>
+<div class="teaching-anchor spaced">这里传 <code>name</code>，不写 <code>&amp;name</code>。<br>在这次调用里，<code>name</code> 已经给出<br><strong class="key-point">第 0 格 <code>name[0]</code> 的地址</strong>，<br>所以不用再取一次地址。</div>
 </div><div>
 <div class="capacity-bar"><span>最多 19 个输入字符</span><b>\0</b></div>
 <p v-click class="spaced">最后一格留给结束符。<br>不限制宽度，超长输入可能写出数组边界，破坏其他数据。</p>
@@ -89,8 +89,8 @@ if (matched == 1) {
 
 </div><div class="scanf-explanation">
 <div><strong>19</strong>：最多读 19 个字符，<br>剩 1 格存结束符 <code>\0</code>。</div>
-<div><strong>[^\n]</strong>：读取“不是换行”的字符，<br>所以<strong>空格也会保存</strong>。</div>
-<div v-click="2">遇到换行或读满 19 个字符就停。<br>成功后补 <code>\0</code>，<strong>换行不会被读走</strong>。</div>
+<div><strong>[^\n]</strong>：读取“不是换行”的字符，<br>所以<strong class="key-point">空格也会保存</strong>。</div>
+<div v-click="2">遇到换行或读满 19 个字符就停。<br>成功后补 <code>\0</code>，<strong class="key-point">换行不会被读走</strong>。</div>
 </div></div>
 
 <div class="teaching-anchor spaced">若一开始就遇到换行，<code>matched</code> 为 0，未读入字符串；<br>先检查成功项数，再使用数组里的内容。超过宽度的部分也会留在输入中。</div>
@@ -159,10 +159,10 @@ class: scanf-summary
 <tr><td>整数 <code>%d</code></td><td><code>scanf("%d", &amp;n);</code></td><td>跳过开头空白，按整数格式读取。</td></tr>
 <tr><td>float · <code>%f</code></td><td><code>scanf("%f", &amp;f);</code></td><td>跳过开头空白，读入 <code>float</code>。</td></tr>
 <tr><td>double · <code>%lf</code></td><td><code>scanf("%lf", &amp;x);</code></td><td>跳过开头空白，读入 <code>double</code>。</td></tr>
-<tr><td>一个字符 <code>%c</code></td><td><code>scanf("%c", &amp;ch);</code></td><td><strong>不跳空白</strong>，空格、换行也会读入。</td></tr>
+<tr><td>一个字符 <code>%c</code></td><td><code>scanf("%c", &amp;ch);</code></td><td><strong class="key-point">不跳空白</strong>，空格、换行也会读入。</td></tr>
 <tr><td>非空白字符</td><td><code>scanf(" %c", &amp;ch);</code></td><td>先跳过连续空白，再读一个字符。</td></tr>
 <tr><td>一个词 <code>%s</code></td><td><code>scanf("%19s", s);</code></td><td>跳过开头空白；再遇空白或满 19 个就停。</td></tr>
-<tr><td>含空格的文本</td><td><code>scanf("%19[^\n]", s);</code></td><td><strong>不跳空白</strong>；遇换行或满 19 个就停。</td></tr>
+<tr><td>含空格的文本</td><td><code>scanf("%19[^\n]", s);</code></td><td><strong class="key-point">不跳空白</strong>；遇换行或满 19 个就停。</td></tr>
 </tbody></table>
 
 <div class="scanf-summary-rules"><strong>传什么：</strong>数值、单个字符传 <code>&amp;变量</code>；字符数组传数组名。<br><strong>字符串：</strong><code>%s</code>、<code>%[...]</code> 成功时补 <code>\0</code>，宽度至多为容量 − 1；<code>%c</code> 不补。</div>

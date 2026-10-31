@@ -16,13 +16,16 @@
     "export": "node scripts/tasks.mjs export",
     "package": "node scripts/tasks.mjs package",
     "check:examples": "node scripts/check-examples.mjs",
+    "check:syntax": "node --experimental-strip-types scripts/check-highlighting.mjs",
     "check:slides": "node scripts/check-slides.mjs",
     "check:site": "node scripts/check-site.mjs"
   },
   "devDependencies": {
     "@slidev/cli": "53.0.0",
     "@slidev/theme-default": "0.25.0",
+    "markdown-it": "14.3.3",
     "playwright-chromium": "1.64.1",
+    "shiki": "4.5.0",
     "vue": "3.5.44"
   }
 }

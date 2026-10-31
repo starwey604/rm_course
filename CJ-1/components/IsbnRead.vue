@@ -1,5 +1,7 @@
 <script setup>
 import {computed} from 'vue'
+import CodeTokens from '../../shared/components/CodeTokens.vue'
+const inputCode = 'scanf("%d-%d-%d-%c", &group, &publisher, &book, &check);'
 const props=defineProps({step:{type:Number,default:0}})
 const n=computed(()=>location.search.includes('print=true')?7:Math.min(props.step,7))
 const tokens=['0','-','670','-','82162','-','4']
@@ -10,7 +12,7 @@ const vals=['0','670','82162',"'4'"]
 const at=[1,3,5,7]
 </script>
 <template>
-<div class="read-code">scanf("%d-%d-%d-%c", &amp;group, &amp;publisher, &amp;book, &amp;check);</div>
+<div class="read-code"><CodeTokens :code="inputCode" /></div>
 <div class="isbn-track"><div v-for="(t,i) in tokens" :key="i" class="isbn-token" :class="{sep:t==='-',active:n===i+1,done:n>i+1}">{{t}}<div class="isbn-format">{{instructions[i]}}</div></div></div>
 <div class="trace-vars"><div v-for="(name,i) in names" :key="name" class="trace-var"><div class="label">{{name}}</div><div class="trace-val">{{n>=at[i]?vals[i]:'—'}}</div></div></div>
 <div class="trace-desc">{{notes[n]}}</div>

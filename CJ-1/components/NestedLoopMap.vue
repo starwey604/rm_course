@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {computed} from 'vue'
+import CodeTokens from '../../shared/components/CodeTokens.vue'
+import {highlightC} from '../../shared/utils/highlight'
 const props=defineProps<{step:number}>()
 const printMode=location.search.includes('print=true')
 const states=[
@@ -25,6 +27,7 @@ const code=[
  '    printf("\\n");',
  '}'
 ]
+const highlighted=highlightC(code.join('\n'))
 const n=computed(()=>printMode?10:Math.min(props.step,10))
 const s=computed(()=>states[n.value])
 const cells=[
@@ -36,11 +39,11 @@ const shown=(value:number)=>value>0&&s.value.count>=value
 const active=(row:number,col:number,value:number)=>!printMode&&n.value>0&&row===s.value.i&&col===s.value.j&&value>0
 </script>
 <template>
- <div class="nested-map-intro">以 n = 3 为例：<strong>i 选行，j 选本行的位置</strong>；第 i + 1 行要输出 <strong>3 − i</strong> 个数。</div>
+ <div class="nested-map-intro">以 n = 3 为例：<strong class="key-point">i 选行，j 选本行的位置</strong>；第 i + 1 行要输出 <strong>3 − i</strong> 个数。</div>
  <div class="nested-map-grid" :data-step="n" :data-row="s.i" :data-col="s.j">
   <div>
    <div class="label">同一段代码：内层走完，才轮到外层更新</div>
-   <pre class="nested-map-code"><code><span v-for="(line,k) in code" :key="k" class="nested-map-code-line" :class="{active:!printMode&&s.lines.includes(k)}">{{line}}</span></code></pre>
+   <pre class="nested-map-code"><code><span v-for="(line,k) in code" :key="k" class="nested-map-code-line" :class="{active:!printMode&&s.lines.includes(k)}"><CodeTokens :tokens="highlighted[k]" /></span></code></pre>
    <div class="nested-map-vars"><span>i = <b>{{s.i<0?'—':s.i}}</b></span><span>j = <b>{{s.j<0?'—':s.j}}</b></span><span>value = <b>{{s.count}}</b></span></div>
   </div>
   <div>

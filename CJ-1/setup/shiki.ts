@@ -1,2 +1,2 @@
-// Keep syntax colors readable on the dark classroom projection background.
-export default () => ({ theme: 'github-dark' })
+import { codeTheme } from '../../shared/theme/code-theme'
+export default () => ({ theme: codeTheme })

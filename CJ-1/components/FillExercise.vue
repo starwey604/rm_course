@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {computed} from 'vue'
+import CodeTokens from '../../shared/components/CodeTokens.vue'
+import {highlightParts} from '../../shared/utils/highlight'
 const props=defineProps<{kind:string,step:number}>()
 const printMode=location.search.includes('print=true')
 const exercises={
@@ -71,11 +73,14 @@ const shown=computed(()=>printMode?d.value.hints.length:Math.ceil(progress.value
 const filled=computed(()=>printMode?0:Math.floor(progress.value/2))
 const active=computed(()=>printMode?-1:Math.ceil(progress.value/2)-1)
 const markers=['[①]','[②]','[③]','[④]']
-const lines=computed(()=>d.value.code.split('\n').map(line=>line.split(/(\[[①②③④]\])/g).map(text=>({text,blank:markers.indexOf(text)+1}))))
+const lines=computed(()=>highlightParts(d.value.code.split('\n').map(line=>line.split(/(\[[①②③④]\])/g).map(text=>{
+  const blank=markers.indexOf(text)+1
+  return {text:blank>0&&filled.value>=blank?d.value.answers[blank-1]:text,blank}
+}))))
 </script>
 <template>
   <div class="fill-grid">
-    <pre class="fill-code"><code><span v-for="(parts,i) in lines" :key="i" class="fill-line"><span v-for="(part,j) in parts" :key="j" :class="{'fill-blank':part.blank>0&&filled<part.blank,'fill-answer':part.blank>0&&filled>=part.blank}" :data-blank="part.blank||undefined" :data-filled="part.blank>0?String(filled>=part.blank):undefined">{{part.blank>0&&filled>=part.blank?d.answers[part.blank-1]:part.text}}</span></span></code></pre>
+    <pre class="fill-code"><code><span v-for="(parts,i) in lines" :key="i" class="fill-line"><span v-for="(part,j) in parts" :key="j" :class="{'fill-blank':part.blank>0&&filled<part.blank,'fill-answer':part.blank>0&&filled>=part.blank}" :data-blank="part.blank||undefined" :data-filled="part.blank>0?String(filled>=part.blank):undefined"><CodeTokens :tokens="part.tokens" /></span></span></code></pre>
     <div class="fill-side">
       <div class="label">只填编号处，其余代码已备好</div>
       <div v-if="!printMode" class="fill-sequence">单击看提示，再单击填入对应答案</div>

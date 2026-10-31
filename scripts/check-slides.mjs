@@ -30,6 +30,11 @@ try{
   const slide=wrapper.locator('.slidev-layout').first()
   await slide.waitFor()
   if(await slide.locator('.brand-strip img').count()!==2)throw new Error('Missing page branding: '+i)
+  const palette=await slide.evaluate(el=>({bg:getComputedStyle(el).backgroundColor,text:getComputedStyle(el).color}))
+  if(palette.bg!=='rgb(247, 249, 252)'||palette.text!=='rgb(24, 40, 59)')throw new Error('Paper palette missing on slide '+i+': '+JSON.stringify(palette))
+  for(const code of await slide.locator('pre').all()){
+   if(await code.evaluate(el=>getComputedStyle(el).backgroundColor)!=='rgb(234, 240, 247)')throw new Error('Code surface not updated on slide '+i)
+  }
   const info=await slide.evaluate(el=>{
    const rect=el.getBoundingClientRect(),scale=rect.width/el.clientWidth
    const note=el.querySelector(':scope>.note'),noteTop=note?.getBoundingClientRect().top||rect.bottom-32*scale
@@ -117,6 +122,15 @@ try{
     const expected=[[0,0,1],[0,1,2],[0,2,3],[0,3,3],[1,0,4],[1,1,5],[1,2,5],[2,0,6],[2,1,6],[3,-1,6]][c]
     const actual=await scope.locator('.nested-map-grid').evaluate(el=>[Number(el.dataset.row),Number(el.dataset.col),el.querySelectorAll('.nested-map-cell.used').length])
     if(JSON.stringify(actual)!==JSON.stringify(expected))throw new Error('Nested row/column state mismatch at '+(c+1))
+    const unreadable=await scope.locator('.nested-map-cell.current').evaluateAll(els=>els.some(el=>{
+     const rgb=value=>value.match(/[\d.]+/g).map(Number)
+     const luminance=values=>values.slice(0,3).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0)
+     const style=getComputedStyle(el),fg=rgb(style.color),bg=rgb(style.backgroundColor),base=rgb(getComputedStyle(el.closest('.slidev-layout')).backgroundColor)
+     const alpha=bg[3]??1,background=bg.slice(0,3).map((v,i)=>v*alpha+base[i]*(1-alpha))
+     const light=luminance(fg),dark=luminance(background)
+     return (Math.max(light,dark)+.05)/(Math.min(light,dark)+.05)<4.5
+    }))
+    if(unreadable)throw new Error('Current output cell lost its readable foreground at click '+(c+1))
    }
    if(selector==='.triangle-lesson-caption')await checkTriangles(scope,c+1)
   }
@@ -207,6 +221,8 @@ try{
 }finally{await browser.close()}
 
 async function checkTriangles(scope,phase){
+ const colors=await scope.locator('.triangle-code .syntax-token').evaluateAll(els=>[...new Set(els.filter(x=>x.textContent.trim()).map(x=>getComputedStyle(x).color))])
+ if(colors.length<4)throw new Error('Animated triangle code lost syntax highlighting at phase '+phase)
  const expected=[
   {i:'int i = 1; i <= 4; i++',j:'int j = 1; j <= 4; j++',rows:['*   ','**  ','*** ','****']},
   {i:'int i = 4; i >= 1; i--',j:'int j = 1; j <= 4; j++',rows:['****','*** ','**  ','*   ']},
