@@ -1,96 +1,154 @@
-# CONE 电控培训课件
+# RM 电控系列课程
 
-使用 Slidev 制作，浏览器播放点击动画，PDF 用于课后分发。
+使用 Slidev 制作的多课件站点。浏览器播放带点击动画，PDF 用于课后分发；网页站点包含课程首页、课件切换菜单、激光笔与课堂标注。
 
-## C语言培训-1：循环、数组与字符串
+| 路径 | 课件 | 时长 | 页数 |
+| --- | --- | --- | --- |
+| `/cj-0/` | C语言培训-0：从第一段程序到电控思维 | 60 分钟 | 23 |
+| `/cj-1/` | C语言培训-1：循环、数组与字符串 | 120 分钟 | 85 |
 
-课程时长 120 分钟（含 10 分钟休息）。正文 63 页，附录 22 页。题面完整保留在演示与 PDF 中，附录供按需选讲和课后查阅。题面页可让学生自行阅读，备选题不要求课上逐题讲解。
+课程清单统一维护在 `decks.json`。构建时会据此生成首页、课件菜单、逐课件构建参数，以及 Cloudflare 的精确播放路由。
 
-- 先复习 printf / scanf 与 ISBN 风格输入，再用 P1424 衔接循环。
-- 用一页介绍 printf、cout、C++23 std::println 的格式化输出。
-- 循环：for、while、do-while、break、continue、嵌套循环。
-- 数组：下标、遍历、有效长度、最值、倒序与状态标记。
-- 字符串：结束符、输入、strlen、strcpy、strcmp、回文比较。
-- 随堂练习：P5719、P1427、P5733。提供完整 C 代码骨架，关键位置挖空；提示逐次点击揭示，随后单独讲评。
+## 本地开发与预览
 
-## 本地播放
-
-需要 Node.js 22.12 或更新版本和 pnpm。先在仓库根目录执行：
+需要 Node.js 22.12 或更新版本和 pnpm：
 
 ```sh
 pnpm install
-pnpm dev
+pnpm dev:cj-0      # http://localhost:3030/cj-0/
+pnpm dev:cj-1      # http://localhost:3031/cj-1/
 ```
 
-打开终端显示的本地地址，默认端口 3031。点击幻灯片正文、空格、方向键右推进，方向键左返回。按 F11 可以使用浏览器全屏；Slidev 左下方控制栏也提供全屏、目录和讲师视图。
+在课件中点击正文、空格或方向键右推进，方向键左返回。页面底部的控制栏提供全屏、目录和讲师视图；左上角是课程目录，控制栏另提供返回课程首页。
 
 ### 讲授辅助
 
-控制栏（鼠标移到页面底部出现）新增两个按钮，也可以直接用键盘切换：
+- **激光笔**：按 `L` 或点控制栏的圆点按钮。开启后系统鼠标隐藏，红色光点跟随指针；点击正文照常翻页。
+- **标注**：按 `P` 或点控制栏的画笔按钮。支持画笔、直线、箭头、矩形、椭圆、橡皮、撤销重做、清空与 7 档颜色；绘制时不会误触发全局点击翻页，按 `Esc` 退出。
+- 进入标注会自动关闭激光笔。标注不跨刷新保存，也不进入 PDF 和打印页。
 
-- 激光笔：按 `L` 或点控制栏的圆点按钮。开启后系统鼠标隐藏，红色光点跟随指针，受投影距离影响仍清楚可见；此时点击正文照常翻页，方便“指一下就讲下一页”。
-- 标注：按 `P` 或点控制栏的画笔按钮，打开画笔 / 直线 / 箭头 / 矩形 / 椭圆 / 橡皮、撤销重做、清空与 7 档颜色。绘制时整页画布接管鼠标，点画布不会翻页；按 `Esc` 退出标注，`S` / `L` / `A` / `R` / `E` 切换工具，`1`–`7` 换色。切到标注时激光笔自动关闭。
-- 标注只在本次放映的浏览器里存在，刷新即清空，也不会进入 PDF 和打印页（`?print=true` 下画布层被隐藏）。如需跨刷新保留，把 `CJ-1/slides.md` 头部的 `drawings.persist` 改为 `true`，数据会写到被忽略的 `.slidev/drawings/`。
+## 静态课程站点
 
-## 构建与导出
+```sh
+pnpm build
+pnpm preview       # http://127.0.0.1:4173/
+```
+
+输出位于 `output/site/`：
+
+- `index.html` / `home.css`：RM 电控课程首页。
+- `cj-0/`、`cj-1/`：分别以 `/cj-0/`、`/cj-1/` 为 base 的独立课件。
+- `_redirects`：由构建脚本根据每门课页数生成，只改写 Slidev 的已知播放路由，不会把静态资源请求错误地改写为 HTML。
+- `_headers`：基础安全响应头和课件资源长缓存。
+- `site.json`：站点课程摘要。
+
+本地预览服务器支持 `/cj-0` → `/cj-0/` 重定向，以及 `/cj-0/12` 这类深层页面刷新。
+
+### 验证
+
+构建并完成 `pnpm preview` 后运行：
+
+```sh
+pnpm check:site
+```
+
+该检查会验证首页课程卡、两个课件的菜单交互、激光笔、深层路由、打印页隐藏、静态资源和控制台错误，并逐页检查 CJ-0 版式。
+
+## Cloudflare Pages
+
+仓库已经包含 `wrangler.toml`、`.node-version`、pnpm lockfile 和静态输出脚本。推荐通过 Git 集成部署：
+
+1. 在 Cloudflare 创建 Pages 项目并连接仓库。
+2. 构建命令填 `pnpm build`。
+3. 构建输出目录填 `output/site`。
+4. 项目根目录填仓库根目录（本目录即 Git 仓库根目录）。
+5. 在 Pages 项目的 **Custom domains** 添加 `rm.course.silkenkite.ink`；域名已在 Cloudflare 托管时，Cloudflare 会处理验证与记录。
+
+部署后的目标地址结构：
+
+- 首页：`https://rm.course.silkenkite.ink/`
+- CJ-0：`https://rm.course.silkenkite.ink/cj-0/`
+- CJ-1：`https://rm.course.silkenkite.ink/cj-1/`
+- 直达页码：`https://rm.course.silkenkite.ink/cj-0/12`
+
+也可以使用本地 Wrangler 直接上传（需要登录 Cloudflare）：
+
+```sh
+pnpm dlx wrangler pages deploy output/site --project-name rm-course
+```
+
+## 单课件导出与离线包
 
 首次导出需准备浏览器：
 
 ```sh
 pnpm exec playwright install chromium
-pnpm build
-pnpm export
-pnpm package
 ```
 
-输出位于 `output/CJ-1/`：
+构建、导出和打包某个课件（默认 `cj-1`）：
 
-- `web/`：已构建的网页演示，需要通过本地 HTTP 服务播放。
-- `C语言培训-1.pdf`：完整内容 PDF，保留关键执行记录。
-- `CONE-C-Language-1.zip`：演示、PDF 和可修改源码。Windows 下解压后双击“打开课件.cmd”，无需安装 Node；播放完双击“停止课件.cmd”。
+```sh
+pnpm build:deck -- cj-0
+pnpm export -- cj-0
+pnpm package -- cj-0
+```
 
-可通过 `SLIDEV_BROWSER` 指定现有 Chromium 浏览器路径。设置 `CJ1_URL` 可让页面检查连接到其他本地端口。
+输出位于 `output/CJ-0/` 或 `output/CJ-1/`：
 
-## 修改课件
+- `web/`：单课件离线网页。
+- `C语言培训-0.pdf` / `C语言培训-1.pdf`：完整 PDF。
+- `CONE-C-Language-0.zip` / `CONE-C-Language-1.zip`：网页、PDF 和可修改源码。Windows 解压后双击“打开课件.cmd”即可播放。
 
-入口为 `CJ-1/slides.md`，章节内容位于 `CJ-1/chapters/`；教学组件和预先核对的执行状态分别位于 `components/` 与 `data/`。统一字体、颜色、代码排版在 `shared/styles/cone.css`，原始标识位于 `shared/assets/`。
+单课件的检查使用：
 
-讲授辅助只使用 Slidev 的约定扩展点，不改动 `node_modules`：`CJ-1/custom-nav-controls.vue` 提供控制栏按钮，`CJ-1/global-top.vue` 绘制激光笔覆盖层，`CJ-1/setup/shortcuts.ts` 绑定快捷键，`CJ-1/composables/useLaser.ts` 保存两者共用的开关状态。标注走 Slidev 内置的 `drawings`，在 `slides.md` 头部开关。
+```sh
+pnpm dev:cj-1
+pnpm check:slides   # 默认连接 http://localhost:3031/cj-1
+```
 
-讲师备注保存在各页的 HTML 注释中，包括建议时长、提问和资料来源。`<v-click>` 用于标准点击揭示；自定义组件在普通播放时使用点击次数，导出时切换为完整内容及过程记录。修改组件后应同时检查播放版与 PDF。
+可用 `CJ1_URL` 连接其他站点或预览服务，例如 `CJ1_URL=http://127.0.0.1:4173/cj-1`。
 
-`CJ-1/PLAN.md` 保留教学方案。实现后的页数与课程结构以入口和章节源文件为准。
+## 新增课件
 
-## 示例程序与检查
+1. 复制一个现有课件目录，创建 `CJ-2/slides.md`、`chapters/`、`layouts/`、`setup/`、`data/` 和 `style.css`。
+2. 在 `CJ-2/data/course.json` 写入标题、页数和文件名。
+3. 在根目录 `decks.json` 增加一条 `slug: "cj-2"` 的课件配置。
+4. 在 `package.json` 增加：
 
-`CJ-1/examples/` 包含 25 个完整 C/C++ 示例。C 示例使用 C11；C++ 输出扩展使用 C++23。
+   ```sh
+   "dev:cj-2": "slidev CJ-2/slides.md --port 3032 --base /cj-2/"
+   ```
+
+5. 运行 `pnpm build && pnpm preview && pnpm check:site`。
+
+激光笔、标注、课程菜单、打印隐藏和 Cloudflare 路由都会由共享组件与构建脚本自动接入，不需要新增菜单代码。
+
+## 工程结构
+
+- `site/`：课程首页模板与首页样式。
+- `shared/components/`：课件菜单、激光笔覆盖层和控制栏。
+- `shared/setup/`：全局点击翻页与快捷键。
+- `shared/styles/cone.css`：统一视觉、打印隐藏和 CJ-0 图示样式。
+- `shared/assets/`：CONE 与 RoboMaster 标识。
+- `scripts/build-site.mjs`：多课件静态站点、首页、`_redirects` 与 `_headers`。
+- `scripts/serve-site.mjs`：本地多课件预览服务器。
+- `scripts/check-site.mjs`：站点与 CJ-0 版式浏览器验证。
+- `scripts/tasks.mjs`：单课件构建、PDF 导出和离线压缩包。
+
+讲师备注保存在各页 HTML 注释中。`<v-click>` 用于标准点击揭示；自定义组件在普通播放时使用点击次数，导出时切换为完整内容及过程记录。修改组件后应同时检查播放版与 PDF。
+
+## 检查与文件管理
 
 ```sh
 pnpm check:examples
 pnpm check:slides
+pnpm check:site
 ```
 
-示例检查默认查找 gcc / g++，Windows 上也会查找 Scoop 的 GCC。可以通过 `CC` 和 `CXX` 指定编译器。Windows GCC 的 `<print>` 示例额外链接 `-lstdc++exp`，详见 [GCC 文档](https://gcc.gnu.org/onlinedocs/libstdc%2B%2B/manual/using.html)。学生完成课堂 C 练习不需要 C++23。
+`check:slides` 会逐页截图并检查 CJ-1 的 85 页、定制动画、无外部请求和版式溢出；结果保存在已忽略的 `tmp/`。源码、依赖锁和必要素材保留在 Git；`node_modules/`、`output/`、`tmp/`、PDF、ZIP 与构建缓存由 `.gitignore` 忽略。参考资料不会仅因 PDF / PPTX 扩展名被全局忽略。
 
-页面检查需先运行演示服务，会逐页截图、检查布局，并检查自定义动画的推进与回退。结果保存在已忽略的 `tmp/`。
+## 来源与口径
 
-## 文件管理
+CJ-1 课程范围依据《4.循环结构.pdf》《6.数组与字符串.pdf》，开场延续《CONE_C语言_金石滩_L1.pptx》；配色与 CONE / RoboMaster 标识来自《CONE-EC 2024 - Lecture 2 - C Arrays.pptx》，保持原始标识比例。洛谷题目链接、输入输出约定和标准库资料见课件及对应讲师备注。教学组件展示的是已核对的执行过程，不是通用 C 编译器。
 
-源码、依赖锁、讲师备注和必要素材保留在 Git 中。依赖、构建文件、生成的 PDF / ZIP、检查截图、编译出的示例程序、缓存和本机环境文件由 `.gitignore` 忽略。参考资料不会因扩展名为 PDF / PPTX 而被全局忽略。
-
-## 来源
-
-课程范围依据用户提供的两份讲义《4.循环结构.pdf》《6.数组与字符串.pdf》，开场延续《CONE_C语言_金石滩_L1.pptx》。配色与 CONE / RoboMaster 标识来自《CONE-EC 2024 - Lecture 2 - C Arrays.pptx》，保持原始标识比例；未采用其中的 Harvard / edX / CS50 标识。
-
-洛谷题目链接、输入输出约定和标准库资料见课件及对应讲师备注。教学组件展示的是已核对的执行过程，不是通用 C 编译器。
-
-
-本轮修订：按最新要求，P5719、P5720 的三问引导页恢复为左侧说明、右侧代码逐步出现的形式。数组正文正式讲解全零初始化与 sizeof 容量计算；字符串部分解释首元素地址和内容比较。所有 20 道洛谷题均有独立完整题面（题意转述、输入输出、数据范围与官方样例），包括附录备选题。源码目录暂保留 CJ-1，课程显示名称统一为“C语言培训-1”。
-
-字符串正文新增：含空格文本的扫描集输入、数字后残留换行的处理，以及一页 scanf 读取方式速查。附录保留 fgets，说明保留行首空格与空行时的选择。
-
-最新修订：修复段落文字提前显示而导致点击无变化的问题；P5719说明页保留与下一页相同的四个填空编号；第27页用10步行列框图讲P5721；第28页同步改变两行for参数与四种星号三角形，最后点击归纳共同框架、参数和图形。数字三角形与四种星号三角形都有对应完整C示例。
-
-内容调整：清零独立成页，解释普通局部数组的初值、先读后写与编译器告警；P5724/P1427/P5733各加三问与挖空框架，保留原题面、练习和讲评。P1428/P1047的题面、导读、参考实现统一移至附录末尾。strlen/sizeof表达式放大。本轮仅更新内容、预览与PDF，离线压缩包暂不更新。
-
-填空交互：P5719、P1427、P5733的练习页每空依次“提示一次、填入答案一次”，分别8、8、6次点击，可逐步回退。PDF保留空白供练习。后续修改不自动生成离线压缩包。
+CJ-0 是新增的零基础前置课：先认识机械 / 硬件 / 电控软件的分工，再讲最短 C 程序、输入输出、判断、循环直觉与验证闭环。课件中的电机限幅数值仅为课堂示例，不代表真实设备的推荐范围。

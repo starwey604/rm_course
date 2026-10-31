@@ -4,7 +4,7 @@ import path from 'node:path'
 const root=path.resolve(import.meta.dirname,'..')
 const out=path.join(root,'tmp','slide-qa')
 await fs.mkdir(out,{recursive:true})
-const base=process.env.CJ1_URL||'http://localhost:3031'
+const base=process.env.CJ1_URL||'http://localhost:3031/cj-1'
 const course=JSON.parse(await fs.readFile(path.join(root,'CJ-1/data/course.json'),'utf8'))
 const problems=JSON.parse(await fs.readFile(path.join(root,'CJ-1/data/problems.json'),'utf8'))
 const browser=await chromium.launch({headless:true})

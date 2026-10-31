@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "cj-0",
+    "entry": "CJ-0/slides.md",
+    "code": "CJ-0",
+    "title": "C语言培训-0",
+    "subtitle": "从第一段程序到电控思维",
+    "description": "认识 RM 电控的信号链，跑通第一段 C 程序，建立先预测、再运行、用证据调试的习惯。",
+    "duration": "60 分钟",
+    "level": "零基础入门",
+    "total": 23,
+    "topics": ["认识电控", "程序结构", "输入与判断", "验证习惯"]
+  },
+  {
+    "slug": "cj-1",
+    "entry": "CJ-1/slides.md",
+    "code": "CJ-1",
+    "title": "C语言培训-1",
+    "subtitle": "循环、数组与字符串",
+    "description": "从重复执行到批量数据，再到字符与文本处理。用预测、跟踪和随堂练习建立扎实的程序基础。",
+    "duration": "120 分钟",
+    "level": "程序基础",
+    "total": 85,
+    "topics": ["循环", "数组", "字符串", "随堂练习"]
+  }
+]

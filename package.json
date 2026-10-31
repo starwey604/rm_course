@@ -2,13 +2,22 @@
   "name": "cone-training-slides",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.11.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "slidev CJ-1/slides.md --port 3031",
-    "build": "node scripts/tasks.mjs build",
+    "dev": "pnpm dev:cj-1",
+    "dev:cj-0": "slidev CJ-0/slides.md --port 3030 --base /cj-0/",
+    "dev:cj-1": "slidev CJ-1/slides.md --port 3031 --base /cj-1/",
+    "build": "node scripts/build-site.mjs",
+    "build:deck": "node scripts/tasks.mjs build",
+    "preview": "node scripts/serve-site.mjs",
     "export": "node scripts/tasks.mjs export",
     "package": "node scripts/tasks.mjs package",
     "check:examples": "node scripts/check-examples.mjs",
-    "check:slides": "node scripts/check-slides.mjs"
+    "check:slides": "node scripts/check-slides.mjs",
+    "check:site": "node scripts/check-site.mjs"
   },
   "devDependencies": {
     "@slidev/cli": "53.0.0",
