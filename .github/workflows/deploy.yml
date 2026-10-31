@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -32,12 +32,14 @@ jobs:
         run: pnpm build
 
       - name: Verify build output
-        run: test -f output/site/index.html && test -f output/site/_redirects
+        run: test -f output/site/index.html && test -f output/site/_redirects && test -f output/site/_headers
 
-      - name: Deploy to Cloudflare Pages
+      # 使用 Workers 静态资产部署（wrangler.toml 中的 [assets] 配置）。
+      # 与 Pages 不同，Worker 首次 deploy 会自动创建，无需预先建项目。
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.156.0
-          command: pages deploy output/site --project-name rm-course
+          command: deploy
