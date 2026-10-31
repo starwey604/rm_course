@@ -44,6 +44,18 @@ try{
   if(i%10===0)console.log('Checked '+i+' / '+total+' slides')
  }
  await fs.writeFile(path.join(out,'layout.json'),JSON.stringify(results,null,2))
+ // Both model pages explain complete code, as requested by the rollback.
+ await page.goto(base+'/16?print=true',{waitUntil:'networkidle'})
+ const classifyGuide=page.locator('[data-slidev-no="16"] .slidev-layout')
+ const classifyCode=await classifyGuide.locator('.reasoning-code').innerText()
+ if(!classifyCode.includes('for (int i = 1; i <= n; i++)')||!classifyCode.includes('if (i % k == 0)')||classifyCode.includes('[①]'))throw new Error('P5719 code explanation not restored')
+ await page.goto(base+'/21?print=true',{waitUntil:'networkidle'})
+ const stickCode=await page.locator('[data-slidev-no="21"] .reasoning-code').innerText()
+ if(!stickCode.includes('while (a > 1)')||!stickCode.includes('a /= 2')||stickCode.includes('[①]'))throw new Error('P5720 code explanation not restored')
+ const capacity=results.findIndex(x=>x.title==='用 sizeof 计算数组的元素个数')
+ const traverse=results.findIndex(x=>x.title==='只处理前 n 个元素，循环条件写 i < n')
+ const stringSize=results.findIndex(x=>x.title==='房间有 20 格，住进去了几个字符？')
+ if(!(capacity===traverse+1&&capacity<stringSize))throw new Error('sizeof must be taught after array traversal')
  // Test each custom animation, every forward step, and backwards restoration.
  const specs=[
   ['格式串，也有一条读取路线',7,'.trace-desc'],

@@ -72,8 +72,8 @@ clicks: 5
 <ReasoningModel kind="classify" :step="$clicks" />
 
 <!--
-约2分钟。先问再点，保留学生思考时间。按“和与个数→遍历范围→分类条件→更新→平均数输出”依次搭起框架。不要刚进入页面就把完整答案展示出来。
-这里仅推导片段，不包含main与输入。下一页学生把推导出的内容填进完整骨架。
+约2分钟。按保存、判断、更新说明相应代码，逐步展示初始化、循环范围、分类条件、更新和平均数输出。
+按本轮要求恢复代码说明形式；下一页保留已有填空练习。
 -->
 
 ---
@@ -288,13 +288,15 @@ clicks: 6
 -->
 
 ---
+class: rm-control
+---
 
 <div class="eyebrow">02 · RM 电控里的循环</div>
 
 # 都是循环，为什么有的要停，有的一直跑？
 
-<div class="two-col"><div>
-<div class="label">洛谷：这一组数据算完，就交卷</div>
+<div class="two-col code-small"><div>
+<div class="label">洛谷：长度到 1，就结束并输出</div>
 
 ```c
 while (a > 1) {
@@ -304,14 +306,24 @@ while (a > 1) {
 printf("%d\n", day);
 ```
 
-<p v-click class="spaced">如果 a 一直没变，<br>程序就等不到输出，可能超时。</p>
+<div class="teaching-anchor spaced">条件会变假，所以能退出。<br>如果 a 不更新，就可能一直卡住。</div>
 </div><div>
-<div class="label">车上的控制任务：下一刻，还得再看一次</div>
-<div class="control-cycle">
-<span>读取传感器</span><b>↓</b><span>计算当前控制量</span><b>↓</b><span>更新输出 → 等待下一周期 ↺</span>
-</div>
-<p v-click>车还在动，状态就会变。<br>控制任务要按需要的周期持续更新。</p>
+<div class="label">步兵底盘：持续接收指令、更新电机</div>
+
+```c
+// 电控主循环伪代码
+while (1) {
+    read_remote_control(); // 读遥控器
+    calculate_motor_pid(); // 算电机电流
+    send_can_message();    // 发给电机
+    delay_ms(1);           // 暂停 1 ms
+}
+```
+
+<div class="teaching-anchor spaced"><code>1</code> 始终为真：一轮结束，再来一轮。<br>函数名表示每一步要做的工作。</div>
 </div></div>
+
+<div class="teaching-anchor spaced">持续执行靠 <code>while (1)</code>；控制周期还要配合计时或任务调度。</div>
 
 <!--
 约1分钟。强调终止与持续更新由任务决定，“一直循环”本身不等于错误。实际主循环或RTOS周期任务都可组织控制，周期由系统设计决定，不声称所有RM主控都以1000Hz裸机while(1)运行。

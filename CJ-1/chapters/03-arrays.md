@@ -40,7 +40,35 @@ clicks: 4
 
 <!--
 约2分钟。n由程序记录，数组不会自动记录输入数量。本例明确约定前3格是本次数据；其余97格即使初始化为0，也不因此变成本次有效数据。
-依次核对i=0、1、2、3的判断、访问与停止，联系保存什么、判断什么、更新什么。sizeof容量计算移至附录。
+依次核对i=0、1、2、3的判断、访问与停止，联系保存什么、判断什么、更新什么。下一页用sizeof计算容量，进一步区分容量与有效数据个数。
+-->
+
+---
+
+<div class="eyebrow">03 · sizeof 与数组容量</div>
+
+# 用 sizeof 计算数组的元素个数
+
+<div class="two-col"><div>
+
+```c
+int a[] = {34, 12, 56, 9, 45};
+int capacity =
+    sizeof(a) / sizeof(a[0]);
+```
+
+<div class="answer">capacity 的结果是 5。</div>
+
+</div><div>
+
+<div class="sizeof-guide"><strong>sizeof(a)</strong><br>整个数组占用的字节数<br><br><strong>sizeof(a[0])</strong><br>一个元素占用的字节数</div>
+
+</div></div>
+
+<div class="question">总字节数 ÷ 一个元素的字节数 = 数组的元素总数。<br>它算的是<strong>容量</strong>；只处理前 n 个数据时，循环仍然用 <code>i &lt; n</code>。</div>
+
+<!--
+正文约2分钟，先讲容量计算，为后面的sizeof(s)与strlen(s)作准备。此式直接作用于当前定义的数组，不推广到指针或数组形参。sizeof以字节计，不依赖int固定为4字节。
 -->
 
 ---

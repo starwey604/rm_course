@@ -85,14 +85,14 @@ html,body,#app,.slidev-layout{background:var(--bg);color:var(--white)}
 .storage-detail{font-size:21px;line-height:1.65;min-height:70px;margin-top:15px}
 .storage-caption{font-size:22px;line-height:1.65;border-top:1px solid var(--line);margin-top:12px;padding-top:10px;min-height:55px}
 .storage-conclusion{font-size:23px;line-height:1.6;margin-top:6px}
-.index-declaration{display:grid;grid-template-columns:1fr 1.3fr;gap:24px;align-items:center;background:#191b1c;padding:10px 18px}
+.index-declaration{display:grid;grid-template-columns:1fr 1.3fr;gap:24px;align-items:center;background:#191b1c;padding:8px 18px}
 .index-declaration code{font-size:25px!important}.index-declaration span{font-size:19px;line-height:1.65}
 .index-track{display:flex;margin-top:12px}.index-item{width:20%;text-align:center}.index-ordinal{font-size:18px;color:var(--muted)}.index-name{font:23px/1.6 Consolas,monospace}
-.index-value{font:38px/58px Consolas,monospace;height:58px;border:1px solid var(--line)}.index-item.selected .index-value{background:var(--yellow);color:var(--bg)}
-.index-marker{height:24px;font-size:17px;color:var(--yellow);margin-top:3px}
+.index-value{font:38px/48px Consolas,monospace;height:48px;border:1px solid var(--line)}.index-item.selected .index-value{background:var(--yellow);color:var(--bg)}
+.index-marker{height:20px;font-size:17px;color:var(--yellow);margin-top:3px}
 .index-explain{font-size:22px;line-height:1.6;margin-top:12px;border-left:3px solid var(--yellow);padding-left:19px}
-.index-operation{font:22px/1.6 Consolas,'Microsoft YaHei',monospace;color:var(--yellow);margin-top:7px}
-.index-boundary{font-size:20px;line-height:1.6;margin-top:17px}
+.index-operation{font:22px/1.6 Consolas,'Microsoft YaHei',monospace;color:var(--yellow)}
+.index-boundary{font-size:20px;line-height:1.6;margin-top:8px}
 .traversal-intro{margin-bottom:12px}
 .traversal-declaration{font:20px/1.45 Consolas,'Microsoft YaHei',monospace;background:#191b1c;padding:8px 17px}
 .traversal-memory{display:flex;gap:0;align-items:stretch;margin-top:15px}
@@ -106,3 +106,10 @@ html,body,#app,.slidev-layout{background:var(--bg);color:var(--white)}
 .slidev-layout .traversal-table{margin:0;font-size:19px}.slidev-layout .traversal-table th{font-size:17px;line-height:1.4;padding:3px 9px}.slidev-layout .traversal-table td{line-height:1.25;padding:3px 9px}.traversal-table tr.current{color:var(--yellow)}
 .traversal-caption{font-size:20px;line-height:1.6;border-left:3px solid var(--yellow);padding-left:12px;margin-top:12px}
 .sizeof-guide{font-size:25px;line-height:1.6}
+.teaching-anchor{font-size:23px;line-height:1.6}
+.return-summary{margin-top:14px}
+.index-zero{font-size:20px;line-height:1.6;border-left:3px solid var(--yellow);padding-left:15px;margin-top:5px}
+.slidev-layout .homework-table{font-size:20px}
+.homework-table td:first-child{white-space:nowrap}
+.rm-control .two-col{grid-template-columns:.85fr 1.15fr}
+.rm-control .teaching-anchor.spaced{margin-top:17px}

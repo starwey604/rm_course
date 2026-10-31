@@ -50,7 +50,7 @@ scanf("%19s", name);
 printf("%s\n", name);
 ```
 
-<p class="spaced">这里传 <code>name</code>，不写 <code>&amp;name</code>。</p>
+<div class="teaching-anchor spaced">这里传 <code>name</code>，不写 <code>&amp;name</code>。<br>在这次调用里，<code>name</code> 已经给出<br><strong>第 0 格 <code>name[0]</code> 的地址</strong>，<br>所以不用再取一次地址。</div>
 </div><div>
 <div class="capacity-bar"><span>最多 19 个输入字符</span><b>\0</b></div>
 <p v-click class="spaced">最后一格留给结束符。<br>不限制宽度，超长输入可能写出数组边界，破坏其他数据。</p>
@@ -180,9 +180,11 @@ if (strcmp(dst, "RM") == 0) {
 }
 ```
 
-<div v-click="2" class="answer">记住这一问：<br><code>strcmp(...) == 0</code><br>两串内容一样吗？</div>
+<div v-click="2" class="answer">strcmp 逐字比较内容；<br>返回 <strong>0</strong> 表示完全相同，<br>可以记成“0 差异”。</div>
 
 </div></div>
+
+<div class="teaching-anchor spaced"><strong>为什么不能用 <code>dst == "RM"</code> 比内容？</strong><br>这里的 <code>==</code> 比的是地址：是不是同一个“房间”；<br><code>strcmp</code> 比的是字符：房间里装的字是不是一样。</div>
 
 <!-- 讲师补充：strcpy目标空间必须能容纳原文和结束符。本例dst20格，复制RM需3格。strcmp不相等时看返回值正负，不保证±1。 -->
 
