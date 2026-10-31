@@ -3,7 +3,7 @@ html,body,#app,.slidev-layout{background:var(--bg);color:var(--white)}
 .slidev-layout{padding:70px 58px 55px;font-family:'Microsoft YaHei',sans-serif;font-size:25px;line-height:1.55}
 .slidev-layout h1{margin:10px 0 23px;font-size:42px;font-weight:700;line-height:1.28;letter-spacing:-1px;color:var(--white)}
 .slidev-layout h2{font-size:29px;line-height:1.4;color:var(--white);margin:0 0 20px}
-.slidev-layout p{margin:0 0 14px;line-height:1.6;opacity:1!important}.slidev-layout p.spaced{margin-top:27px}
+.slidev-layout p{margin:0 0 14px;line-height:1.6;opacity:1}.slidev-layout p.spaced{margin-top:27px}
 .slidev-layout strong{color:var(--yellow);font-weight:600}
 .slidev-layout ul,.slidev-layout ol{margin:10px 0;padding-left:28px}
 .slidev-layout li{margin:9px 0;padding-left:3px;line-height:1.6}
@@ -49,6 +49,8 @@ html,body,#app,.slidev-layout{background:var(--bg);color:var(--white)}
 .slidev-layout .fill-code{padding:12px 17px!important;white-space:pre!important;line-height:1.34!important}
 .slidev-layout .fill-code code{font-size:20px!important;line-height:1.34!important;color:#e5e8e7}
 .fill-line{display:block;min-height:1.34em}.fill-blank{color:var(--yellow);background:#ffff0019;padding:0 3px}
+.fill-answer{color:var(--yellow);background:#ffff0010;border-bottom:1px solid var(--yellow);padding:0 3px;animation:fill-answer-in .2s ease-out}.fill-sequence{font-size:18px;line-height:1.5;color:var(--muted);margin-top:6px}.fill-hint.active{color:var(--yellow)}
+@keyframes fill-answer-in{from{background:#ffff0055}to{background:#ffff0010}}
 .fill-side{padding-top:8px}.fill-caption{font-size:22px;white-space:pre-line;margin:20px 0;line-height:1.7}
 .fill-hints{display:flex;flex-direction:column;gap:14px}.fill-hint{border-left:2px solid var(--yellow);padding-left:16px;font-size:21px;line-height:1.65}
 .fill-time{font:32px Consolas,monospace;color:var(--yellow);margin-top:23px}
@@ -113,3 +115,69 @@ html,body,#app,.slidev-layout{background:var(--bg);color:var(--white)}
 .homework-table td:first-child{white-space:nowrap}
 .rm-control .two-col{grid-template-columns:.85fr 1.15fr}
 .rm-control .teaching-anchor.spaced{margin-top:17px}
+.scanf-explanation{font-size:23px;line-height:1.6}.scanf-explanation>div+div{margin-top:15px}
+.scanf-line>.teaching-anchor.spaced{margin-top:12px}
+.scanf-newline .two-col{margin-top:10px}.scanf-newline .teaching-anchor.spaced{margin-top:12px}
+.scanf-takeaway{font-size:22px;line-height:1.6;border-left:3px solid var(--yellow);padding-left:15px;margin-top:8px}
+.scanf-summary-vars{font-size:20px;line-height:1.45}
+.slidev-layout .scanf-summary-table{font-size:20px;line-height:1.45;margin:8px 0}
+.slidev-layout .scanf-summary-table th{font-size:18px;line-height:1.4;padding:4px 10px}
+.slidev-layout .scanf-summary-table td{padding:2px 10px;line-height:1.45}
+.scanf-summary-table td:first-child{width:160px;white-space:nowrap}.scanf-summary-table td:nth-child(2){width:350px;white-space:nowrap}
+.scanf-summary-rules{font-size:21px;line-height:1.55;margin-top:12px}
+.scanf-summary-literal{font-size:20px;line-height:1.55;margin-top:7px;color:var(--muted)}
+.nested-map-intro{font-size:23px;line-height:1.55;margin-bottom:10px}
+.nested-map-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:30px}
+.nested-map-grid .label{margin-bottom:6px}
+.slidev-layout .nested-map-code{font:20px/1.32 Consolas,'Microsoft YaHei',monospace!important;padding:10px 15px!important;white-space:pre!important}
+.slidev-layout .nested-map-code code{font:20px/1.32 Consolas,'Microsoft YaHei',monospace!important}
+.nested-map-code-line{display:block;padding-left:9px;margin-left:-10px;border-left:3px solid transparent;transition:color .25s,background .25s}
+.nested-map-code-line.active{color:var(--yellow);background:#ffff0010;border-color:var(--yellow)}
+.nested-map-vars{display:flex;gap:28px;font:23px/1.5 Consolas,monospace;margin-top:8px}.nested-map-vars b{color:var(--yellow);font-weight:400}
+.nested-map-columns,.nested-map-row{display:grid;grid-template-columns:84px repeat(3,1fr)}
+.nested-map-columns{height:42px}.nested-map-columns>div{text-align:center;font-size:17px;line-height:1.25;color:var(--muted)}
+.nested-map-columns code,.nested-map-row-label code{display:block;font:19px/1.3 Consolas,monospace;color:var(--muted)!important}
+.nested-map-row-label{font-size:18px;line-height:1.35;padding-top:3px;transition:color .25s}
+.nested-map-row.current .nested-map-row-label,.nested-map-row.current .nested-map-row-label code{color:var(--yellow)!important}
+.nested-map-cell{height:48px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font:31px Consolas,monospace;color:#65675f;transition:color .25s,background .25s,transform .25s}
+.nested-map-cell.used{color:var(--yellow);background:#ffff0009}.nested-map-cell.current{color:var(--bg);background:var(--yellow);transform:scale(1.025);z-index:1}
+.nested-map-cell.unused{border-color:transparent;color:#41433a}
+.nested-map-paths{margin-top:8px;font-size:18px;line-height:1.4;color:var(--muted)}.nested-map-paths>div{padding-left:10px;border-left:2px solid transparent;transition:color .25s}
+.nested-map-paths .current{color:var(--yellow);border-color:var(--yellow)}
+.nested-map-caption{font-size:22px;line-height:1.6;border-left:3px solid var(--yellow);padding-left:16px;margin-top:12px;min-height:71px}
+.triangle-lesson-intro{font-size:22px;line-height:1.5;margin-bottom:10px}
+.triangle-lesson-grid{display:grid;grid-template-columns:1.16fr 1fr;gap:30px}
+.slidev-layout .triangle-code{font:20px/1.35 Consolas,'Microsoft YaHei',monospace!important;padding:10px 15px!important;white-space:pre!important}
+.slidev-layout .triangle-code code{font:20px/1.35 Consolas,'Microsoft YaHei',monospace!important}
+.triangle-code-line{display:block;border-left:3px solid transparent;padding-left:9px;margin-left:-10px;transition:color .2s,background .2s}
+.triangle-code-line b{font-weight:400}.triangle-code-line.changed{color:var(--yellow);background:#ffff0010;border-color:var(--yellow)}
+.triangle-sequences,.triangle-shared-note{font-size:21px;line-height:1.5;margin-top:12px}
+.triangle-live-title{font-size:26px;line-height:1.4;color:var(--yellow);margin-bottom:6px}
+.triangle-output-row{display:flex;align-items:center;white-space:pre}
+.triangle-live-output{margin-top:18px;animation:triangle-appear .22s ease-out}
+.triangle-character{font:42px/48px Consolas,monospace;display:inline-block;width:46px;text-align:center;color:var(--yellow)}
+.triangle-character.blank{color:#62645d}
+.triangle-i-label{width:94px;font:21px/48px Consolas,monospace;color:var(--muted)}
+.triangle-overview{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+.triangle-mini-title{font-size:18px;line-height:1.4;color:var(--yellow);margin-bottom:3px}
+.triangle-mini-params{font:17px/1.3 Consolas,monospace;white-space:nowrap;color:var(--muted)}
+.triangle-mini-output{margin-top:5px}.triangle-mini .triangle-character{font-size:22px;line-height:23px;width:25px}
+.triangle-lesson-caption{font-size:22px;line-height:1.6;border-left:3px solid var(--yellow);padding-left:16px;margin-top:14px;min-height:64px}
+@keyframes triangle-appear{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.zero-lead{font-size:22px;line-height:1.5;margin-bottom:8px}
+.zero-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.slidev-layout .zero-grid pre{font:21px/1.4 Consolas,monospace!important;padding:10px 16px!important}.slidev-layout .zero-grid pre code{font:21px/1.4 Consolas,monospace!important}
+.zero-cells{display:flex;margin-top:10px}.zero-cells span{width:20%;text-align:center;border:1px dashed var(--line);font:30px/40px Consolas,monospace;color:var(--muted)}.zero-cells.ready span{color:var(--yellow);border-style:solid;background:#ffff0009}
+.zero-explanation{font-size:21px;line-height:1.5;margin-top:10px}
+.zero-shortcut{border-left:3px solid var(--yellow);padding-left:15px;margin-top:8px}.zero-shortcut>div{font-size:26px;line-height:1.45}.zero-shortcut>span{font-size:21px;line-height:1.5}
+.zero-warning{font-size:20px;line-height:1.55;margin-top:6px}
+.string-size-formula{font-size:32px;line-height:1.4;margin-bottom:5px}.string-size-comparison .label{font-size:24px;line-height:1.45}
+/* 讲授辅助：激光笔覆盖层与控制条图标 */
+.cone-laser-layer{position:absolute;inset:0;pointer-events:none;z-index:35}
+.cone-laser-dot{position:absolute;width:0;height:0;pointer-events:none}
+.cone-laser-dot::before{content:'';position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#ff5a5a 45%,rgba(255,0,0,.85) 70%,rgba(255,0,0,0) 100%);box-shadow:0 0 14px 6px rgba(255,60,60,.5),0 0 44px 16px rgba(255,0,0,.22)}
+body.cone-laser-on .slidev-slide-content{cursor:none}
+body.cone-laser-on .slidev-slide-content button,body.cone-laser-on .slidev-slide-content a{cursor:pointer}
+.cone-ctrl-icon{display:block;width:1em;height:1em}
+/* 课堂标注只留在现场，不进 PDF 与打印页（打印页的画布层是内容层下的整幅 svg） */
+.cone-print .slidev-slide-content>svg.w-full.h-full.absolute{display:none!important}

@@ -27,5 +27,4 @@ const code=[
     <div class="index-operation">{{printMode?'读取 a[0] 得到 3、a[2] 得到 4；a[1] = 9 修改第 2 个元素。':code[n]}}</div>
   </div>
   <div class="index-boundary">5 是元素总数；合法下标为 <strong>0～4</strong>，<code>a[5]</code> 已越界。</div>
-  <div class="index-zero"><strong>全部清零：</strong><code>int b[1000] = {0};</code><br>第 1 格明确初始化为 0，其余 999 格也自动补 0，整组都是 0。</div>
 </template>

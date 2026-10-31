@@ -9,6 +9,12 @@ const scoopBin=path.join(process.env.USERPROFILE||'', 'scoop/apps/gcc/current/bi
 const gcc=process.env.CC||(existsSync(path.join(scoopBin,'gcc.exe'))?path.join(scoopBin,'gcc.exe'):'gcc')
 const gpp=process.env.CXX||(existsSync(path.join(scoopBin,'g++.exe'))?path.join(scoopBin,'g++.exe'):'g++')
 const cases={
+triangle_lower_left:[['','*   \n**  \n*** \n****']],
+triangle_upper_left:[['','****\n*** \n**  \n*']],
+triangle_upper_right:[['','****\n ***\n  **\n   *']],
+triangle_lower_right:[['','   *\n  **\n ***\n****']],
+scanf_line:[['RM Studio\n','[RM Studio]'],['  RM Studio\n','[  RM Studio]'],['\n','no text'],['','no text'],['   \n','[   ]'],['12345678901234567890\n','[1234567890123456789]']],
+scanf_line_after_number:[['18\nRM Studio\n','18 [RM Studio]'],['18\n\n  RM Studio\n','18 [RM Studio]'],['18 RM Studio\n','18 [RM Studio]'],['18\n12345678901234567890\n','18 [1234567890123456789]']],
 isbn_parts:[['0-670-82162-4\n','0-670-82162-4'],['0-001-00042-X\n','0-001-00042-X']],
 p1424:[['5 4\n','500'],['6 2\n','0'],['7 2\n','250'],['1 7\n','1250']],
 p5719:[['6 2\n','4.0 3.0'],['2 2\n','2.0 1.0'],['10 3\n','6.0 5.3']],
@@ -43,7 +49,8 @@ for(const [name,tests] of Object.entries(cases)){
  if(build.status!==0)throw new Error(name+': '+(build.stderr||build.error))
  for(const [input,expected] of tests){
   const run=spawnSync(target,[],{input,encoding:'utf8',env,timeout:3000})
-  const actual=(run.stdout||'').replaceAll('\r\n','\n').trim()
+  const normalized=(run.stdout||'').replaceAll('\r\n','\n')
+  const actual=name.startsWith('triangle_')?normalized.trimEnd():normalized.trim()
   if(run.status!==0||actual!==expected)throw new Error(name+': expected '+JSON.stringify(expected)+', got '+JSON.stringify(actual)+' / '+run.stderr)
   count++
  }

@@ -1,73 +1,4 @@
-<div class="eyebrow">附录 A · P1428 进一步提示</div>
-
-# 外层选位置，内层只看前面
-
-<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1428">P1428 小鱼比可爱</a> · n ≤ 100，0 ≤ a[i] ≤ 10。</div>
-
-<div class="two-col"><div>
-
-```c
-for (int i = 0; i < n; i++) {
-    int count = 0;
-    for (int j = 0; j < i; j++) {
-        if (a[j] < a[i]) count++;
-    }
-    printf("%d ", count);
-}
-```
-
-</div><div>
-
-- 内层范围是 `0 ≤ j < i`。
-- 不比较自己，也不看右侧。
-- 每处理一条鱼，计数重新从 0 开始。
-- 第一条鱼前面没有鱼，答案为 0。
-
-</div></div>
-
-<!--
-选讲。每个答案后输出一个空格，外层循环结束后可输出换行。完整源程序见p1428.c。所有值相等时输出全0。
--->
-
----
-
-<div class="eyebrow">附录 B · P1047 状态数组</div>
-
-# 重复标记，不会重复移除
-
-<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1047">P1047 校门外的树</a> · L ≤ 10000，m ≤ 100。</div>
-
-<div class="two-col code-small"><div>
-
-```c
-int removed[10005] = {0};
-int u, v, answer = 0;
-for (int k = 0; k < m; k++) {
-    scanf("%d %d", &u, &v);
-    for (int i = u; i <= v; i++)
-        removed[i] = 1;
-}
-for (int i = 0; i <= L; i++)
-    if (removed[i] == 0) answer++;
-printf("%d\n", answer);
-```
-
-</div><div>
-
-- `0`：这棵树仍在。
-- `1`：这棵树已经移走。
-- 区间两端都包含，所以用 `<=`。
-- 总共 L + 1 个位置，从 0 数到 L。
-
-</div></div>
-
-<!--
-选讲。输入l和m在片段之前完成。用赋值1表示集合标记，不按区间长度多次扣减。完整程序p1047.c。
--->
-
----
-
-<div class="eyebrow">附录 C · 含空格的整行输入</div>
+<div class="eyebrow">附录 · 含空格的整行输入</div>
 
 # %s 读一个词，fgets 读一行
 
@@ -110,7 +41,7 @@ if (fgets(s, sizeof(s), stdin)) {
 
 ---
 
-<div class="eyebrow">附录 D · P5015 标题统计</div>
+<div class="eyebrow">附录 · P5015 标题统计</div>
 
 # 统计有效字符，跳过空白
 
@@ -163,7 +94,7 @@ printf("%d\n", count);
 
 ---
 
-<div class="eyebrow">附录 E · 两道基础巩固题</div>
+<div class="eyebrow">附录 · 两道基础巩固题</div>
 
 # 从“记录位置”和“统计比例”开始
 
@@ -207,7 +138,7 @@ printf("%d\n", count);
 
 ---
 
-<div class="eyebrow">附录 F · ISBN 综合选做</div>
+<div class="eyebrow">附录 · ISBN 综合选做</div>
 
 # 读取之后，再做逐字符校验
 
@@ -231,7 +162,7 @@ printf("%d\n", count);
 
 ---
 
-<div class="eyebrow">附录 G · 备选练习</div>
+<div class="eyebrow">附录 · 备选练习</div>
 
 # 按自己还不熟的地方，选题练习
 
@@ -310,7 +241,142 @@ printf("%d\n", count);
 
 ---
 
-<div class="eyebrow">附录 H · 内容与素材来源</div>
+<ProblemStatement pid="P1428" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1428
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+
+<div class="eyebrow">选讲 · 进一步思考 · P1428</div>
+
+# 每条鱼，只看它左边的鱼
+
+<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1428">P1428 小鱼比可爱</a></div>
+
+<div class="large mono">4　3　0　<strong>5</strong>　1</div>
+
+<div class="question">对于值为 5 的这条鱼，应该比较哪些位置？</div>
+
+<v-clicks>
+
+- 只检查它前面的 4、3、0，共 3 条比它小。
+- 外层选当前鱼，内层遍历它前面的鱼。
+- 相同可爱程度不计入“比自己小”。
+
+</v-clicks>
+
+<!-- 讲师补充：n ≤ 100，可以直接比较。每换一条鱼，都重新把本条鱼的计数置为 0。 -->
+
+<!--
+约1分钟导读，完整提示在附录。此组数据输出0 0 0 3 1。不要通过排序破坏位置关系。
+题目：https://www.luogu.com.cn/problem/P1428
+-->
+
+---
+
+<div class="eyebrow">附录 · P1428 进一步提示</div>
+
+# 外层选位置，内层只看前面
+
+<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1428">P1428 小鱼比可爱</a> · n ≤ 100，0 ≤ a[i] ≤ 10。</div>
+
+<div class="two-col"><div>
+
+```c
+for (int i = 0; i < n; i++) {
+    int count = 0;
+    for (int j = 0; j < i; j++) {
+        if (a[j] < a[i]) count++;
+    }
+    printf("%d ", count);
+}
+```
+
+</div><div>
+
+- 内层范围是 `0 ≤ j < i`。
+- 不比较自己，也不看右侧。
+- 每处理一条鱼，计数重新从 0 开始。
+- 第一条鱼前面没有鱼，答案为 0。
+
+</div></div>
+
+<!--
+选讲。每个答案后输出一个空格，外层循环结束后可输出换行。完整源程序见p1428.c。所有值相等时输出全0。
+-->
+
+---
+
+<ProblemStatement pid="P1047" />
+
+<!--
+完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
+来源：https://www.luogu.com.cn/problem/P1047
+核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
+-->
+
+---
+clicks: 3
+---
+
+<div class="eyebrow">选讲 · 状态标记 · P1047</div>
+
+# 数组也可以记录“还在不在”
+
+<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1047">P1047 校门外的树</a> · 区间可能重叠，两端的树都要移走。</div>
+
+<MemoryDemo kind="trees" :step="$clicks" />
+
+<!-- 讲师补充：为什么不能直接把每段树的数量依次减掉？想一想重叠的 4、5。 -->
+
+<!--
+约1分钟导读，完整实现放附录。课堂例l=10，两段[2,5]、[4,7]，剩5棵。原题l<=10000,m<=100，直接标记即可。
+题目：https://www.luogu.com.cn/problem/P1047
+-->
+
+---
+
+<div class="eyebrow">附录 · P1047 状态数组</div>
+
+# 重复标记，不会重复移除
+
+<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1047">P1047 校门外的树</a> · L ≤ 10000，m ≤ 100。</div>
+
+<div class="two-col code-small"><div>
+
+```c
+int removed[10005] = {0};
+int u, v, answer = 0;
+for (int k = 0; k < m; k++) {
+    scanf("%d %d", &u, &v);
+    for (int i = u; i <= v; i++)
+        removed[i] = 1;
+}
+for (int i = 0; i <= L; i++)
+    if (removed[i] == 0) answer++;
+printf("%d\n", answer);
+```
+
+</div><div>
+
+- `0`：这棵树仍在。
+- `1`：这棵树已经移走。
+- 区间两端都包含，所以用 `<=`。
+- 总共 L + 1 个位置，从 0 数到 L。
+
+</div></div>
+
+<!--
+选讲。输入l和m在片段之前完成。用赋值1表示集合标记，不按区间长度多次扣减。完整程序p1047.c。
+-->
+
+---
+
+<div class="eyebrow">附录 · 内容与素材来源</div>
 
 # 继续阅读
 

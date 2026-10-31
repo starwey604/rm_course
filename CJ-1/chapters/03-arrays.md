@@ -29,6 +29,50 @@ clicks: 3
 -->
 
 ---
+
+<div class="eyebrow">03 · 数组初始化 · 先给程序一个确定的起点</div>
+
+# 局部数组不会自动清零，先给它一个起点
+
+<div class="zero-lead">main 中的普通局部数组通常使用栈空间；仅声明，不会自动把每格清成 0。</div>
+
+<div class="zero-grid"><div>
+<div class="label">没有给初值：不能依赖里面原来的内容</div>
+
+```c
+int count[5];
+```
+
+<div class="zero-cells"><span v-for="i in 5" :key="i">?</span></div>
+<div class="zero-explanation">可能保留旧位模式，不能假定为 0。<br><code>count[0]++</code> 会先读这个旧值。</div>
+</div><div>
+<div class="label">先全部清零：计数从确定的 0 开始</div>
+
+```c
+int count[5] = {0};
+```
+
+<div class="zero-cells ready"><span v-for="i in 5" :key="i">0</span></div>
+<div class="zero-explanation">初始化后，五个元素都是 0。<br>再做 <code>count[0]++</code>，才是 0 加 1。</div>
+</div></div>
+
+<div class="zero-shortcut"><div><strong>1000 格也一样：</strong><code>int a[1000] = {0};</code></div><span>第 1 格明确指定 0，其余 999 格自动补 0。</span></div>
+
+<div class="zero-warning">使用未初始化的值，编译器可能警告 <code>used uninitialized</code>。<br>启用 <code>-Werror</code> 可把警告变成编译错误，但检查不一定覆盖所有路径。<br><strong>养成习惯：声明时给合理初值，或者保证每个元素先赋值、再读取。</strong></div>
+
+<!--
+约2分钟。此页指main中普通的自动存储期局部int数组，不推广到全局数组和static局部数组；后两类有零初始化规则。栈是常见实现的存储模型，不是C语言要求必须采用的内存布局。
+左侧问号是“没有可依赖初值”的示意，不能展示成保证每次改变的随机数。环境可能碰巧呈现0、调试填充值或旧位模式；C程序仍不可依赖未初始化读取，不能把未定义行为简化成“总能读到一个垃圾数”。问题示例只编译看告警，不运行并声称某个输出可靠。
+GCC 15.2实测：main内int count[5]; count[0]++; 使用-std=c11 -O2 -Wall -Wextra -Wuninitialized编译，得到warning: 'count' is used uninitialized [-Wuninitialized]。另一个先逐格赋值再读取的未带初始化器数组在-Werror下通过；所以不是声明时没写={0}就必定告警。诊断覆盖取决于编译器版本、选项、优化和路径分析。
+初值应符合用途：计数/标记常用0；最值应从已有数据选择起点，下一题进一步解释。输入数组也可先成功读入再使用，不需要为了消警告盲目改变算法。
+C++26拓展仅供讲师：P2795R5引入未初始化读取的erroneous behaviour；当前工作草案[basic.indet]对通常的自动存储期对象使用erroneous values规则，而动态存储期、[[indeterminate]]和特定字节类型另有规定。它没有规定所有数组统一默认清零，也不等于要求每处都发出编译警告；这不是C11规则变化。正文不展开高级术语。
+来源：https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf §6.7.9
+来源：https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wuninitialized
+来源：https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2795r5.html
+来源：https://eel.is/c++draft/basic.indet
+-->
+
+---
 clicks: 4
 ---
 
@@ -82,6 +126,21 @@ int capacity =
 -->
 
 ---
+clicks: 4
+---
+
+<div class="eyebrow">03 · P5724 · 从三问搭出最值框架</div>
+
+# 保存两个候选值，再逐个比较
+
+<ReasoningModel kind="range" :step="$clicks" />
+
+<!--
+约1分钟。紧接完整题面，输入已读入a且n>=1。先想保存什么、判断什么、更新什么，再把回答对应到代码。①min/max起点来自已有数据，②③为更小/更大的比较；本页保持挖空，下一页用执行过程核对，随后有完整代码。
+与前页清零衔接：初始化不是一律设0，最值候选应有实际数据依据。配合next MemoryDemo约2分钟，总量与原有最值演示约3分钟相同。
+-->
+
+---
 clicks: 6
 ---
 
@@ -96,7 +155,7 @@ clicks: 6
 <!-- 讲师补充：P5724 求极差：同样维护最小值，最终输出 最大值 − 最小值。打开题目 -->
 
 <!--
-约3分钟。示例最小值9、最大值56，极差47。题目1<=n<=100，0<=ai<=1000。讲义固定数组换成题目读入时同样可用首元素初始化。
+约2分钟。示例最小值9、最大值56，极差47。题目1<=n<=100，0<=ai<=1000。讲义固定数组换成题目读入时同样可用首元素初始化。
 -->
 
 ---
@@ -152,6 +211,21 @@ printf("%d\n", max_val - min_val);
 clicks: 4
 ---
 
+<div class="eyebrow">03 · P1427 · 从三问搭出读入与倒序框架</div>
+
+# 先存到哪里，再从哪里倒着走？
+
+<ReasoningModel kind="reverse" :step="$clicks" />
+
+<!--
+约1分钟。先分读入存储与倒序输出两个阶段，再回答保存/判断/更新。这里是main内的片段，①～④与下一页完整程序一致，本页不公布具体表达式。
+输入按题目保证以0结束；0先被检查，不存入数组。有效个数n与容量的含义要分开。下一页仍留完整6分钟独立填写，不直接跳到讲评。
+-->
+
+---
+clicks: 8
+---
+
 <div class="eyebrow">03 · P1427 动手填空 · 6 分钟</div>
 
 # 0 不存，最后一格从哪里找？
@@ -160,7 +234,7 @@ clicks: 4
 
 <!--
 填空前追问：保存什么（数组a与有效个数n）？判断什么（x是不是0、下标是否仍>=0）？更新什么（存入a[n]后n++、倒序时i--）？
-留完整6分钟，先让学生写，再按需揭示提示。①x == 0 ②n ③n - 1 ④i--。
+留完整6分钟，先让学生写。每空先单击给提示，再单击把答案填回左侧代码，共8次点击；回退时先恢复空白，再隐藏提示。PDF保持空白。①x == 0 ②n ③n - 1 ④i--。
 完整骨架先读再判断，结束标记不存入数组。scanf的失败检查留在完整示例；本页按题目保证的以0结尾输入练习。
 自测7 0输出7；2 2 0输出2 2。不要提前切到下一页。
 -->
@@ -179,70 +253,4 @@ clicks: 7
 
 <!--
 约2分钟。前四步存储并遇0停止，后三步倒序读取。0没有存入数组。
--->
-
----
-
-<ProblemStatement pid="P1428" />
-
-<!--
-完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
-来源：https://www.luogu.com.cn/problem/P1428
-核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
--->
-
----
-
-<div class="eyebrow">03 · 课后导读 · P1428</div>
-
-# 每条鱼，只看它左边的鱼
-
-<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1428">P1428 小鱼比可爱</a></div>
-
-<div class="large mono">4　3　0　<strong>5</strong>　1</div>
-
-<div class="question">对于值为 5 的这条鱼，应该比较哪些位置？</div>
-
-<v-clicks>
-
-- 只检查它前面的 4、3、0，共 3 条比它小。
-- 外层选当前鱼，内层遍历它前面的鱼。
-- 相同可爱程度不计入“比自己小”。
-
-</v-clicks>
-
-<!-- 讲师补充：n ≤ 100，可以直接比较。每换一条鱼，都重新把本条鱼的计数置为 0。 -->
-
-<!--
-约1分钟导读，完整提示在附录。此组数据输出0 0 0 3 1。不要通过排序破坏位置关系。
-题目：https://www.luogu.com.cn/problem/P1428
--->
-
----
-
-<ProblemStatement pid="P1047" />
-
-<!--
-完整题面按洛谷原题转述，保留输入输出、全部判定规则、完整范围与官方样例。
-来源：https://www.luogu.com.cn/problem/P1047
-核对日期：2026-10-31。题面页可供学生独立阅读，避免只留下题名与链接。
--->
-
----
-clicks: 3
----
-
-<div class="eyebrow">03 · 课后导读 · P1047</div>
-
-# 数组也可以记录“还在不在”
-
-<div class="problem-link"><a href="https://www.luogu.com.cn/problem/P1047">P1047 校门外的树</a> · 区间可能重叠，两端的树都要移走。</div>
-
-<MemoryDemo kind="trees" :step="$clicks" />
-
-<!-- 讲师补充：为什么不能直接把每段树的数量依次减掉？想一想重叠的 4、5。 -->
-
-<!--
-约1分钟导读，完整实现放附录。课堂例l=10，两段[2,5]、[4,7]，剩5棵。原题l<=10000,m<=100，直接标记即可。
-题目：https://www.luogu.com.cn/problem/P1047
 -->

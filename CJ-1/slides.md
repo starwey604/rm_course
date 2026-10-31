@@ -14,7 +14,10 @@ transition: fade
 wakeLock: false
 twoslash: false
 drawings:
-  enabled: false
+  enabled: true
+  persist: false
+  presenterOnly: false
+  syncAll: true
 defaults:
   layout: default
 ---
