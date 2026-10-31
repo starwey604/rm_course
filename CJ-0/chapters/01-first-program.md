@@ -1,174 +1,198 @@
-<div class="section-break">
-<div class="eyebrow">01 · 第一段程序</div>
-<h1>源代码不是结果<br><span>运行之后才是</span></h1>
-<p>从人能读懂的文本，到机器可以执行的程序。</p>
-</div>
-
+---
+class: l1-page
 ---
 
-<div class="eyebrow">01 · 最短闭环</div>
+<div class="eyebrow">01  HELLO WORLD</div>
 
-# 先读懂，再运行
+# 第一段程序
 
-<div class="two-col wide-left"><div>
+<div class="l1-columns">
+<div>
+
+
 
 ```c
 #include <stdio.h>
-
 int main(void) {
-    printf("Hello, RM!\n");
+    printf("Hello, World!\n");
     return 0;
 }
 ```
 
-</div><div>
-<v-clicks>
 
-<p><strong>#include</strong><br>引入标准输入输出声明。</p>
-<p><strong>main</strong><br>程序从这里开始执行。</p>
-<p><strong>printf</strong><br>把文本送到标准输出。</p>
-<p><strong>return 0</strong><br>向运行环境报告正常结束。</p>
 
-</v-clicks>
-</div></div>
+</div>
+<div>
 
-<!-- 约3分钟。逐行指读，不要求立即背写。强调 \n 是换行转义，不是两个普通字符被原样显示。 -->
+<dl class="l1-dl"><div><dt>stdio.h</dt><dd>提供 printf 的声明</dd></div><div><dt>main</dt><dd>本课 PC 程序的入口函数</dd></div><div><dt>return 0</dt><dd>向运行环境报告成功</dd></div></dl>
+
+</div>
+</div>
+<div class="l1-bottom">CLion：main.c 编写代码，Build 构建，Run 运行</div>
+
+<!--
+原 PPT 第 4 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】3 分钟
+【教学动作】现场运行。逐行只讲本课需要的含义，不展开函数参数、返回值机制。头文件提供声明，库提供实现，避免说 printf 定义在 stdio.h。PC 启动代码先工作再调用 main。
+【本页内容】第一段程序
+#include <stdio.h>
+int main(void) {
+    printf("Hello, World!\n");
+    return 0;
+}
+stdio.h：提供 printf 的声明
+main：本课 PC 程序的入口函数
+return 0：向运行环境报告成功
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->
 
 ---
-
-<div class="eyebrow">01 · 从文本到可执行程序</div>
-
-# 编译器会检查你说的话
-
-<div class="build-flow">
-<div v-click><small>你编写</small><strong>main.c</strong><span>源代码</span></div>
-<b>→</b>
-<div v-click><small>工具转换与检查</small><strong>编译 / 链接</strong><span>报告错误与警告</span></div>
-<b>→</b>
-<div v-click><small>机器执行</small><strong>程序</strong><span>产生输出</span></div>
-</div>
-
-<div class="two-col spaced">
-<div v-click class="question">编译失败：程序还没有运行，先读第一条错误的位置与原因。</div>
-<div v-click class="question">运行结果不对：程序能执行，但逻辑与预期不一致。</div>
-</div>
-
-<!-- 约2分钟。区分“语法没通过”和“逻辑不符合预期”，避免学生把所有问题都叫 bug 后盲目修改。 -->
-
+class: l1-page
 ---
 
-<div class="eyebrow">01 · 变量</div>
+<div class="eyebrow">01  预测实验 / Q2</div>
 
-# 给数据一个名字，也给它一种类型
+# 三种写法，屏幕上会出现什么？
 
-<div class="two-col"><div>
+<div class="l1-columns">
+<div>
+
+
 
 ```c
-int target = 90;
-double speed = 2.5;
-char mode = 'A';
+printf("A\nB\n");
+printf("A\\nB\n");
+printf("A/nB\n");
 ```
 
-</div><div>
-<table><tbody>
-<tr><td><code>int</code></td><td>整数，例如计数与编号</td></tr>
-<tr><td><code>double</code></td><td>带小数的数值</td></tr>
-<tr><td><code>char</code></td><td>单个字符</td></tr>
-</tbody></table>
-</div></div>
 
-<div class="model-recap compact-recap">
-<div v-click><strong>名字</strong><span>这段数据在程序里叫什么？</span></div>
-<div v-click><strong>类型</strong><span>它能表示什么，能参与什么运算？</span></div>
-<div v-click><strong>当前值</strong><span>执行到这一行时，它究竟是多少？</span></div>
+
+</div>
+<div>
+
+<dl class="l1-dl"><div><dt>先预测</dt><dd>哪一段输出两行？</dd></div><div><dt>再运行</dt><dd>哪一段真的打印出 \n？</dd></div><div><dt>再解释</dt><dd>反斜杠和斜杠一样吗？</dd></div></dl>
+
+</div>
 </div>
 
-<!-- 约3分钟。变量示例只是概念数据，不表示真实电机速度单位。追问修改 target 后哪一处输出会变化。 -->
+<!--
+原 PPT 第 5 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】1.5 分钟
+【教学动作】不要先解释。让学生先写下三段输出。第一段 A、B 分两行，第二段一行 A\nB，第三段一行 A/nB。每段尾部有换行。
+【本页内容】三种写法，屏幕上会出现什么？
+printf("A\nB\n");
+printf("A\\nB\n");
+printf("A/nB\n");
+先预测：哪一段输出两行？
+再运行：哪一段真的打印出 \n？
+再解释：反斜杠和斜杠一样吗？
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->
 
 ---
-
-<div class="eyebrow">01 · 输入与输出</div>
-
-# 格式符，是程序和外部数据之间的约定
-
-<div class="two-col"><div>
-
-```c
-int target = 0;
-scanf("%d", &target);
-printf("target=%d\n", target);
-```
-
-</div><div>
-<v-clicks>
-
-<p><code>%d</code>：按整数读取或打印。</p>
-<p><code>&target</code>：告诉 scanf 要写入的位置。</p>
-<p><code>target</code>：printf 读取当前保存的值。</p>
-
-</v-clicks>
-</div></div>
-
-<div class="io-pair"><div><div class="label">输入</div><div class="output">90</div></div><div><div class="label">输出</div><div class="output">target=90</div></div></div>
-
-<!-- 约3分钟。先让学生预测输入 90 的结果，再指出 scanf 与 printf 中 target 写法不同的原因。 -->
-
+class: l1-page
 ---
 
-<div class="eyebrow">01 · 判断</div>
+<div class="eyebrow">01  回答 Q2</div>
 
-# 不同条件，走不同路径
+# 转义序列表示特殊字符
 
-<div class="two-col wide-left"><div>
+<table><thead><tr><th>源代码中的写法</th><th>字符串表示的内容</th></tr></thead><tbody><tr><td>\n</td><td>一个换行字符</td></tr><tr><td>\\</td><td>一个反斜杠</td></tr><tr><td>\"</td><td>一个双引号</td></tr></tbody></table><div class="l1-bottom">编译时识别转义序列，运行时输出对应字符</div>
 
-```c
-if (target > 180) {
-    printf("too large\n");
-}
-else if (target < -180) {
-    printf("too small\n");
-}
-else {
-    printf("accepted\n");
-}
-```
-
-</div><div>
-<div class="label">先预测，再核对</div>
-<table><thead><tr><th>target</th><th>输出</th></tr></thead><tbody>
-<tr><td class="mono">200</td><td><span v-click="1">too large</span></td></tr>
-<tr><td class="mono">-180</td><td><span v-click="2">accepted</span></td></tr>
-<tr><td class="mono">0</td><td><span v-click="3">accepted</span></td></tr>
-</tbody></table>
-</div></div>
-
-<!-- 约3分钟。重点看 -180：条件使用严格小于，因此落入 else。这里仅演示范围判断，不定义真实云台角度限制。 -->
+<!--
+原 PPT 第 6 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】1.5 分钟
+【教学动作】强调源文件中看见的字符数不等于字符串包含的字符数。补充口头题：printf("\"RM\"\n"); 输出带双引号的 RM。终端决定换行如何显示，具体字节值属于执行字符集。
+【本页内容】转义序列表示特殊字符
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->
 
 ---
+class: l1-page
+---
 
-<div class="eyebrow">01 · 重复</div>
+<div class="eyebrow">02  独立练习 / 4 分钟</div>
 
-# 同一段逻辑，不必复制很多遍
+# 输出完全相同的两行内容
 
-<div class="two-col"><div>
+<div class="l1-columns">
+<div>
 
-```c
-for (int i = 0; i < 3; i++) {
-    printf("check %d\n", i);
-}
+<div class="label">目标输出</div>
+
+```text
+Hello, RoboMaster!
+I can print "RM".
 ```
 
-</div><div>
-<div class="label">输出</div>
-<div class="output">check 0
-check 1
-check 2</div>
-</div></div>
 
-<div class="model-recap">
-<div v-click><strong>保存什么？</strong><span>当前轮次 <code>i</code>。</span></div>
-<div v-click><strong>判断什么？</strong><span><code>i &lt; 3</code> 是否仍然成立？</span></div>
-<div v-click><strong>更新什么？</strong><span>每轮结束执行 <code>i++</code>。</span></div>
+
+</div>
+<div>
+
+<dl class="l1-dl"><div><dt>任务</dt><dd>独立修改 main.c 并运行</dd></div><div><dt>要求</dt><dd>行数、大小写、双引号一致</dd></div><div><dt>选做</dt><dd>再打印一行字面量 \n</dd></div></dl>
+
+</div>
+</div>
+<div class="l1-bottom">先自己写，再对照屏幕检查输出</div>
+
+<!--
+原 PPT 第 7 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】4 分钟
+【教学动作】此处左侧是目标输出，不是 C 源代码。助教优先帮助无法构建的同学。新建项目放到课前准备或有余力时完成，避免课堂时间花在环境配置。
+【本页内容】输出完全相同的两行内容
+Hello, RoboMaster!
+I can print "RM".
+任务：独立修改 main.c 并运行
+要求：行数、大小写、双引号一致
+选做：再打印一行字面量 \n
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->
+
+---
+class: l1-page
+---
+
+<div class="eyebrow">02  练习讲评</div>
+
+# 输出写法与实际结果
+
+<div class="l1-columns">
+<div>
+
+
+
+```c
+printf("Hello, RoboMaster!\n");
+printf("I can print \"RM\".\n");
+printf("\\n\n");
+```
+
+
+
+</div>
+<div>
+
+<dl class="l1-dl"><div><dt>检查一</dt><dd>字符串用英文双引号</dd></div><div><dt>检查二</dt><dd>语句末尾有分号</dd></div><div><dt>检查三</dt><dd>\"、\\、\n 各有用途</dd></div></dl>
+
+</div>
 </div>
 
-<!-- 约2分钟。只建立循环直觉，CJ-1 会完整讲解循环条件、执行次数和嵌套循环。 -->
+<!--
+原 PPT 第 8 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】1 分钟
+【教学动作】将学生代码与目标输出比较。可以用两次 printf，也可以用一次 printf，中间写换行。不要因实现不同判为错误。第三行是选做答案。
+【本页内容】输出写法与实际结果
+printf("Hello, RoboMaster!\n");
+printf("I can print \"RM\".\n");
+printf("\\n\n");
+检查一：字符串用英文双引号
+检查二：语句末尾有分号
+检查三：\"、\\、\n 各有用途
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->

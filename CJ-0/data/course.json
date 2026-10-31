@@ -1,10 +1,10 @@
 {
   "title": "C语言培训-0",
-  "subtitle": "从第一段程序到电控思维",
+  "subtitle": "C语言基础与程序运行",
   "pdfName": "C语言培训-0.pdf",
   "packageName": "CONE-C-Language-0",
-  "total": 23,
-  "main": 23,
-  "appendix": 0,
-  "duration": "60 分钟"
+  "total": 61,
+  "main": 56,
+  "appendix": 5,
+  "duration": "120 分钟（含 10 分钟休息）"
 }

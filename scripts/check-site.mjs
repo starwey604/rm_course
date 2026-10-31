@@ -66,27 +66,66 @@ try {
 
   // CJ-0 是新课件，逐页检查品牌、画布尺寸和横向溢出；CJ-1 继续由 check:slides 做完整专项回归。
   const cj0 = decks.find(deck => deck.slug === 'cj-0')
+  const sourceMap = JSON.parse(await fs.readFile(path.join(root, 'CJ-0/source/page-map.json'), 'utf8'))
+  check(sourceMap.pages.length === 60 && new Set(sourceMap.pages.map(item => item.source)).size === 60, 'CJ-0 source map must cover all 60 original slides')
+  const titles = new Map([...sourceMap.pages, ...sourceMap.addedPages].map(item => [item.target, item.title]))
   const layouts = []
   for (let number = 1; number <= cj0.total; number++) {
     await page.goto(`${base}/cj-0/${number}?print=true`, { waitUntil: 'networkidle' })
     await page.waitForTimeout(150)
     const slide = page.locator(`[data-slidev-no="${number}"] .slidev-layout`).first()
     await slide.waitFor()
-    const info = await slide.evaluate(element => ({
-      title: element.querySelector('h1')?.textContent?.trim() || '',
-      overflowX: element.scrollWidth - element.clientWidth,
-      overflowY: element.scrollHeight - element.clientHeight,
-      wideCode: [...element.querySelectorAll('pre')].some(code => code.scrollWidth > code.clientWidth + 3),
-    }))
-    check(info.overflowX <= 3 && info.overflowY <= 3 && !info.wideCode, `CJ-0 page ${number} overflow: ${JSON.stringify(info)}`)
+    const info = await slide.evaluate(element => {
+      const rect = element.getBoundingClientRect(), scale = rect.width / element.clientWidth
+      const bottom = Math.max(...[...element.children].filter(child => !child.matches('.brand-strip')).map(child => (child.getBoundingClientRect().bottom - rect.top) / scale))
+      return {
+        title: element.querySelector('h1')?.textContent?.trim() || '',
+        overflowX: element.scrollWidth - element.clientWidth,
+        overflowY: element.scrollHeight - element.clientHeight,
+        contentBottom: Math.round(bottom),
+        wideCode: [...element.querySelectorAll('pre')].some(code => code.scrollWidth > code.clientWidth + 3),
+      }
+    })
+    check(info.overflowX <= 3 && info.overflowY <= 3 && info.contentBottom <= 628 && !info.wideCode, `CJ-0 page ${number} overflow: ${JSON.stringify(info)}`)
+    check(info.title.replace(/\s+/g, '') === titles.get(number)?.replace(/\s+/g, ''), `CJ-0 page ${number} does not match its original slide`)
+    check(await slide.locator('.brand-strip img').count() === 2, `CJ-0 page ${number} branding missing`)
     layouts.push({ page: number, ...info })
-    if ([1, 3, 8, 16, 23].includes(number)) await slide.screenshot({ path: path.join(out, `cj0-${String(number).padStart(2, '0')}.png`) })
+    if ([1, 4, 11, 15, 25, 28, 29, 30, 31, 40, 50, 58, 59].includes(number)) await slide.screenshot({ path: path.join(out, `cj0-${String(number).padStart(2, '0')}.png`) })
+    if ([25, 40].includes(number)) {
+      check(await slide.locator('[data-filled="true"]').count() === 0, `CJ-0 print page ${number} leaked exercise answers`)
+      check(await slide.locator('.l1-fill-hint:not(.shown)').count() === 0, `CJ-0 print page ${number} hid exercise hints`)
+    }
+    if (number % 10 === 0) console.log(`Checked ${number} / ${cj0.total} CJ-0 slides`)
+  }
+
+  // Every blank takes two clicks: first its hint, then its answer; backwards must restore both.
+  let fillSteps = 0
+  for (const [number, blanks] of [[25, 4], [40, 2]]) {
+    await page.goto(`${base}/cj-0/${number}?clicks=0`, { waitUntil: 'networkidle' })
+    const scope = page.locator(`[data-slidev-no="${number}"] .l1-fill`)
+    async function checkFill(step) {
+      check(await scope.locator('[data-filled="true"]').count() === Math.floor(step / 2), `CJ-0 page ${number}: answer order at click ${step}`)
+      check(await scope.locator('.l1-fill-hint.shown').count() === Math.ceil(step / 2), `CJ-0 page ${number}: hint order at click ${step}`)
+    }
+    await checkFill(0)
+    for (let step = 1; step <= blanks * 2; step++) {
+      await page.keyboard.press('ArrowRight')
+      await page.waitForTimeout(100)
+      await checkFill(step)
+      fillSteps++
+    }
+    for (let step = blanks * 2 - 1; step >= 0; step--) {
+      await page.keyboard.press('ArrowLeft')
+      await page.waitForTimeout(100)
+      await checkFill(step)
+      fillSteps++
+    }
   }
 
   await fs.writeFile(path.join(out, 'report.json'), JSON.stringify({ results, layouts, errors, failures }, null, 2))
   check(errors.length === 0, `Browser errors: ${errors.join(' | ')}`)
   check(failures.length === 0, `Request failures: ${failures.join(' | ')}`)
-  console.log(JSON.stringify({ ok: true, homepageCards: decks.length, decks: results, cj0Pages: layouts.length, errors, failures }, null, 2))
+  console.log(JSON.stringify({ ok: true, homepageCards: decks.length, decks: results, cj0Pages: layouts.length, fillSteps, errors, failures }, null, 2))
 }
 finally {
   await browser.close()

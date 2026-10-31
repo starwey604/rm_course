@@ -1,1 +1,26 @@
 @import '../shared/styles/cone.css';
+
+/* First lesson: preserve the source sequence with readable, flat layouts. */
+.l1-page .l1-lead{font-size:22px;line-height:1.5;margin:0 0 14px;white-space:pre-line}
+.l1-page .l1-columns{display:grid;grid-template-columns:1.17fr 1fr;gap:36px;align-items:start;margin-top:16px}
+.l1-page .l1-columns.equal{grid-template-columns:1fr 1fr}
+.slidev-layout.l1-page pre{font-size:21px!important;line-height:1.45!important;padding:14px 18px!important;white-space:pre-wrap;overflow-wrap:normal}
+.slidev-layout.l1-page pre code{font-size:21px!important;line-height:1.45!important}
+.slidev-layout.l1-page .l1-dense pre,.slidev-layout.l1-page .l1-dense pre code{font-size:19px!important;line-height:1.32!important}
+.l1-page .l1-dl{margin:0}.l1-page .l1-dl>div{border-top:1px solid var(--line);padding:10px 0}
+.l1-page .l1-dl dt{font-size:20px;line-height:1.45;color:var(--accent);font-weight:600;margin:0 0 5px}.l1-page .l1-dl dd{font-size:22px;line-height:1.55;white-space:pre-line;margin:0}
+.l1-page .l1-bottom{font-size:21px;line-height:1.55;border-left:3px solid var(--accent);padding-left:16px;margin-top:20px;white-space:pre-line}
+.l1-page .l1-three{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin:28px 0}.l1-page .l1-three section{border-top:2px solid var(--line);padding-top:16px}.l1-page .l1-three h2{font-size:25px;margin:0 0 12px}.l1-page .l1-three p{font-size:22px;line-height:1.65;white-space:pre-line}
+.l1-page .l1-questions{display:grid;gap:20px;margin-top:24px}.l1-question{display:grid;grid-template-columns:65px 1fr;gap:16px;align-items:baseline;border-top:1px solid var(--line);padding-top:16px}.l1-question b{font:30px Consolas,monospace;color:var(--accent)}.l1-question span{font-size:27px;line-height:1.55}
+.l1-page .l1-spec{margin:15px 0}.l1-spec>div{display:grid;grid-template-columns:100px 1fr;gap:22px;padding:13px 0;border-top:1px solid var(--line)}.l1-spec dt{font-size:21px;color:var(--accent)}.l1-spec dd{font-size:23px;line-height:1.55;margin:0;white-space:pre-line}
+.l1-page table{font-size:22px}.l1-page th{font-size:19px}.l1-page td{padding:12px 14px}
+.l1-page .l1-stage-track{display:grid;grid-template-columns:repeat(4,1fr);gap:21px;margin:30px 0}.l1-stage-track>div{border-top:3px solid var(--accent);padding-top:15px}.l1-stage-track small{color:var(--muted);font:18px Consolas,monospace}.l1-stage-track h2{font-size:28px;margin:13px 0}.l1-stage-track code{font-size:29px!important}.l1-stage-track p{font-size:21px;margin-top:13px}
+.l1-page .l1-numbers{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:28px 0}.l1-numbers span{display:block;font-size:22px;color:var(--muted)}.l1-numbers b{display:block;font:43px/1.5 Consolas,monospace;color:var(--accent)}
+.l1-byte-strip{display:flex;gap:0;margin:26px 0}.l1-byte-strip>div{flex:1;text-align:center}.l1-byte-strip small{display:block;font:19px/1.5 Consolas,monospace;color:var(--muted);margin-bottom:10px}.l1-byte-strip span{display:block;border:1px solid var(--line);padding:17px 4px;background:var(--accent-faint);font:30px/1.5 Consolas,monospace}.l1-byte-strip.single{max-width:330px}.l1-byte-strip.single span{font-size:58px}
+.l1-bit-strip{display:grid;grid-template-columns:repeat(8,1fr);margin:28px 0}.l1-bit-strip span{text-align:center;border:1px solid var(--line);font:43px/80px Consolas,monospace;background:var(--accent-faint)}
+.l1-padding{margin:18px 0}.l1-padding-cells{display:grid;grid-template-columns:repeat(12,1fr)}.l1-padding-cells>div{text-align:center;border:1px solid var(--line);background:var(--accent-faint)}.l1-padding-cells small{display:block;color:var(--muted);font:17px/1.8 Consolas,monospace}.l1-padding-cells span{display:block;font:17px/45px Consolas,'Microsoft YaHei',monospace}.l1-padding-cells .pad{background:var(--surface);color:var(--muted)}.l1-padding-labels{display:grid;grid-template-columns:1fr 3fr 4fr 1fr 3fr;text-align:center;font-size:18px;color:var(--muted);margin-top:8px}
+.l1-fill{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:start;margin-top:18px}.l1-fill-hint{font-size:21px;line-height:1.6;border-left:2px solid var(--accent);padding-left:14px;margin-top:23px}.l1-followup{font-size:21px;line-height:1.6;margin-top:25px}.slidev-layout.l1-page .l1-fill pre,.slidev-layout.l1-page .l1-fill pre code{font-size:20px!important;line-height:1.4!important}.slidev-layout.l1-page .l1-fill.grade pre,.slidev-layout.l1-page .l1-fill.grade pre code{font-size:19px!important;line-height:1.32!important}
+.l1-page .l1-review{display:grid;grid-template-columns:1fr 1fr;gap:22px 36px;margin-top:25px}.l1-review>div{border-top:1px solid var(--line);padding-top:12px}.l1-review b{font-size:22px;color:var(--emphasis)}.l1-review p{font-size:20px;line-height:1.55;margin:8px 0 0}
+.l1-page .roadmap{margin-top:22px}.l1-page .roadmap strong{font-size:23px}.l1-page .roadmap p{font-size:20px}
+.l1-grade .l1-lead{font-size:21px;line-height:1.4;margin-bottom:10px}.slidev-layout.l1-grade h1{margin-bottom:19px}.l1-grade .l1-columns{margin-top:12px}.l1-grade .l1-fill{margin-top:14px}
+.l1-byte-mark{background:var(--accent-soft);color:var(--text);outline:2px solid var(--accent);outline-offset:2px}

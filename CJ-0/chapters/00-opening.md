@@ -1,78 +1,55 @@
-<div class="eyebrow">开场 · 00–05 分钟</div>
-
-# 这一课结束时，你应该能做到
-
-<v-clicks>
-
-1. **说清楚电控在做什么**：感知状态，计算决策，驱动执行机构。
-2. **读懂第一段 C 程序**：找到入口、输入、处理与输出。
-3. **跑通一次最小闭环**：修改代码，编译运行，用结果验证预测。
-4. **知道下一步学什么**：带着问题进入循环、数组与字符串。
-
-</v-clicks>
-
-<div class="question">今天不追求“背下语法”，先建立一张能继续生长的地图。</div>
-
-<!-- 约2分钟。请学生说出自己最陌生的一项，讲师据此调整演示速度。 -->
-
+---
+class: l1-page
 ---
 
-<div class="eyebrow">认识系统 · 机器人不是只有机械结构</div>
+<div class="eyebrow">开场问题  1 / 2</div>
 
-# 同一个动作，需要三类角色配合
+# 你能解释程序运行之前发生了什么吗？
 
-<div class="role-grid">
-<div v-click><span>01</span><strong>机械</strong><p>提供结构与运动能力<br>轮子、云台、连杆</p></div>
-<div v-click><span>02</span><strong>硬件</strong><p>连接真实世界与数字世界<br>电源、传感器、驱动器</p></div>
-<div v-click><span>03</span><strong>电控软件</strong><p>读取状态，计算命令<br>让机构按预期工作</p></div>
-</div>
+<div class="l1-questions"><div class="l1-question"><b>Q1</b><span>写的是 main.c，为什么运行的是 .exe？</span></div><div class="l1-question"><b>Q2</b><span>代码里的 \n，为什么会变成换行？</span></div><div class="l1-question"><b>Q3</b><span>变量名、值、地址之间是什么关系？</span></div></div><div class="l1-bottom">先保留你的预测，相关模块结束后一起回答</div>
 
-<div class="answer" v-click>电控不是“给电机随便一个数”，而是让行为可解释、可验证。</div>
-
-<!-- 约2分钟。用机器人云台转向举例：机械决定能否转，硬件负责测量和驱动，软件决定何时转、转多少、何时停。 -->
-
----
-
-<div class="eyebrow">认识系统 · 一条信号链</div>
-
-# 从“发生了什么”到“下一步做什么”
-
-<div class="signal-flow">
-<div v-click><small>INPUT</small><strong>传感器 / 操作手</strong><span>位置、速度、按键</span></div>
-<b>→</b>
-<div v-click><small>COMPUTE</small><strong>控制程序</strong><span>滤波、判断、计算</span></div>
-<b>→</b>
-<div v-click><small>OUTPUT</small><strong>执行机构</strong><span>电机、灯、蜂鸣器</span></div>
-</div>
-
-<div class="feedback-line" v-click><span>执行后的新状态再次被读取</span><b>────────── 反馈 ──────────</b></div>
-
-<div class="question" v-click>写控制代码时，先问：输入是什么？输出应该是什么？怎样知道它做对了？</div>
-
-<!-- 约2分钟。强调这是概念模型，不对应某一款板卡的具体 API。反馈让程序能根据新状态修正下一步。 -->
+<!--
+原 PPT 第 2 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】1.5 分钟
+【教学动作】请学生各自想 20 秒，收集两个猜想。先不公布答案。Q1 会在编译过程回访，Q2 在转义字符回访，Q3 在内存回访。
+【本页内容】你能解释程序运行之前发生了什么吗？
+Q1：写的是 main.c，为什么运行的是 .exe？
+Q2：代码里的 \n，为什么会变成换行？
+Q3：变量名、值、地址之间是什么关系？
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->
 
 ---
+class: l1-page
+---
 
-<div class="eyebrow">课程地图 · 从程序基础到控制任务</div>
+<div class="eyebrow">开场问题  2 / 2</div>
+
+# 熟悉的写法，你知道原因吗？
+
+<div class="l1-questions"><div class="l1-question"><b>Q4</b><span>scanf 为什么要 &amp;，printf 却不用？</span></div><div class="l1-question"><b>Q5</b><span>if 里的 = 和 ==，分别会做什么？</span></div><div class="l1-question"><b>Q6</b><span>样例正确，为什么提交仍可能不通过？</span></div></div><div class="l1-bottom">先保留你的预测，相关模块结束后一起回答</div>
+
+<!--
+原 PPT 第 3 页；内容、表格及讲师说明取自 CONE_C语言_金石滩_L1.pptx。
+【建议用时】1 分钟
+【教学动作】可以举手投票：if (x = 5) 一定无法编译吗？不用当场纠正。请大家记住自己的预测，后面用结果来修正。
+【本页内容】熟悉的写法，你知道原因吗？
+Q4：scanf 为什么要 &，printf 却不用？
+Q5：if 里的 = 和 ==，分别会做什么？
+Q6：样例正确，为什么提交仍可能不通过？
+【依据】https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+课程材料：1.Hello+World!.pdf；2.变量、数据类型与运算符.pdf；3.逻辑判断与分支结构.pdf；CONE-EC_2026_-_Lecture_1_-_C_Basis_V2.0.pdf。
+-->
+
+---
+class: l1-page
+---
+
+<div class="eyebrow">课程地图 · 先理解程序，再处理重复与数据</div>
 
 # RM 电控系列课程
 
-<div class="roadmap">
-<a href="/cj-0/" class="current"><span>CJ-0</span><strong>从第一段程序到电控思维</strong><p>认识系统 · C 程序结构 · 验证习惯</p></a>
-<a href="/cj-1/"><span>CJ-1</span><strong>循环、数组与字符串</strong><p>重复处理 · 批量数据 · 文本与协议基础</p></a>
-<div><span>NEXT</span><strong>把基础放进真实任务</strong><p>状态机 · 通信 · 控制与调试</p></div>
-</div>
+<div class="roadmap"><a href="/cj-0/" class="current"><span>CJ-0 · 本课</span><strong>C 语言基础与程序运行</strong><p>构建过程 · 变量与内存<br>输入输出 · 判断与分支<br>120 分钟，含 10 分钟休息</p></a><a href="/cj-1/"><span>CJ-1 · 下一课</span><strong>循环、数组与字符串</strong><p>重复处理 · 批量数据<br>字符与文本 · 洛谷练习<br>120 分钟，含 10 分钟休息</p></a><div><span>后续方向</span><strong>把基础放进真实任务</strong><p>状态机 · 通信协议<br>控制任务 · 调试与验证<br>以实际开课安排为准</p></div></div>
 
-<div class="hint">每一课只增加一层复杂度：先能读懂，再能修改，最后能独立拆解任务。</div>
-
-<!-- 约1分钟。明确 CJ-0 不要求预先掌握 CJ-1；后续课程名称以实际上线内容为准。 -->
-
----
-
-<div class="section-break">
-<div class="eyebrow">工程习惯 · 在接硬件之前</div>
-<h1>先让代码在电脑上<br><span>说得通、跑得对</span></h1>
-<p>屏幕上的确定输入与输出，是排查真实系统问题的起点。</p>
-</div>
-
-<!-- 约1分钟。第一节先用普通 C 程序建立验证习惯，不直接连接执行机构。 -->
+<div class="l1-bottom">本课用六个问题串联：代码怎样成为程序？数据怎样存放？怎样判断、输入与验证？</div>
