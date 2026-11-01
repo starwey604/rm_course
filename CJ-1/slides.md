@@ -43,6 +43,10 @@ src: ./chapters/01-io.md
 ---
 
 ---
+src: ./chapters/01a-debug.md
+---
+
+---
 src: ./chapters/01b-loop-bridge.md
 ---
 

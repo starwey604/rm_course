@@ -9,3 +9,16 @@
 
 /* 第 8 页：左右代码框等高（左栏 190px 为内容自然高度），右侧输出随之下移对齐 */
 .equal-code pre{min-height:190px}
+
+/* 调试流程页：五步横排 + 一行常用按键 + 一句待核对的问题 */
+.debug-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px}
+.debug-steps>div{padding:15px 14px 13px;border-top:2px solid var(--accent);background:var(--surface);min-height:152px}
+.debug-steps span{font:17px Consolas,monospace;color:var(--muted)}
+.debug-steps strong{display:block;font-size:24px;margin:10px 0 7px}
+.debug-steps p{font-size:17px;line-height:1.55;color:var(--muted);margin:0}
+.debug-keys{display:flex;margin-top:24px;border:1px solid var(--line)}
+.debug-keys>div{flex:1;text-align:center;padding:9px 4px;border-left:1px solid var(--line)}
+.debug-keys>div:first-child{border-left:0}
+.debug-keys b{display:block;font:18px Consolas,monospace;color:var(--accent);font-weight:400}
+.debug-keys span{display:block;font-size:15px;color:var(--muted);margin-top:3px}
+.debug-anchor{font-size:22px;line-height:1.65;margin-top:26px}
