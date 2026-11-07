@@ -2,12 +2,13 @@
 
 使用 Slidev 制作的多课件站点。浏览器播放带点击动画，PDF 用于课后分发；网页站点包含课程首页、课件切换菜单、激光笔与课堂标注。
 
-首页与两套课件共用纸白蓝绿风格：纸白底色、深蓝灰正文、蓝色导航与当前步骤、深色蓝绿用于少量关键结论，警告用琥珀色。正文加粗不默认染色，教学重点显式使用 `key-point`；当前格保持浅蓝底、深色数字与内描边。静态代码和交互代码共用 `shared/theme/code-theme.ts`：关键字蓝色、函数柔紫色、字符串蓝绿色、数值棕色，变量与标点深色。交互代码先用 `highlightC` / `highlightParts` 解析完整代码，再用 `shared/components/CodeTokens.vue` 分行显示，避免丢失语法上下文。`pnpm check:syntax` 检查颜色角色、跨行注释、填空片段与对比度。
+首页与各课件共用纸白蓝绿风格：纸白底色、深蓝灰正文、蓝色导航与当前步骤、深色蓝绿用于少量关键结论，警告用琥珀色。正文加粗不默认染色，教学重点显式使用 `key-point`；当前格保持浅蓝底、深色数字与内描边。静态代码和交互代码共用 `shared/theme/code-theme.ts`：关键字蓝色、函数柔紫色、字符串蓝绿色、数值棕色，变量与标点深色。交互代码先用 `highlightC` / `highlightParts` 解析完整代码，再用 `shared/components/CodeTokens.vue` 分行显示，避免丢失语法上下文。`pnpm check:syntax` 检查颜色角色、跨行注释、填空片段与对比度。
 
 | 路径 | 课件 | 时长 | 页数 |
 | --- | --- | --- | --- |
 | `/cj-0/` | C语言培训-0：C语言基础与程序运行 | 120 分钟（含休息） | 61 |
 | `/cj-1/` | C语言培训-1：循环、数组与字符串 | 120 分钟 | 85 |
+| `/cj-2/` | C语言培训-2：函数、指针与结构体 | 120 分钟（含休息） | 30 |
 
 课程清单统一维护在 `decks.json`。构建时会据此生成首页、课件菜单、逐课件构建参数，以及 Cloudflare 的精确播放路由。
 
@@ -19,6 +20,7 @@
 pnpm install
 pnpm dev:cj-0      # http://localhost:3030/cj-0/
 pnpm dev:cj-1      # http://localhost:3031/cj-1/
+pnpm dev:cj-2      # http://localhost:3032/cj-2/
 ```
 
 在课件中点击正文、空格或方向键右推进，方向键左返回。页面底部的控制栏提供全屏、目录和讲师视图；左上角是课程目录，控制栏另提供返回课程首页。
@@ -39,7 +41,7 @@ pnpm preview       # http://127.0.0.1:4173/
 输出位于 `output/site/`：
 
 - `index.html` / `home.css`：RM 电控课程首页。
-- `cj-0/`、`cj-1/`：分别以 `/cj-0/`、`/cj-1/` 为 base 的独立课件。
+- `cj-0/`、`cj-1/`、`cj-2/`：各课程的独立课件。
 - `_redirects`：由构建脚本根据每门课页数生成，只改写 Slidev 的已知播放路由，不会把静态资源请求错误地改写为 HTML。
 - `_headers`：基础安全响应头和课件资源长缓存。
 - `site.json`：站点课程摘要。
@@ -54,7 +56,7 @@ pnpm preview       # http://127.0.0.1:4173/
 pnpm check:site
 ```
 
-该检查会验证首页课程卡、两个课件的菜单交互、激光笔、深层路由、打印页隐藏、静态资源和控制台错误，并逐页检查 CJ-0 版式。
+该检查会验证首页课程卡、各课件的菜单交互、激光笔、深层路由、打印页隐藏、静态资源和控制台错误，并逐页检查 CJ-0 版式。
 
 ## Cloudflare Pages
 
@@ -130,13 +132,15 @@ pnpm check:slides   # 默认连接 http://localhost:3031/cj-1
 
 ## 新增课件
 
-1. 复制一个现有课件目录，创建 `CJ-2/slides.md`、`chapters/`、`layouts/`、`setup/`、`data/` 和 `style.css`。
-2. 在 `CJ-2/data/course.json` 写入标题、页数和文件名。
-3. 在根目录 `decks.json` 增加一条 `slug: "cj-2"` 的课件配置。
+编写正文、示例和随堂练习时，参考 [RM 新生课件写作约定](AGENTS.md)。
+
+1. 参考 `CJ-2/`，在新课件目录中创建 `slides.md`、`chapters/`、`layouts/`、`setup/`、`data/` 和 `style.css`。
+2. 在新课件的 `data/course.json` 写入标题、页数和文件名。
+3. 在根目录 `decks.json` 增加相应课件配置。
 4. 在 `package.json` 增加：
 
    ```sh
-   "dev:cj-2": "slidev CJ-2/slides.md --port 3032 --base /cj-2/"
+   "dev:cj-3": "slidev CJ-3/slides.md --port 3033 --base /cj-3/"
    ```
 
 5. 运行 `pnpm build && pnpm preview && pnpm check:site`。
@@ -156,6 +160,8 @@ pnpm check:slides   # 默认连接 http://localhost:3031/cj-1
 - `scripts/tasks.mjs`：单课件构建、PDF 导出和离线压缩包。
 
 讲师备注保存在各页 HTML 注释中。`<v-click>` 用于标准点击揭示；自定义组件在普通播放时使用点击次数，导出时切换为完整内容及过程记录。修改组件后应同时检查播放版与 PDF。
+
+CJ-2 的课堂节奏和练习说明见 [讲师速查](CJ-2/README.md)。
 
 ## 检查与文件管理
 

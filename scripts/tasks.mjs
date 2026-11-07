@@ -8,7 +8,7 @@ const root = path.resolve(import.meta.dirname, '..')
 const cli = path.join(root, 'node_modules', '@slidev', 'cli', 'bin', 'slidev.mjs')
 const decks = JSON.parse(await fs.readFile(path.join(root, 'decks.json'), 'utf8'))
 const task = process.argv[2]
-const slug = process.argv[3] || 'cj-1'
+const slug = process.argv.slice(3).find(arg => arg !== '--') || 'cj-1'
 const deck = decks.find(item => item.slug === slug)
 if (!deck) throw new Error(`Unknown deck: ${slug}. Available: ${decks.map(item => item.slug).join(', ')}`)
 const entry = path.join(root, deck.entry)
@@ -40,14 +40,14 @@ else if (task === 'package') {
   for (const name of ['offline-server.ps1', '打开课件.cmd', '停止课件.cmd']) await fs.copyFile(path.join(root, 'scripts', name), path.join(pack, name))
   const source = path.join(pack, 'source')
   await fs.mkdir(source, { recursive: true })
-  for (const name of ['CJ-0', 'CJ-1', 'shared', 'scripts', 'site']) {
+  for (const name of [...new Set(decks.map(item => path.dirname(item.entry))), 'shared', 'scripts', 'site']) {
     if (!existsSync(path.join(root, name))) continue
     await fs.cp(path.join(root, name), path.join(source, name), {
       recursive: true, force: true,
       filter: src => !path.relative(root, src).split(path.sep).some(part => ['node_modules', '.slidev', '.vite'].includes(part)),
     })
   }
-  for (const name of ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'README.md', '.gitignore', 'decks.json', 'wrangler.toml', '.node-version']) await fs.copyFile(path.join(root, name), path.join(source, name))
+  for (const name of ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'README.md', 'AGENTS.md', '.gitignore', 'decks.json', 'wrangler.toml', '.node-version']) await fs.copyFile(path.join(root, name), path.join(source, name))
   await fs.writeFile(path.join(pack, '使用说明.txt'), '\uFEFF' + `${course.title}：${course.subtitle || deck.subtitle}\n\n解压整个文件夹，双击“打开课件.cmd”。点击正文、按空格或方向键右推进，方向键左返回。\n播放完双击“停止课件.cmd”。Windows 离线播放无需安装 Node。\n\n${course.pdfName} 为完整内容讲义，不播放动画。共 ${course.total} 页。\nsource 内含可修改的 Slidev 课件和完整示例，修改方式见 source/README.md。\n`, 'utf8')
   const archive = path.join(out, course.packageName + '.zip')
   const esc = value => value.replaceAll("'", "''")

@@ -18,7 +18,8 @@
     "check:examples": "node scripts/check-examples.mjs",
     "check:syntax": "node --experimental-strip-types scripts/check-highlighting.mjs",
     "check:slides": "node scripts/check-slides.mjs",
-    "check:site": "node scripts/check-site.mjs"
+    "check:site": "node scripts/check-site.mjs",
+    "dev:cj-2": "slidev CJ-2/slides.md --port 3032 --base /cj-2/"
   },
   "devDependencies": {
     "@slidev/cli": "53.0.0",

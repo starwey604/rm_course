@@ -38,11 +38,18 @@ for(const [pid,problem] of Object.entries(problems)){
  const name=pid.toLowerCase()
  if(cases[name])for(const [input,expected] of problem.samples)cases[name].push([input+'\n',expected.trim()])
 }
+const cj2Cases={
+ chassis:[['','函数限幅：8000 -8000 8000 6000\n参数内：0\n值传后：9600\n传地址后：0\n交换后：-8000 8000\n副本内：0\n副本返回后：9600\n原件更新后：0，温度：30\n数组限幅：8000 -8000 8000 6000']],
+ p5737:[['1999 2004\n','2\n2000 2004'],['1899 1904\n','1\n1904'],['2099 2101\n','0']],
+ p5742:[['3\n101 95 45\n102 80 80\n103 79 80\n','Not excellent\nExcellent\nNot excellent'],['1\n100000 100 100\n','Excellent']],
+}
 let count=0
 const env={...process.env,PATH:path.dirname(gcc)+path.delimiter+process.env.PATH}
-for(const [name,tests] of Object.entries(cases)){
+const examples=Object.entries({'CJ-1':cases,'CJ-2':cj2Cases}).flatMap(([course,items])=>
+ Object.entries(items).map(([name,tests])=>({course,name,tests})))
+for(const {course,name,tests} of examples){
  const cpp=name.startsWith('output_')&&name!=='output_c'
- const source=path.join(root,'CJ-1','examples',name+(cpp?'.cpp':'.c'))
+ const source=path.join(root,course,'examples',name+(cpp?'.cpp':'.c'))
  const target=path.join(out,name+(process.platform==='win32'?'.exe':''))
  const link=name==='output_println'&&process.platform==='win32'&&/g\+\+(\.exe)?$/.test(gpp)?['-lstdc++exp']:[]
  const build=spawnSync(cpp?gpp:gcc,[cpp?'-std=c++23':'-std=c11','-Wall','-Wextra','-Werror',source,'-o',target,...link],{encoding:'utf8',env})
@@ -55,4 +62,4 @@ for(const [name,tests] of Object.entries(cases)){
   count++
  }
 }
-console.log(Object.keys(cases).length+' C/C++ examples, '+count+' cases passed.')
+console.log(examples.length+' C/C++ examples, '+count+' cases passed.')
