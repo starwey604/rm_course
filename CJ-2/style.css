@@ -31,3 +31,34 @@
 .cj2-members code{color:var(--muted)!important}
 .cj2-card{padding:15px 20px;border:1px solid var(--line);background:var(--surface-raised)}
 .cj2-card p:last-child{margin-bottom:0}
+
+.cj2-definition{grid-template-columns:1fr 1fr;align-items:start}
+.cj2-def-line{display:block;min-height:1.5em}
+.cj2-syntax-mark{text-decoration:underline 3px #23804f;text-underline-offset:5px;background:#e0f2e8}
+.cj2-syntax-notes{display:grid;gap:10px}
+.cj2-syntax-note{display:grid;grid-template-columns:88px 1fr;gap:10px;padding:5px 0 5px 13px;border-left:3px solid #23804f;font-size:21px;line-height:1.45}
+.cj2-syntax-note strong{color:#19603b}
+.cj2-inserted{display:inline-block;background:var(--accent-soft);animation:cj2-line-in .26s ease-out}
+@keyframes cj2-line-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.cj2-unshown{visibility:hidden}
+.cj2-leap-fill{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 32px;align-items:start}
+.cj2-leap-fill .fill-line{line-height:1.34}
+.slidev-layout .cj2-leap-fill .fill-code code{font-size:19px!important}
+.cj2-leap-hints{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cj2-leap-hints .fill-hint{font-size:19px}
+
+.cj2-motor-commands{display:grid;grid-template-columns:1fr 1fr .8fr;gap:14px;margin-bottom:19px}
+.cj2-motor-commands>div{background:var(--surface);padding:9px 14px;white-space:nowrap}
+.slidev-layout .cj2-motor-commands code{font-size:20px}
+.cj2-motor-board{display:grid;grid-template-columns:1fr 112px 1fr 1fr;gap:14px;align-items:center}
+.cj2-motor-board section{padding:13px 15px;border:1px solid var(--line);background:var(--surface-raised)}
+.cj2-motor-board .cj2-motor-schema{border-style:dashed;background:var(--surface)}
+.cj2-motor-board h2{margin:0 0 10px;font-size:23px}
+.cj2-motor-board dl{margin:0;font:20px/1.4 Consolas,monospace}
+.cj2-motor-board dl>div{display:flex;justify-content:space-between;padding:4px 8px;border-top:1px solid var(--line)}
+.cj2-motor-board dd{margin:0}
+.cj2-motor-arrow{text-align:center;color:var(--accent);font-size:38px;line-height:1}
+.cj2-motor-arrow small{display:block;font-size:16px;margin-top:8px}
+.cj2-motor-enter{animation:cj2-line-in .26s ease-out}
+.cj2-motor-changed{background:var(--accent-soft);box-shadow:inset 3px 0 var(--accent)}
+.slidev-layout .cj2-motor-caption{margin-top:20px;font-size:23px}

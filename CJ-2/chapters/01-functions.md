@@ -12,7 +12,7 @@
   <div class="cj2-wheel"><span>④ 右后</span><code>6000</code></div>
 </div>
 
-<div v-click class="question">第三轮还在用旧上限。怎样让四个轮子都从同一个地方拿规则？</div>
+<div v-click class="question">第三轮还是 9600。为什么只有它没被压到 8000？</div>
 
 <!-- 3 分钟。先让学生猜漏改第三轮的结果，再点击揭晓。这里只模拟命令，目标值不等于实际转速。 -->
 
@@ -38,39 +38,29 @@ if (s4 < -8000) s4 = -8000;
 
 </div>
 
-<div v-click class="question">每段都在做同一件事：<strong>给我一个速度和上限，交回限幅结果。</strong></div>
+<div v-click class="question">四段代码做的是同一件事：给一个速度和上限，算出限幅结果。<br>既然算法相同，能不能让四个轮子都从同一个地方拿规则？</div>
 
 <!-- 3 分钟。指明第三段是从原先四份 10000 代码改漏后的版本。问负值是否也要改。 -->
 
 ---
+clicks: 5
+---
 
-# 把限幅交给一个函数
+# 定义函数：先搭好 clamp_speed 的骨架
 
-<div class="two-col">
-<div>
+<ClampDefinition mode="syntax" :step="$clicks" />
 
-```c
-int clamp_speed(int speed, int limit) {
-    if (speed > limit) return limit;
-    if (speed < -limit) return -limit;
-    return speed;
-}
-```
+<!-- 3 分钟。按顺序标出返回类型、函数名、括号、形参和函数体。让学生区分最前面的 int 和形参前的 int。这个骨架现在只原样返回 speed；下一页再加限幅。 -->
 
-</div>
-<div>
+---
+clicks: 4
+---
 
-调用时给出 **速度** 和 **正的上限**。  
-`return` 把结果交回去，函数就在这一行结束。
+# 把限幅判断放进函数体
 
-<p v-click class="question"><code>clamp_speed(-9600, 8000)</code> 会在哪一行返回？</p>
+<ClampDefinition mode="logic" :step="$clicks" />
 
-</div>
-</div>
-
-<div v-click class="answer">第二个 <code>if</code> 成立，返回 <code>-8000</code>。</div>
-
-<!-- 5 分钟。带学生读函数头：第一个 int 是结果类型，括号里是参数。分别跑 9600、-9600、6000；不要把 return 讲成打印。 -->
+<!-- 3 分钟。依次插入正、负两条限幅判断，再用 -9600 和 8000 追踪返回路径。问 6000 会走到哪里；return 是把值交回调用处，不是打印。 -->
 
 ---
 
@@ -98,7 +88,7 @@ s4 = clamp_speed(s4, limit);
 </div>
 </div>
 
-<!-- 4 分钟。后续用数组收掉四次调用，现在先留四行突出返回值与赋值。可以现场运行 chassis.c 的第一行结果。 -->
+<!-- 3 分钟。后续用数组收掉四次调用，现在先留四行突出返回值与赋值。可以现场运行 chassis.c 的第一行结果。 -->
 
 ---
 
@@ -146,45 +136,14 @@ int main(void) {
 <!-- 2 分钟。指出两端都算；例子里 2004 恰好在右端点。 -->
 
 ---
+clicks: 6
+---
 
 # 补完 is_leap：给一个年份，交回判断
 
-<div class="two-col">
-<div class="cj2-compact">
+<LeapFill :step="$clicks" />
 
-```c
-int is_leap(int year) {
-    if ([①]) return 1;  // 整百闰年
-    if ([②]) return 1;  // 其余闰年
-    return 0;
-}
-```
-
-<p class="spaced">补两个判断，再把函数用到循环里。读入和输出已备好。</p>
-
-<div v-click class="hint">先试 <code>1900</code> 和 <code>2000</code>。两者都能被 100 整除，哪个应该返回 1？</div>
-
-</div>
-<div class="cj2-compact">
-<div class="label">动手 · 5 分钟</div>
-
-```c
-void collect(int x, int y) {
-    int years[1500], n = 0;
-    for (int year = x; year <= y; year++) {
-        if ([③]) {
-            years[n] = year;
-            n++;
-        }
-    }
-    print_years(years, n);  // 已给定
-}
-```
-
-</div>
-</div>
-
-<!-- 5 分钟。给学生 examples/p5737_fill.txt，复制为 .c，替换编号处的占位值后即可编译。先留出独立时间，再点击显示提示。print_years 的数组形参不在此处展开。 -->
+<!-- 5 分钟。发 examples/p5737_fill.txt，留出独立时间。随后每空点击两次：先提示，再把答案填回对应位置。最后一空填在右栏；讲评页再核对 1900 和 2000。 -->
 
 ---
 

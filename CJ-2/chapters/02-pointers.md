@@ -39,32 +39,14 @@ clicks: 3
 <!-- 6 分钟。依次点击：复制值、改参数、结束调用。往回点一次让学生指出改的是哪一格。局部名字只在各自函数中使用；名字相同也不会合并。 -->
 
 ---
+clicks: 3
+---
 
-# 把门牌号交给函数
+# 指针：存下地址，再找到原来的变量
 
-<div class="two-col">
-<div>
+<PointerSyntax :step="$clicks" />
 
-```c
-int speed = 9600;
-int *p = &speed;
-
-*p = 0;
-```
-
-</div>
-<div>
-
-<p><code>&amp;speed</code>：取 <code>speed</code> 的地址。</p>
-<p v-click><code>int *p</code>：声明 <code>p</code>，它能保存 <code>int</code> 的地址。</p>
-<p v-click><code>*p = 0</code>：顺着 <code>p</code> 的地址找到那一格，写入 0。</p>
-
-</div>
-</div>
-
-<div v-click class="question">声明里的 <code>*</code> 说「是什么」；赋值里的 <code>*</code> 说「去哪一格」。</div>
-
-<!-- 6 分钟。现场问 p 和 *p 哪个是地址。强调先让 p 指向一个仍可用的 int，再解引用；没存地址的 p 不能用来写。 -->
+<!-- 6 分钟。先让学生猜 speed 在哪一行变成 0。三次点击依次标出声明、取地址并把地址存进 p、沿地址写原值。问 p 和 *p 哪个是地址。最后带着左边的问题切到双房间图：让函数收到地址，而不是收到 9600。 -->
 
 ---
 clicks: 3
