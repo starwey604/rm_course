@@ -1,4 +1,4 @@
-<div class="eyebrow">02 · 指针与数组 · 34–75 分钟</div>
+<div class="eyebrow">02 · 指针与数组 · 46–81 分钟</div>
 
 # 不接返回值，能让原来的速度清零吗？
 
@@ -36,7 +36,21 @@ clicks: 3
 
 <MemoryRooms mode="value" :step="$clicks" />
 
-<!-- 4 分钟。依次点击：复制值、改参数、结束调用。往回点一次让学生指出改的是哪一格。局部名字只在各自函数中使用；名字相同也不会合并。 -->
+<!-- 3 分钟。依次点击：复制值、改参数、结束调用。往回点一次让学生指出改的是哪一格。局部名字只在各自函数中使用；名字相同也不会合并。 -->
+
+---
+clicks: 3
+---
+
+# 函数调用与返回：调用栈怎么变？
+
+<p><code>main</code> 要等 <code>stop_motor</code> 返回才继续。<strong>调用栈</strong>记录尚未返回的调用，每层叫一个<strong>栈帧</strong>。</p>
+
+<CallStack :step="$clicks" />
+
+<div v-click="3" class="question">传进去的 <code>9600</code> 只是副本。要让 <code>stop_motor</code> 改到 <code>main</code> 的原格，该传什么？</div>
+
+<!-- 2 分钟。从上一页同名的两个 speed 接过来：蓝色对应 main，绿色对应 stop_motor。第 1 次点击压栈，画面定格在刚进入 stop_motor；第 2 次点击弹栈，回到 main。用先叠上、先拿走栈顶说明后进先出。第 3 次点击提问，把答案留到下一页。图是调用过程示意，不讨论编译后的寄存器或内存布局。 -->
 
 ---
 clicks: 3
@@ -46,7 +60,7 @@ clicks: 3
 
 <PointerSyntax :step="$clicks" />
 
-<!-- 6 分钟。先让学生猜 speed 在哪一行变成 0。三次点击依次标出声明、取地址并把地址存进 p、沿地址写原值。问 p 和 *p 哪个是地址。最后带着左边的问题切到双房间图：让函数收到地址，而不是收到 9600。 -->
+<!-- 5 分钟。先让学生猜 speed 在哪一行变成 0。三次点击依次标出声明、取地址并把地址存进 p、沿地址写原值。问 p 和 *p 哪个是地址。最后带着左边的问题切到双房间图：让函数收到地址，而不是收到 9600。 -->
 
 ---
 clicks: 3
@@ -56,7 +70,7 @@ clicks: 3
 
 <MemoryRooms mode="pointer" :step="$clicks" />
 
-<!-- 6 分钟。第一下看 0x1000 进 p；第二下对照左边语句，只改 main 的值，p 里的地址没动；第三下退出。用同一初值对比上一页的按值版本。 -->
+<!-- 4 分钟。第一下看 0x1000 进 p；第二下对照左边语句，只改 main 的值，p 里的地址没动；第三下退出。用同一初值对比前面的按值版本。 -->
 
 ---
 
@@ -83,7 +97,7 @@ scanf("%19s", name);
 
 <div class="question">两个调用都要往外面的格子写。左边地址怎么拿到？右边先猜，做完交换练习再回来。</div>
 
-<!-- 2 分钟。让学生指出左边传的是 int 的地址；别在这里开讲数组形参。 -->
+<!-- 1 分钟。让学生指出左边传的是 int 的地址；别在这里开讲数组形参。 -->
 
 ---
 clicks: 6
@@ -122,7 +136,7 @@ void swap(int *a, int *b) {
 </div>
 </div>
 
-<!-- 5 分钟。请一位同学指出中间那行为什么两格一样，另一位解释 tmp 保存了什么。用正负两个值检查是否真的交换。 -->
+<!-- 3 分钟。请一位同学指出中间那行为什么两格一样，另一位解释 tmp 保存了什么。用正负两个值检查是否真的交换。 -->
 
 ---
 
@@ -156,7 +170,7 @@ clamp_all(speeds, 4, 8000);
 </div>
 </div>
 
-<!-- 3 分钟。与第一幕四次调用对照。这里的 speeds 只保存目标值。与 swap 对照：前者要传两个独立的地址，这里有连续的四格，传起点和个数。 -->
+<!-- 2 分钟。与第一幕四次调用对照。这里的 speeds 只保存目标值。与 swap 对照：前者要传两个独立的地址，这里有连续的四格，传起点和个数。 -->
 
 ---
 
@@ -256,8 +270,30 @@ ICM42688：https://github.com/zephyrproject-rtos/zephyr/blob/v4.3.0/drivers/sens
 
 ---
 
-<div class="section-break">
-<div class="eyebrow">75–85 分钟</div>
-<h1>休息 10 分钟</h1>
-<p>还绕在 <code>speed</code>、<code>&amp;speed</code>、<code>*p</code> 之间？<br>把那两个格子画给助教看，一起指认哪个是地址、哪个是值。</p>
+<div class="eyebrow">81–91 分钟 · 课间</div>
+
+# 休息 10 分钟：在真实内存里找 speed
+
+<p class="cj2-memory-capture">Linux x86-64 调试实测 · <code>main</code> 调用 <code>stop_motor(&amp;speed)</code></p>
+
+<div class="cj2-live-memory">
+  <div class="cj2-pointer-cell">
+    <div class="label">stop_motor 栈帧</div>
+    <h2><code>p</code> · 8 字节</h2>
+    <small>这一格的地址 <code>&amp;p</code>：<code>0x7fffffffd3a8</code></small>
+    <div class="cj2-address-value"><small>格里存的地址</small><code>0x7fffffffd3d0</code></div>
+  </div>
+  <div class="cj2-memory-link" aria-label="沿 p 保存的地址找到 speed"><span>沿地址找</span><span aria-hidden="true">→</span></div>
+  <div class="cj2-speed-cell">
+    <div class="label">main 栈帧</div>
+    <h2><code>speed</code> · 4 字节</h2>
+    <small>这一格的地址 <code>&amp;speed</code>：<code>0x7fffffffd3d0</code></small>
+    <div class="cj2-byte-row"><span>写入前</span><code>9600</code><code>80 25 00 00</code></div>
+    <div class="cj2-byte-row"><span>写入后</span><code>0</code><code>00 00 00 00</code></div>
+  </div>
 </div>
+
+<div class="question">执行 <code>*p = 0</code>，变的是 <code>p</code> 这一格，还是 <code>speed</code> 这一格？</div>
+<p class="cj2-memory-capture">右侧字节以十六进制显示；图中地址来自这一次运行。</p>
+
+<!-- 10 分钟。整张图一开始就展示，课间供学生对照。助教可以让学生用手指从 p 的内容出发，找到 speed 格的地址，再解释 p 与 &p 的区别。右栏字节按内存地址从低到高列出；本机是小端，9600 = 0x2580。实测：cc -g -O0 examples/chassis.c；GDB 在 stop_motor 的 *p = 0; 行暂停，查看 p/x &p、p/x p、p sizeof p、p sizeof *p、x/4bx p；再切 main 帧查看 p/x &speed，回到 stop_motor 单步重读 x/4bx p。 -->

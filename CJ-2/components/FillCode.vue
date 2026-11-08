@@ -10,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const lines = computed(() => highlightParts(
-  props.code.split('\n').map(line => line.split(/(\[[①②③]\])/).map(text => {
+  props.code.split('\n').map(line => line.split(/(\[[①②③④⑤]\])/).map(text => {
     const i = props.blanks.findIndex(blank => blank.token === text)
     return { text: i >= 0 && i < props.filled ? props.blanks[i].answer : text, blank: i + 1 }
   })),

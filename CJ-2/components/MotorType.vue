@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CodeTokens from '../../shared/components/CodeTokens.vue'
 
-const props = defineProps<{ step: number }>()
+const props = defineProps<{ step: number; mode?: 'member' }>()
 const print = new URLSearchParams(location.search).has('print')
 const visible = (n: number) => print || props.step >= n
 const fields = ['speed', 'current', 'angle', 'temp', 'state']
@@ -9,10 +9,34 @@ const motors = [
   { name: 'm', wheel: '第三轮', step: 1 },
   { name: 'other', wheel: '第四轮', step: 2 },
 ]
+const memberValues: Record<string, { step: number; value: number }> = {
+  speed: { step: 2, value: 9600 },
+  temp: { step: 3, value: 30 },
+}
+const assigned = (field: string) => field in memberValues && visible(memberValues[field].step)
 </script>
 
 <template>
-  <div class="cj2-motor-type" :data-step="step">
+  <div v-if="mode === 'member'" class="two-col cj2-member-demo" :data-step="step">
+    <div>
+      <pre class="cj2-compact"><code><span class="cj2-def-line"><CodeTokens code="// main 里" /></span><span class="cj2-def-line"><span :class="{'cj2-syntax-mark':visible(1)}"><CodeTokens code="struct Motor m" /></span><CodeTokens code=" = {0};" /></span><span class="cj2-def-line" :class="{'cj2-unshown':!visible(2)}"><span :class="{'cj2-syntax-mark':visible(2)}"><CodeTokens code="m.speed" /></span><CodeTokens code=" = 9600;" /></span><span class="cj2-def-line" :class="{'cj2-unshown':!visible(3)}"><span :class="{'cj2-syntax-mark':visible(3)}"><CodeTokens code="m.temp" /></span><CodeTokens code=" = 30;" /></span></code></pre>
+      <p><code>struct Motor</code> 是类型，<code>m</code> 是变量名。</p>
+      <p :class="{'cj2-unshown':!visible(1)}"><code>{0}</code> 让这五个成员都从 0 开始。</p>
+      <p :class="{'cj2-unshown':!visible(2)}">读 <code>m.speed</code>：先找 <code>m</code>，再用点号选中 <code>speed</code>。<br><code>=</code> 把右边的值写进选中的那一格。</p>
+    </div>
+    <div class="cj2-motor-board" :class="{'cj2-unshown':!visible(1)}">
+      <section>
+        <div class="label">第三轮的数据</div>
+        <h2><code>m</code></h2>
+        <dl>
+          <div v-for="field in fields" :key="field" :class="{'cj2-motor-changed':assigned(field)}">
+            <dt>{{ field }}</dt><dd :data-field="field">{{ assigned(field) ? memberValues[field].value : 0 }}</dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  </div>
+  <div v-else class="cj2-motor-type" :data-step="step">
     <div class="cj2-motor-commands">
       <div v-for="motor in motors" :key="motor.name" :class="{'cj2-unshown':!visible(motor.step)}">
         <code><CodeTokens :code="'struct Motor '+motor.name+' = {0};'" /></code>
