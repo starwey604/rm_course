@@ -62,3 +62,36 @@
 .cj2-motor-enter{animation:cj2-line-in .26s ease-out}
 .cj2-motor-changed{background:var(--accent-soft);box-shadow:inset 3px 0 var(--accent)}
 .slidev-layout .cj2-motor-caption{margin-top:20px;font-size:23px}
+
+.cj2-even{gap:26px}
+.cj2-purity .answer{margin-top:10px;font-size:21px}
+.cj2-chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:18px}
+.cj2-chain>div{position:relative;border:1px solid var(--line);padding:10px 12px;background:var(--surface-raised)}
+.cj2-chain>div+div{background:var(--accent-faint)}
+.cj2-chain>div+div::before{content:'→';position:absolute;left:-18px;top:42%;color:var(--accent);font-size:19px}
+.cj2-chain small{display:block;font-size:17px;color:var(--muted)}
+.slidev-layout .cj2-chain code{font-size:29px}
+.slidev-layout p.cj2-takeaway{margin-top:18px;font-size:23px}
+.cj2-case-lines{border-top:1px solid var(--line);margin-top:9px;padding-top:7px}
+.cj2-wheel-return{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 18px}
+.cj2-wheel-return span{border:1px solid var(--line);background:var(--surface);padding:7px 13px}
+.cj2-branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:16px}
+.cj2-branches .cj2-card{padding:9px 16px}
+.cj2-gyro-code small{color:var(--muted);margin-right:12px}
+.cj2-gyro-switch{margin-top:16px}
+.cj2-zephyr{gap:24px}
+.slidev-layout .cj2-zephyr p{margin-top:11px;font-size:21px}
+.cj2-motor-method{grid-template-columns:1.08fr .92fr;gap:25px}
+.cj2-method-call{margin-top:13px}
+.slidev-layout .cj2-motor-method p{margin-top:12px}
+.slidev-layout .cj2-student-fill p{margin-top:12px}
+.cj2-student-fill .hint{margin-top:13px;padding-top:9px}
+.cj2-fp-calculate{background:var(--accent-soft)}
+.cj2-fleet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 14px;border-top:1px solid var(--line);margin-top:18px;padding-top:12px}
+.cj2-fleet strong{font-size:34px;color:var(--accent)}
+.slidev-layout .cj2-fleet p{grid-column:1/-1;font-size:23px}
+.cj2-struct-equivalence{grid-column:1/-1;margin-top:-14px;font-size:20px}
+.slidev-layout .cj2-struct-equivalence p{margin-bottom:4px}
+.slidev-layout .cj2-star-contrast{margin:5px 0 0 16px;font-size:20px}
+.slidev-layout .cj2-gyro-reading{margin:8px 0 0;font-size:20px}
+.slidev-layout .cj2-this-note{margin-top:10px;font-size:21px}

@@ -30,7 +30,7 @@ defaults:
 <div class="cover-bottom">120 分钟，含 10 分钟休息</div>
 
 <!--
-00–30 函数，30–65 指针，65–75 休息，75–105 结构体，105–120 数组与收束。
+00–34 函数，34–75 指针与数组，75–85 休息，85–117 结构体，117–120 快问快答。
 开场 1 分钟：板书 scanf("%d", &speed) 和 scanf("%19s", name)，留一个问题：这两个调用分别把什么交给 scanf？
 speed 在本课表示模拟的目标转速，不是测得的转速；限幅数值是课堂设定。
 -->
@@ -48,6 +48,10 @@ src: ./chapters/03-structs.md
 ---
 
 ---
-src: ./chapters/04-arrays.md
+src: ./chapters/04-wrap.md
 ---
 
+
+---
+src: ./chapters/05-appendix.md
+---

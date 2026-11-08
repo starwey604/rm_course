@@ -29,10 +29,10 @@ const demos = {
   },
   struct: {
     fn: 'control_motor', target: 'm.speed', param: 'struct Motor *p',
-    code: 'void control_motor(struct Motor *p) {\n    p->speed = 0;\n}\n\n// main 里\nstruct Motor m = {9600};\ncontrol_motor(&m);',
+    code: 'void control_motor(struct Motor *p) {\n    p->speed = 0;\n}\n\n// main 里：首成员是 speed\n// {9600} 给首成员赋初值，其余补 0\nstruct Motor m = {9600};\ncontrol_motor(&m);',
     stages: [
-      { line: 6, main: '9600', local: '—', note: 'main 中有一整台 Motor；图中只展开这次要改的 speed。' },
-      { line: 7, main: '9600', local: '0x1000', arrow: 'link', note: 'p 收到整个 m 的地址，还没有读写任何成员。' },
+      { line: 7, main: '9600', local: '—', note: 'main 中有一整台 Motor；图中只展开这次要改的 speed。' },
+      { line: 8, main: '9600', local: '0x1000', arrow: 'link', note: 'p 收到整个 m 的地址，还没有读写任何成员。' },
       { line: 2, main: '0', local: '0x1000', arrow: 'write', changed: 'main', note: 'p->speed 找到 m，再选 speed；其他成员保持原值。' },
       { line: 3, main: '0', local: '—', note: '函数返回后，m.speed 仍然是 0。' },
     ],
@@ -75,6 +75,10 @@ const lines = computed(() => highlightC(demo.value.code))
       </div>
       <div class="cj2-step">步骤 {{ index+1 }} / {{ demo.stages.length }}</div>
       <p class="cj2-state" aria-live="polite">{{ state.note }}</p>
+    </div>
+    <div v-if="mode==='struct' && (print || index>=2)" class="cj2-struct-equivalence">
+      <p>手里有 <code>m</code>：用点号 <code>m.speed</code>。</p>
+      <p>手里有地址 <code>p</code>：<code>(*p).speed</code> 也可以写成 <code>p-&gt;speed</code>，先找到电机，再选成员。</p>
     </div>
   </div>
 </template>

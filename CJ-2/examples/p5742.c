@@ -2,13 +2,15 @@
 
 struct Student {
     int id, academic, activity;
-    double weighted;
+    int weighted10;  // 综合分 × 10
 };
 
+int total_score(const struct Student *s) {
+    return s->academic + s->activity;
+}
+
 int is_excellent(const struct Student *s) {
-    int a = s->academic;
-    int b = s->activity;
-    return a + b > 140 && 7 * a + 3 * b >= 800;
+    return total_score(s) > 140 && s->weighted10 >= 800;
 }
 
 int main(void) {
@@ -18,10 +20,10 @@ int main(void) {
         struct Student student;
         if (scanf("%d %d %d", &student.id, &student.academic,
                   &student.activity) != 3) return 0;
-        student.weighted = (7 * student.academic + 3 * student.activity) / 10.0;
+        student.weighted10 = 7 * student.academic + 3 * student.activity;
         if (is_excellent(&student))
-            puts("Excellent");
+            printf("Excellent\n");
         else
-            puts("Not excellent");
+            printf("Not excellent\n");
     }
 }

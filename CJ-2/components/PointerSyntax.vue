@@ -29,6 +29,7 @@ const visible = (n: number) => print || props.step >= n
       <div class="cj2-syntax-note" :class="{'cj2-unshown':!visible(3)}">
         <strong>修改原值</strong><span><code>*p</code> 沿地址找到 <code>speed</code> 那一格（解引用）。执行 <code>*p = 0</code>，<code>speed</code> 才变成 0。</span>
       </div>
+      <p class="cj2-star-contrast" :class="{'cj2-unshown':!visible(3)}"><code>int <span class="cj2-syntax-mark">*p</span></code>：声明它是指针。<br><code><span class="cj2-syntax-mark">*p</span> = 0</code>：顺着指针去改原值。</p>
     </div>
   </div>
 </template>

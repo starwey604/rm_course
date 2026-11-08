@@ -1,4 +1,4 @@
-<div class="eyebrow">03 · 结构体 · 75–105 分钟</div>
+<div class="eyebrow">03 · 结构体 · 85–117 分钟</div>
 
 # 四台电机，难道要起二十个变量名？
 
@@ -83,7 +83,7 @@ stop_copy(m);
 </div>
 </div>
 
-<!-- 3 分钟。请学生复用前面的两房间图：现在每边是一个 Motor，而不是一个 int。 -->
+<!-- 2 分钟。请学生复用前面的两房间图：现在每边是一个 Motor，而不是一个 int。 -->
 
 ---
 clicks: 3
@@ -93,28 +93,7 @@ clicks: 3
 
 <MemoryRooms mode="struct" :step="$clicks" />
 
-<!-- 5 分钟。点击依次交出 &m、改 speed、结束调用。对比 int *p 和 struct Motor *p 指向的东西。示例初始化只写首成员，其余为零；配套 chassis.c 用逐字段赋值便于检查温度保持不变。 -->
-
----
-
-# 有箱子用点，有地址用箭头
-
-<div class="two-col">
-<div class="cj2-card">
-<div class="label">手里是电机 m</div>
-<p><code>m.speed = 0;</code></p>
-<div class="label">手里是地址 p</div>
-<p><code>(*p).speed = 0;</code></p>
-<p><code>p-&gt;speed = 0;</code></p>
-</div>
-<div>
-<p class="statement">箭头做两件事：<br>先沿着地址找到电机，再选 <code>speed</code>。</p>
-<div v-click class="question">第三台是 <code>motors[2]</code>。把它交给 <code>control_motor</code>，括号里写什么？</div>
-<div v-click class="answer"><code>control_motor(&amp;motors[2]);</code></div>
-</div>
-</div>
-
-<!-- 3 分钟。等价式保留括号；不展开运算符优先级表。说明 motors 声明为 struct Motor motors[4]。 -->
+<!-- 5 分钟。点击依次交出 &m、改 speed、结束调用。对比 int *p 和 struct Motor *p 指向的东西。示例初始化只写首成员，其余为零；配套 chassis.c 用逐字段赋值便于检查温度保持不变。动画最后对照点和箭头，再口头问：第三台是 motors[2]，调用 control_motor 要传什么？ -->
 
 ---
 
@@ -122,7 +101,7 @@ clicks: 3
 
 # P5742 · 评等级
 
-读入 `N` 条记录：学号、学业分和素质拓展分。两科**总分大于 140**，并且 **70% 学业分 + 30% 素拓分不低于 80**，才输出 `Excellent`；否则输出 `Not excellent`。每人一行。
+读入 `N` 名学生的学号、学业分和素拓分，算出综合分并存入结构体。两科**总分大于 140**，并且 **70% 学业分 + 30% 素拓分不低于 80**，才输出 `Excellent`；否则输出 `Not excellent`。每人一行。
 
 <div class="io-pair"><div><div class="label">课堂样例 · 输入</div><pre>2
 101 95 45
@@ -131,25 +110,28 @@ Excellent</pre></div></div>
 
 [洛谷 P5742 原题](https://www.luogu.com.cn/problem/P5742) · `1 ≤ N ≤ 1000`，学号不超过 `100000`，两科成绩不超过 `100`。
 
-<!-- 3 分钟。题面用 C++ 成员函数描述；C 版用普通函数接收学生地址。示例刻意让两人的加权分都为 80。 -->
+<!-- 3 分钟。题面要求一个成员函数计算两科总分；课堂用 C 的普通函数 total_score 接收学生地址，节末再对照 C++ 成员函数。示例刻意让两人的加权分都为 80。 -->
 
 ---
 
-# 补完 is_excellent：指针进来，判断出去
+# 补完 P5742：沿地址取分，再判断
 
-<div class="two-col wide-left">
+<div class="two-col wide-left cj2-student-fill">
 <div class="cj2-compact">
 
 ```c
 struct Student {
     int id, academic, activity;
-    double weighted;  // 综合分，读入后算好
+    int weighted10;  // 综合分 × 10
 };
 
+int total_score(const struct Student *s) {
+    return [①] + [②];
+}
+
 int is_excellent(const struct Student *s) {
-    int a = [①];
-    int b = s->activity;
-    return [②] && [③];
+    return total_score(s) > 140 &&
+           s->weighted10 >= 800;
 }
 ```
 
@@ -158,38 +140,43 @@ int is_excellent(const struct Student *s) {
 <div class="label">动手 · 5 分钟</div>
 
 ```c
-// main 里，读入当前的 student 后：
-if (is_excellent([④]))
-    puts("Excellent");
+// main 里，读入 student 后：
+student.weighted10 =
+    7 * student.academic
+    + 3 * student.activity;
+if (is_excellent([③]))
+    printf("Excellent\n");
 else
-    puts("Not excellent");
+    printf("Not excellent\n");
 ```
 
-<p class="spaced">函数只看分数，不改记录。参数里的 <code>const</code> 表示不通过 <code>s</code> 修改记录。</p>
+<p><code>const</code>：只读分数，不通过 <code>s</code> 改记录。</p>
 
-<div v-click class="hint">加权分的式子和阈值一起乘 10，就能用整数比大小。</div>
+<div v-click class="hint"><code>s</code> 是地址。①② 用什么符号沿地址取成员？</div>
 </div>
 </div>
 
-<!-- 5 分钟。给 examples/p5742_fill.txt，复制为 .c，替换四处占位值后即可编译。让学生先圈出实参是整份记录还是它的地址。 -->
+<!-- 5 分钟。给 examples/p5742_fill.txt，复制为 .c，替换三处占位值后即可编译。读完就把综合分乘 10 存好，比较时用 800；不把算式挖空。让学生先圈出实参是整份记录还是它的地址。 -->
 
 ---
 
 # 同样是 80 分，为什么一个没过？
 
 <div class="two-col">
-<div>
+<div class="cj2-compact">
 
 ```c
+int total_score(const struct Student *s) {
+    return s->academic + s->activity;
+}
+
 int is_excellent(const struct Student *s) {
-    int a = s->academic;
-    int b = s->activity;
-    return a + b > 140 &&
-           7 * a + 3 * b >= 800;
+    return total_score(s) > 140 &&
+           s->weighted10 >= 800;
 }
 ```
 
-<p class="spaced">④ 传 <code>&amp;student</code>，判断函数用箭头读出两科成绩。</p>
+<p class="spaced">③ 传 <code>&amp;student</code>。用箭头读取成员；综合分用读入时存好的 <code>weighted10</code>。</p>
 
 </div>
 <div>
@@ -204,3 +191,113 @@ int is_excellent(const struct Student *s) {
 </div>
 
 <!-- 4 分钟。学生解释哪一列挡住了每个未过样例。对照 > 与 >=；不给浮点精度另开支线。 -->
+
+---
+
+<div class="eyebrow">拓展 03 · 面向对象</div>
+
+# 让电机记录也带上自己的动作
+
+<div class="two-col cj2-motor-method">
+<div class="cj2-compact">
+
+```c
+struct Motor {
+    int speed;           // 目标转速
+    float target_angle;  // 目标角度
+
+    void (*set_current)(struct Motor *self,
+                        int16_t cur);
+    void (*stop)(struct Motor *self);
+};
+```
+
+</div>
+<div class="cj2-compact">
+<div class="label">函数体 · 沿 self 找到要改的电机</div>
+
+```c
+void motor_stop(struct Motor *self) {
+    self->speed = 0;
+}
+```
+
+<div v-click="1" class="cj2-method-call">
+<div class="label">给 m1 绑定动作，再调用</div>
+<pre><code>m1.stop = motor_stop;
+m1.stop(&amp;m1);</code></pre>
+<p>点号找到函数；<code>&amp;m1</code> 作为 <code>self</code>，告诉函数该改哪一台。</p>
+</div>
+</div>
+</div>
+
+<p v-click="2" class="cj2-takeaway"><strong>第三轮</strong> <code>m1.speed</code>：<code>9600 → 0</code>；<strong>第四轮</strong> <code>m2.speed</code>：<code>6000</code> 不变。</p>
+
+<!-- 2 分钟。只展开速度、角度和两个动作，int16_t 来自 stdint.h。先看 motor_stop 只认 self，问它怎么知道是哪一台。第一下展示绑定和调用，点号只取出函数指针，并不自动传入电机地址；第二下核对只有 m1 的目标值改变。这里只改软件目标，不代表车轮已经停住。 -->
+
+---
+
+# C++ 把“操作哪一台”写进了调用
+
+<div class="two-col cj2-even">
+<div class="cj2-compact">
+<div class="label">C · 调用时手动传地址</div>
+
+```c
+struct Motor m1;
+motor_init(&m1);
+m1.stop(&m1);
+```
+
+<p>初始化填好状态和函数指针。调用时，再把 <code>&amp;m1</code> 交给函数。</p>
+</div>
+<div v-click="1" class="cj2-compact">
+<div class="label">C++ · 调用成员函数</div>
+
+```cpp
+class Motor {
+    int speed = 0;
+    float integral = 0;  // PID 累计值
+public:
+    void stop() { this->speed = 0; }
+};
+
+Motor m1;
+m1.stop();
+```
+
+<p class="cj2-this-note">不用手写 <code>&amp;m1</code>，这次调用里 <code>this</code> 就指向 <code>m1</code>。</p>
+</div>
+</div>
+
+<p v-click="2" class="cj2-takeaway"><strong>封装</strong>：外部可以调用 <code>m1.stop()</code>，但不能直接改 <code>m1.integral</code>。</p>
+
+<!-- 2 分钟。对照两段的初始化和调用：C 手动传 self；C++ 用隐式的对象信息让 this 指向 m1；这说的是语言语义，不规定机器代码怎么传参。再请学生试想从外面给 integral 赋值，指出 class 的这两格默认是私有的，控制器可以只公开 update、stop 等操作。用 C 的函数指针来模拟对象式调用是一种设计办法；C++ 的普通成员函数不是每个对象里各存一份函数指针。历史上 C++ 的类思想来自 Simula，见 https://stroustrup.com/hopl2.pdf 。 -->
+
+---
+
+# 都叫 stop，怎么停由设备决定
+
+<div class="cj2-compact">
+
+```c
+void request_stop(struct Motor *m) {
+    m->stop(m);
+}
+```
+
+</div>
+
+<div class="cj2-branches">
+  <div class="cj2-card"><div class="label">3508 · 示例绑定</div><code>request_stop(&amp;drive);</code><div v-click="1" class="cj2-case-lines">→ 请求零电流</div></div>
+  <div class="cj2-card"><div class="label">位置舵机 · 示例绑定</div><code>request_stop(&amp;servo);</code><div v-click="1" class="cj2-case-lines">→ 保持当前位置</div></div>
+</div>
+
+<p v-click="1" class="cj2-takeaway"><strong>多态</strong>：上层用同一个动作名，具体实现由对象的绑定决定。和刚才的 Zephyr 取样一样。</p>
+
+<div v-click="2" class="cj2-fleet">
+  <div><strong>4</strong> 底盘</div><div><strong>2</strong> 云台</div><div><strong>3</strong> 拨弹</div>
+  <p>共用一种 <code>Motor</code> 类型，建 9 份独立状态；每份按设备选自己的动作。</p>
+</div>
+
+<!-- 2 分钟。先让学生预测两个 stop 是否必须做同一件事。这里的 stop 约定是退出当前运动指令，两种动作是教学示意，不是安全急停方案；真实接口应约定各设备都能满足的行为。第二下给 4+2+3 的对象数。同类型复用数据布局，不同对象各自保存目标和控制历史。回扣指针一节：四台底盘电机也可以放进数组，但每台仍有自己的状态。 -->
