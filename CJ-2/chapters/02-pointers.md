@@ -274,26 +274,40 @@ ICM42688：https://github.com/zephyrproject-rtos/zephyr/blob/v4.3.0/drivers/sens
 
 # 休息 10 分钟：在真实内存里找 speed
 
-<p class="cj2-memory-capture">Linux x86-64 调试实测 · <code>main</code> 调用 <code>stop_motor(&amp;speed)</code></p>
+<p class="cj2-memory-origin"><code>p</code> 是 <code>stop_motor</code> 的形参。调用时，<code>&amp;speed</code> 的地址值复制给 <code>p</code>。</p>
 
+<div class="cj2-memory-lesson">
+<div class="cj2-memory-source cj2-compact">
+
+```c
+void stop_motor(int *p) {
+    *p = 0;
+}
+
+int main(void) {
+    int speed = 9600;
+    stop_motor(&speed);
+    return 0;
+}
+```
+
+</div>
 <div class="cj2-live-memory">
   <div class="cj2-pointer-cell">
-    <div class="label">stop_motor 栈帧</div>
-    <h2><code>p</code> · 8 字节</h2>
-    <small>这一格的地址 <code>&amp;p</code>：<code>0x7fffffffd3a8</code></small>
-    <div class="cj2-address-value"><small>格里存的地址</small><code>0x7fffffffd3d0</code></div>
+    <h2>stop_motor 的形参 <code>p</code> · 8 字节</h2>
+    <div class="cj2-address-value"><span>存的地址</span><code>0x7fffffffd3d0</code></div>
   </div>
-  <div class="cj2-memory-link" aria-label="沿 p 保存的地址找到 speed"><span>沿地址找</span><span aria-hidden="true">→</span></div>
+  <div class="cj2-memory-link" aria-label="执行 *p = 0，沿 p 保存的地址找到 speed"><span aria-hidden="true">↓</span><span><code>*p = 0</code>：沿地址写入</span></div>
   <div class="cj2-speed-cell">
-    <div class="label">main 栈帧</div>
-    <h2><code>speed</code> · 4 字节</h2>
-    <small>这一格的地址 <code>&amp;speed</code>：<code>0x7fffffffd3d0</code></small>
+    <h2>main 的变量 <code>speed</code> · 4 字节</h2>
+    <small>原格的地址 <code>&amp;speed</code>：<code>0x7fffffffd3d0</code></small>
     <div class="cj2-byte-row"><span>写入前</span><code>9600</code><code>80 25 00 00</code></div>
     <div class="cj2-byte-row"><span>写入后</span><code>0</code><code>00 00 00 00</code></div>
   </div>
 </div>
+</div>
 
-<div class="question">执行 <code>*p = 0</code>，变的是 <code>p</code> 这一格，还是 <code>speed</code> 这一格？</div>
-<p class="cj2-memory-capture">右侧字节以十六进制显示；图中地址来自这一次运行。</p>
+<p class="cj2-memory-result"><code>speed</code> 从 9600 变为 0，<code>p</code> 里保存的地址不变。</p>
+<p class="cj2-memory-capture">Linux x86-64 调试实测，地址来自同一次运行。右侧字节以十六进制显示。</p>
 
-<!-- 10 分钟。整张图一开始就展示，课间供学生对照。助教可以让学生用手指从 p 的内容出发，找到 speed 格的地址，再解释 p 与 &p 的区别。右栏字节按内存地址从低到高列出；本机是小端，9600 = 0x2580。实测：cc -g -O0 examples/chassis.c；GDB 在 stop_motor 的 *p = 0; 行暂停，查看 p/x &p、p/x p、p sizeof p、p sizeof *p、x/4bx p；再切 main 帧查看 p/x &speed，回到 stop_motor 单步重读 x/4bx p。 -->
+<!-- 10 分钟。整张图一开始就展示，课间供学生对照。先在左边找到 main 的 speed、调用实参 &speed、函数形参 int *p，再用手指沿右图从 p 保存的地址找到 speed，最后对照 *p = 0 前后的字节。p 是函数的参数名，不是另一个函数；&p 是存放这个参数的格子自己的地址，这次实测为 0x7fffffffd3a8，学生追问时再补充。左侧摘出完整的相关函数供阅读；右图保留原 examples/chassis.c 的一次调试实测地址，不表示重编译这段精简代码仍能得到相同地址。右栏字节按内存地址从低到高列出；实测平台为小端，9600 = 0x2580。实测：cc -g -O0 examples/chassis.c；GDB 在 stop_motor 的 *p = 0; 行暂停，查看 p/x &p、p/x p、p sizeof p、p sizeof *p、x/4bx p；再切 main 帧查看 p/x &speed，回到 stop_motor 单步重读 x/4bx p。 -->

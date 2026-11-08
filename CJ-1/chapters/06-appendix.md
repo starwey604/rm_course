@@ -169,11 +169,12 @@ printf("%d\n", count);
 <table class="compact"><thead><tr><th>方向</th><th>题目</th><th>练习重点</th></tr></thead><tbody>
 <tr><td>循环热身</td><td><a href="https://www.luogu.com.cn/problem/P5722">P5722 数列求和</a></td><td>初始化与累加</td></tr>
 <tr><td>条件循环</td><td><a href="https://www.luogu.com.cn/problem/P1035">P1035 级数求和</a></td><td>停止条件、浮点数</td></tr>
-<tr><td>拆位计数</td><td><a href="https://www.luogu.com.cn/problem/P1980">P1980 计数问题</a></td><td>% 10 与 / 10</td></tr>
 <tr><td>循环＋数组</td><td><a href="https://www.luogu.com.cn/problem/P5727">P5727 冰雹猜想</a></td><td>保存过程、倒序输出</td></tr>
 <tr><td>连续状态</td><td><a href="https://www.luogu.com.cn/problem/P1567">P1567 统计天数</a></td><td>相邻比较、连续计数</td></tr>
 <tr><td>字符运算</td><td><a href="https://www.luogu.com.cn/problem/P1914">P1914 凯撒密码</a></td><td>字母移位、取模回绕</td></tr>
 </tbody></table>
+
+<div class="tiny-note">P1980 计数问题已列入课后题单，是本课唯一没有讲过的题型，题面与提示也放在本附录。</div>
 
 <!--
 不要求全部完成。P1567数据量大，若保存所有数据应注意数组容量和存储位置；也可以边读边处理。P5727要保留初始值和最终1。

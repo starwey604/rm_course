@@ -123,50 +123,14 @@ Excellent</pre></div></div>
 <!-- 2 分钟。题面要求一个成员函数计算两科总分；课堂用 C 的普通函数 total_score 接收学生地址，节末再对照 C++ 成员函数。示例刻意让两人的加权分都为 80。 -->
 
 ---
+clicks: 6
+---
 
 # 补完 P5742：沿地址取分，再判断
 
-<div class="two-col wide-left cj2-student-fill">
-<div class="cj2-compact">
+<StudentFill :step="$clicks" />
 
-```c
-struct Student {
-    int id, academic, activity;
-    int weighted10;  // 综合分 × 10
-};
-
-int total_score(const struct Student *s) {
-    return [①] + [②];
-}
-
-int is_excellent(const struct Student *s) {
-    return total_score(s) > 140 &&
-           s->weighted10 >= 800;
-}
-```
-
-</div>
-<div class="cj2-compact">
-<div class="label">动手 · 5 分钟</div>
-
-```c
-// main 里，读入 student 后：
-student.weighted10 =
-    7 * student.academic
-    + 3 * student.activity;
-if (is_excellent([③]))
-    printf("Excellent\n");
-else
-    printf("Not excellent\n");
-```
-
-<p><code>const</code>：只读分数，不通过 <code>s</code> 改记录。</p>
-
-<div v-click class="hint"><code>s</code> 是地址。①② 用什么符号沿地址取成员？</div>
-</div>
-</div>
-
-<!-- 5 分钟。给 examples/p5742_fill.txt，复制为 .c，替换三处占位值后即可编译。读完就把综合分乘 10 存好，比较时用 800；不把算式挖空。让学生先圈出实参是整份记录还是它的地址。 -->
+<!-- 5 分钟。给 examples/p5742_fill.txt，复制为 .c，替换三处占位值后即可编译。先独立思考，再逐空两次点击：第 1/3/5 次分别给出学业分、素拓分、调用实参的提示，第 2/4/6 次将对应答案填回代码。读完就把综合分乘 10 存好，比较时用 800；不把算式挖空。让学生先圈出实参是整份记录还是它的地址。打印时保留三个空并展示所有提示，下一页讲评完整答案。 -->
 
 ---
 
